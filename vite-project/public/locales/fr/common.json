@@ -1,0 +1,184 @@
+{
+  "Name": "Nom",
+  "Surname": "Prénom",
+  "Username": "Nom d'utilisateur",
+  "Password": "Mot de passe",
+  "Email": "Email",
+  "Phone": "Téléphone",
+  "Desc": "Description",
+  "Edit": "Modifier",
+  "Delete": "Supprimer",
+  "Cancel": "Annuler",
+  "Back": "Retour",
+  "Save": "Enregistrer",
+  "Active": "Actif",
+  "Passive": "Passif",
+  "Navbar": {
+    "Title": "Panneau d'administration",
+    "TitleSmall": "Panneau",
+    "Staff": "Personnel",
+    "Departments": "Départements",
+    "Reports": "Rapports",
+    "Settings": "Paramètres",
+    "UserProfile": "Profil",
+    "ChangePw": "Changer le mot de passe",
+    "Logout": "Se déconnecter"
+  },
+  "Dashboard": {
+    "StaffList": "Liste du personnel",
+    "AddUser": "Ajouter un utilisateur",
+    "SearchLabel": "Rechercher dans le tableau...",
+    "Columns": {
+      "Member": "Statut du membre",
+      "Actions": "Actions"
+    },
+    "Rows": {
+      "Member": "Actif",
+      "NoMember": "Passif"
+    },
+    "DeleteConfirm": {
+      "Title": "Suppression",
+      "Text": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+      "Success": "Utilisateur supprimé avec succès !",
+      "Fail": "Échec de la suppression !"
+    }
+  },
+  "UserDetail": {
+    "UserNotFound": "Utilisateur introuvable.",
+    "Member": "Membre actif",
+    "NoMember": "Membre passif",
+    "About": "À propos",
+    "EmptyAbout": "Aucune description n'a encore été saisie.",
+    "Edit": "Modifier mes informations",
+    "OwnerOnly": "Seul le propriétaire peut modifier ce profil.",
+    "DeleteAvatarTitle": "Supprimer l'avatar ?",
+    "DeleteAvatarText": "Êtes-vous sûr de vouloir supprimer votre avatar ?"
+  },
+  "UserEdit": {
+    "EditMode": "Modifier l'utilisateur",
+    "AddMode": "Créer un nouvel enregistrement",
+    "Active": "L'utilisateur est-il actif ?",
+    "Update": "Mettre à jour",
+    "Add": "Ajouter",
+    "DescPlaceholder": "Je travaille chez Grizzle Tech !",
+    "PassVis": "Modifier la visibilité du mot de passe",
+    "ErrorEmptyName": "Le champ Nom ne peut pas être vide.",
+    "ErrorEmptySurname": "Le champ Prénom ne peut pas être vide.",
+    "ErrorEmptyUsername": "Le nom d'utilisateur est requis.",
+    "ErrorEmptyEmail": "Le champ E-mail ne peut pas être vide.",
+    "ErrorInvalidEmail": "Veuillez saisir une adresse e-mail valide.",
+    "ErrorEmptyDescription": "La description est requise.",
+    "ErrorEmmtyPhone": "Le numéro de téléphone est requis.",
+    "ErrorInvalidPhone": "Veuillez saisir un numéro de téléphone valide (chiffres uniquement, 4 à 14 chiffres).",
+    "ErrorEmptyPassword": "Saisir le mot de passe",
+    "ErrorInvalidPassword": "Doit contenir au moins une lettre et un chiffre, et comporter un minimum de 8 caractères.",
+    "DepartmentsLoadFail": "Échec du chargement des départements",
+    "DepartmentAssignSuccess": "Personnel assigné avec succès",
+    "DepartmentAssignFail": "Échec de l'assignation du personnel",
+    "DepartmentUnassignSuccess": "Personnel retiré avec succès",
+    "DepartmentUnassignFail": "Échec du retrait du personnel"
+  },
+  "Login": {
+    "LoginFail": "Échec de la connexion !",
+    "Login": "Se connecter",
+    "ForgotPassword": "Mot de passe oublié",
+    "ServerError": "Erreur serveur",
+    "IncorrectCred": "Nom d'utilisateur ou mot de passe incorrect"
+  },
+  "PwReset": {
+    "CurrentPw": "Mot de passe actuel",
+    "NewPw": "Nouveau mot de passe",
+    "ReEnterPw": "Saisir à nouveau le nouveau mot de passe",
+    "ChangePwButton": "Changer le mot de passe"
+  },
+  "ToastMessage": {
+    "ErrorInvalidForm": "Veuillez corriger les erreurs dans le formulaire !",
+    "ErrorEmptyForm": "Veuillez remplir tous les champs.",
+    "ErrorNoEdit": "Vous n'avez effectué aucune modification !",
+    "EditSuccess": "Utilisateur mis à jour !",
+    "NewUserSuccess": "Nouvel utilisateur ajouté !",
+    "ErrorProcessFail": "Échec de l'opération.",
+    "ErrorDifferentPasswordFields": "Les nouveaux mots de passe ne correspondent pas.",
+    "ErrorWrongCurrentPassword": "Votre mot de passe actuel est incorrect.",
+    "ErrorSamePassword": "Votre nouveau mot de passe ne peut pas être identique à votre mot de passe actuel.",
+    "ChangePasswordSuccess": "Votre mot de passe a été modifié avec succès.",
+    "ChangePasswordFail": "Une erreur est survenue lors de la mise à jour du mot de passe.",
+    "UserNotFound": "Utilisateur introuvable.",
+    "ErrorWeakPassword": "Doit contenir au moins une lettre et un chiffre, et comporter un minimum de 8 caractères.",
+    "SettingsSaveSuccess": "Paramètres enregistrés !",
+    "SettingsSaveFail": "Les paramètres n'ont pas pu être enregistrés !"
+  },
+  "Settings": {
+    "Title": "Paramètres",
+    "DarkMode": "Thème sombre",
+    "Dark": "Sombre",
+    "Light": "Clair",
+    "SessionTimeout": "Délai de session",
+    "TimeoutUnit": "minute",
+    "EmailNotifications": "Notifications par e-mail",
+    "PushNotifications": "Notifications push",
+    "DefaultPage": "Page par défaut",
+    "Page": "Page",
+    "TimeZone": "Fuseau horaire",
+    "DateFormat": "Format de date",
+    "SoundEffects": "Effets sonores",
+    "2FA": {
+      "Title": "Authentification à deux facteurs",
+      "ButtonTitle": "Configurer",
+      "SMS": "SMS",
+      "AuthApp": "Application d'authentification"
+    },
+    "DefaultPages": {
+      "Dashboard": "Tableau de bord",
+      "Profile": "Profil",
+      "Reports": "Rapports",
+      "Settings": "Paramètres"
+    },
+    "DND": {
+      "Title": "Ne pas déranger",
+      "DNDDuration": "Durée du mode Ne pas déranger",
+      "Off": "Désactivé",
+      "1Hour": "1 heure",
+      "4Hour": "4 heures",
+      "8Hour": "8 heures",
+      "Always": "Toujours"
+    },
+    "DateFormats": {
+      "Title": "Format de l'heure",
+      "DD/MM/YYYY": "DD/MM/YYYY",
+      "MM/DD/YYYY": "MM/DD/YYYY",
+      "YYYY-MM-DD": "YYYY-MM-DD"
+    }
+  },
+  "Reports": {
+    "Title": "Rapports",
+    "UserSummary": "Résumé des utilisateurs",
+    "DownloadPdf": "Télécharger le PDF",
+    "TotalUsers": "Nombre total d'utilisateurs",
+    "ActiveUsers": "Utilisateurs actifs",
+    "PassiveUsers": "Utilisateurs passifs",
+    "AllUsers": "Tous les utilisateurs",
+    "Status": "Statut",
+    "DownloadAll": "Tout télécharger",
+    "DownloadGridOnly": "Télécharger le tableau"
+  },
+  "Departments": {
+    "Title": "Départements",
+    "Assign": "Assigner",
+    "Empty": "Aucun personnel n'est assigné à ce département.",
+    "AssignDialogTitle": "Assigner du personnel",
+    "Department": "Département",
+    "SelectUser": "Sélectionner un utilisateur",
+    "SearchUser": "Rechercher par nom, prénom ou téléphone",
+    "UnassignTitle": "Retirer le personnel",
+    "UnassignText": "Le membre du personnel nommé {{staffName}} sera retiré du département {{deptName}}. Êtes-vous sûr ?",
+    "Operation": "Opération",
+    "IT": "Informatique",
+    "HR": "RH",
+    "Software": "Logiciel",
+    "Sales": "Ventes",
+    "Marketing": "Marketing",
+    "Accounting": "Comptabilité",
+    "CustomerSupport": "Support client"
+  }
+}

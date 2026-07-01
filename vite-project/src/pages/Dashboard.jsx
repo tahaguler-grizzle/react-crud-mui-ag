@@ -1,10 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
 ModuleRegistry.registerModules([AllCommunityModule]);
 import {
-  Container, Typography, Box, Button, TextField, InputAdornment, useTheme,
-  useMediaQuery
+  Container,
+  Typography,
+  Box,
+  Button,
+  TextField,
+  InputAdornment,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -13,28 +19,52 @@ import AddIcon from '@mui/icons-material/Add';
 
 import { fetchUsers, deleteUserById } from '../api/userService';
 import UserFormDrawer from '../components/UserFormDrawer';
-import '../index.css'
-import { useNavigate } from "react-router-dom";
+
+import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import CustomDialogTitle from '../components/custom/CustomDialogTitle';
-import {CommonTextFieldSx} from '../components/custom/CommonTextFieldSx';
+import { CommonTextFieldSx } from '../components/custom/CommonTextFieldSx';
 
-
+import { useTranslation } from 'next-i18next/pages';
+import { serverSideTranslations } from 'next-i18next/pages/serverSideTranslations';
+import nextI18NextConfig from '../../next-i18next.config.js';
+import {
+  AG_GRID_LOCALE_EN,
+  AG_GRID_LOCALE_TR,
+  AG_GRID_LOCALE_FR,
+  AG_GRID_LOCALE_IT,
+} from '@ag-grid-community/locale';
 
 function Dashboard() {
+  const { t, i18n } = useTranslation();
+
+  const getAgGridLocale = (language) => {
+    switch (language) {
+      case 'tr':
+        return AG_GRID_LOCALE_TR;
+      case 'en':
+        return AG_GRID_LOCALE_EN;
+      case 'fr':
+        return AG_GRID_LOCALE_FR;
+      case 'it':
+        return AG_GRID_LOCALE_IT;
+      default:
+        return AG_GRID_LOCALE_TR;
+    }
+  };
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [users, setUsers] = useState([]);
   const [editId, setEditId] = useState(null);
   const [open, setOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [gridApi, setGridApi] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -50,23 +80,18 @@ function Dashboard() {
   }, [searchTerm, gridApi]);
 
   const handleAddClick = () => {
-    setEditId(null);      
-    setSelectedUser(null); 
-    setOpen(true);         
+    setEditId(null);
+    setSelectedUser(null);
+    setOpen(true);
   };
-
-
 
   const getUsers = async () => {
     try {
-
       const data = await fetchUsers();
       setUsers(data);
-
     } catch (error) {
-      console.log("Başarısız Veri okunamadı...", error);
+      console.log('Başarısız Veri okunamadı...', error);
     }
-
   };
 
   useEffect(() => {
@@ -83,12 +108,11 @@ function Dashboard() {
 
     try {
       await deleteUserById(idToDelete);
-      toast.success("Kullanıcı başarıyla silindi!");
+      toast.success(t('Dashboard.DeleteConfirm.Success'));
       getUsers();
-
     } catch (error) {
-      console.log("Silinemedi", error);
-      toast.error("Silme işlemi başarısız oldu!");
+      console.log('Silinemedi', error);
+      toast.error(t('Dashboard.DeleteConfirm.Fail'));
     } finally {
       setOpenDeleteDialog(false);
       setIdToDelete(null);
@@ -96,12 +120,9 @@ function Dashboard() {
   };
 
   const handleEdit = (row) => {
-
     setSelectedUser(row);
-
     setEditId(row.id);
     setOpen(true);
-
   };
 
   const handleSearchChange = (e) => {
@@ -109,110 +130,165 @@ function Dashboard() {
   };
 
   const handleSuccess = () => {
-    getUsers(); 
+    getUsers();
   };
 
-
-
-
-  const columnDefs = [
-    { field: 'id', headerName: 'ID', minWidth: 70, hide: isMobile, flex: isMobile ? undefined : 0.5 },
-    { field: 'name', headerName: 'İsim', minWidth: 120, width: isMobile ? 120 : undefined, flex: isMobile ? undefined : 1 },
-    { field: 'surname', headerName: 'Soyisim', minWidth: 120, width: isMobile ? 120 : undefined, flex: isMobile ? undefined : 1 },
-    { field: 'email', headerName: 'E-mail', minWidth: 220, hide: isMobile, flex: isMobile ? undefined : 1.5 },
-    { field: 'phone', headerName: 'Telefon', minWidth: 150, hide: isMobile, flex: isMobile ? undefined : 1 },
-    { field: 'description', headerName: 'Açıklama', minWidth: 150, hide: isMobile, flex: isMobile ? undefined : 1.5 },
-    {
-      field: 'isActive',
-      headerName: 'Üyelik Durumu',
-      minWidth: 120,
-      width: isMobile ? 120 : undefined,
-      flex: isMobile ? undefined : 1,
-
-      cellRenderer: (params) => params.value ? "Aktif" : "Pasif"
-
-    },
-
-    {
-      field: 'id',
-      headerName: 'İşlemler',
-      minWidth: isMobile ? 140 : 200,
-      width: isMobile ? 140 : undefined,
-      flex: isMobile ? undefined : 1,
-      headerClass: 'header-center',
-
-      cellRenderer: (params) => {
-        return (
-          <Box display="flex" gap={1} width="100%" height="100%" justifyContent="center" alignItems="center" >
-            <Button
-              variant='outlined'
-              color='primary'
-              size='small'
-              startIcon={!isMobile ? <EditIcon /> : null}
-              onClick={() => handleEdit(params.data)}
-              sx={{
-                minWidth: isMobile ? 35 : 64, padding: isMobile ? 1 : '6px 10px', aspectRatio: isMobile ? '1/1' : 'auto',
-                color: '#4085a3',
-                borderColor: '#4085a3',
-                fontFamily: "'Montserrat', sans-serif",
-                textTransform: 'none',
-                fontWeight: 600,
-
-                '&:hover': {
-                  borderColor: '#4085a3',
-                  backgroundColor: 'rgba(64, 133, 163, 0.08)',
-                }
-              }}
+  const columnDefs = useMemo(
+    () => [
+      {
+        field: 'id',
+        headerValueGetter: () => t('ID'),
+        minWidth: 50,
+        maxWidth: 60,
+        hide: isMobile,
+        flex: isMobile ? undefined : 0.3,
+      },
+      {
+        field: 'name',
+        headerValueGetter: () => t('Name'),
+        minWidth: 120,
+        width: isMobile ? 120 : undefined,
+        flex: isMobile ? undefined : 1,
+      },
+      {
+        field: 'surname',
+        headerValueGetter: () => t('Surname'),
+        minWidth: 120,
+        width: isMobile ? 120 : undefined,
+        flex: isMobile ? undefined : 1,
+      },
+      {
+        field: 'email',
+        headerValueGetter: () => t('Email'),
+        minWidth: 220,
+        hide: isMobile,
+        flex: isMobile ? undefined : 1.5,
+      },
+      {
+        field: 'phone',
+        headerValueGetter: () => t('Phone'),
+        minWidth: 150,
+        hide: isMobile,
+        flex: isMobile ? undefined : 1,
+      },
+      {
+        field: 'description',
+        headerValueGetter: () => t('Desc'),
+        minWidth: 150,
+        hide: isMobile,
+        flex: isMobile ? undefined : 1.5,
+      },
+      {
+        field: 'isActive',
+        headerValueGetter: () => t('Dashboard.Columns.Member'),
+        minWidth: 120,
+        width: isMobile ? 120 : undefined,
+        flex: isMobile ? undefined : 1,
+        cellRenderer: (params) =>
+          params.value ? t('Dashboard.Rows.Member') : t('Dashboard.Rows.NoMember'),
+      },
+      {
+        field: 'id',
+        headerValueGetter: () => t('Dashboard.Columns.Actions'),
+        minWidth: isMobile ? 140 : 220,
+        width: isMobile ? 140 : undefined,
+        flex: isMobile ? undefined : 1.5,
+        headerClass: 'header-center',
+        cellRenderer: (params) => {
+          return (
+            <Box
+              display="flex"
+              gap={1}
+              width="100%"
+              height="100%"
+              justifyContent="center"
+              alignItems="center"
             >
-              {isMobile ? <EditIcon fontSize='small' /> : 'Düzenle'}
-            </Button>
-            <Button
-              variant='outlined'
-              color='error'
-              size='small'
-              startIcon={!isMobile ? <DeleteIcon /> : null}
-              onClick={() => handleDeleteClick(params.data.id)}
-              sx={{
-                minWidth: isMobile ? 35 : 64, padding: isMobile ? 1 : '6px 10px', aspectRatio: isMobile ? '1/1' : 'auto',
-                fontFamily: "'Montserrat', sans-serif",
-                textTransform: 'none',
-                fontWeight: 600,
-              }}
-            >{isMobile ? <DeleteIcon fontSize='small' /> : 'Sil'}</Button>
-          </Box>
-        );
-      }
-    }
-
-  ];
-
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                startIcon={!isMobile ? <EditIcon /> : null}
+                onClick={() => handleEdit(params.data)}
+                sx={{
+                  minWidth: isMobile ? 35 : 'auto',
+                  padding: isMobile ? 1 : '4px 8px',
+                  aspectRatio: isMobile ? '1/1' : 'auto',
+                  color: '#4085a3',
+                  borderColor: '#4085a3',
+                  fontFamily: "'Montserrat', sans-serif",
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  fontSize: '0.75rem',
+                  whiteSpace: 'nowrap',
+                  '&:hover': {
+                    borderColor: '#4085a3',
+                    backgroundColor: 'rgba(64, 133, 163, 0.08)',
+                  },
+                }}
+              >
+                {isMobile ? <EditIcon fontSize="small" /> : t('Edit')}
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                size="small"
+                startIcon={!isMobile ? <DeleteIcon /> : null}
+                onClick={() => handleDeleteClick(params.data.id)}
+                sx={{
+                  minWidth: isMobile ? 35 : 'auto',
+                  padding: isMobile ? 1 : '4px 8px',
+                  aspectRatio: isMobile ? '1/1' : 'auto',
+                  fontFamily: "'Montserrat', sans-serif",
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  fontSize: '0.75rem',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {isMobile ? <DeleteIcon fontSize="small" /> : t('Delete')}
+              </Button>
+            </Box>
+          );
+        },
+      },
+    ],
+    [t]
+  );
 
   return (
     <Container maxWidth="xl" sx={{ marginTop: 4 }}>
-
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-        <Typography variant="h4" sx={{
-          fontFamily: "'Montserrat', sans-serif",
-          fontWeight: 700,
-          color: '#161d20',
-          letterSpacing: '-1px',
-
-        }}>
-          Personel Listesi
+        <Typography
+          variant="h4"
+          sx={{
+            fontFamily: "'Montserrat', sans-serif",
+            fontWeight: 700,
+            color: '#161d20',
+            letterSpacing: '-1px',
+          }}
+        >
+          {t('Dashboard.StaffList')}
         </Typography>
       </Box>
-      <Box sx={{
-        mb: 2,
-        display: "flex",
-        flexDirection: { xs: "column", sm: "row" },
-        gap: 2,
-        alignItems: { sm: "center" },
-        justifyContent: { sm: "space-between" },
-      }}>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={handleAddClick}
+      <Box
+        sx={{
+          mb: 2,
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          gap: 2,
+          alignItems: { sm: 'center' },
+          justifyContent: { sm: 'space-between' },
+        }}
+      >
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={handleAddClick}
           sx={{
             width: {
-              xs: "100%", sm: "auto",
+              xs: '100%',
+              sm: 'auto',
               backgroundColor: '#161d20',
               color: '#ffffff',
               textTransform: 'none',
@@ -220,42 +296,45 @@ function Dashboard() {
               fontWeight: 600,
               '&:hover': {
                 backgroundColor: '#2b3234',
-              }
-            }
-          }}>
-          Kullanıcı Ekle
+              },
+            },
+          }}
+        >
+          {t('Dashboard.AddUser')}
         </Button>
         <TextField
-          label="Tabloda ara..."
-          variant='outlined'
-          size='small'
+          label={t('Dashboard.SearchLabel')}
+          variant="outlined"
+          size="small"
           value={searchTerm}
           onChange={handleSearchChange}
+          autoComplete="off"
           slotProps={{
             input: {
               startAdornment: (
-                <InputAdornment position='start'>
+                <InputAdornment position="start">
                   <SearchIcon />
                 </InputAdornment>
               ),
-            }
+            },
           }}
           sx={{
-            width: { xs: "100%", sm: 300 },
-            ...CommonTextFieldSx
+            width: { xs: '100%', sm: 300 },
+            ...CommonTextFieldSx,
           }}
         />
       </Box>
 
-      <div className="ag-theme-quartz" style={{ height: 'calc(100vh - 300px)', width: '100%' }} >
+      <div className="ag-theme-quartz" style={{ height: 'calc(100vh - 300px)', width: '100%' }}>
         <AgGridReact
+          key={i18n.resolvedLanguage}
           rowData={users}
           columnDefs={columnDefs}
+          localeText={getAgGridLocale(i18n.resolvedLanguage)}
           pagination={true}
           paginationPageSize={isMobile ? 12 : 20}
           paginationPageSizeSelector={[12, 20, 40, 100]}
           quickFilterText={debouncedSearchTerm}
-
           onGridReady={(params) => {
             setGridApi(params.api);
             if (!isMobile) {
@@ -263,10 +342,10 @@ function Dashboard() {
             }
           }}
           onRowClicked={(event) => {
-            if (event.event.target.closest("button")) {
+            if (event.event.target.closest('button')) {
               return;
             }
-            navigate(`/user/${event.data.id}`);
+            router.push(`/user/${event.data.id}`);
           }}
           rowStyle={{ cursor: 'pointer' }}
         />
@@ -276,7 +355,7 @@ function Dashboard() {
         open={open}
         onClose={() => setOpen(false)}
         editId={editId}
-        initialData={selectedUser} 
+        initialData={selectedUser}
         onSuccess={handleSuccess}
       />
 
@@ -284,18 +363,19 @@ function Dashboard() {
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         onConfirm={confirmDelete}
-        title="Silme İşlemi"
-        text="Bu kullanıcıyı silmek istediğinize emin misiniz???"
+        title={t('Dashboard.DeleteConfirm.Title')}
+        text={t('Dashboard.DeleteConfirm.Text')}
       />
-
-
     </Container>
-
   );
+}
 
-
-
-
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig)),
+    },
+  };
 }
 
 export default Dashboard;

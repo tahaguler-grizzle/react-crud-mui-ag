@@ -1,7 +1,7 @@
 import { Box, Paper } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
 
-function LoginLayout({ children }) {
+function ForgotPwLayout({ children }) {
   const { user } = useAuth();
 
   return (
@@ -11,7 +11,7 @@ function LoginLayout({ children }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #2b3234, #161d20, #283236)',
+        background: user ? '#FFFFF' : 'linear-gradient(135deg, #2b3234, #161d20, #283236)',
       }}
     >
       <Paper
@@ -44,4 +44,4 @@ function LoginLayout({ children }) {
   );
 }
 
-export default LoginLayout;
+export default ForgotPwLayout;

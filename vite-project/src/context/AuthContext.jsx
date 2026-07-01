@@ -1,47 +1,42 @@
-import { createContext, useState, useContext } from "react";
-import { fetchUsers } from "../api/userService";
+'use client';
+import { createContext, useState, useContext } from 'react';
+import { fetchUsers } from '../api/userService';
 //import { loginUserApi } from "../api/userService";
-
+import { useTranslation } from 'next-i18next/pages';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const { t } = useTranslation();
   const [user, setUser] = useState(() => {
-    try{
-      const savedUser = localStorage.getItem("user");
-      return savedUser ? JSON.parse(savedUser): null;
+    if (typeof window !== 'undefined') {
+      try {
+        const savedUser = localStorage.getItem('user');
+        return savedUser ? JSON.parse(savedUser) : null;
+      } catch (error) {
+        return null;
+      }
     }
-    catch(error){
-      return null;
-    }
-  }
-
-  );
+    return null;
+  });
 
   const login = async (username, password) => {
-
     try {
       const users = await fetchUsers();
-      const foundUser = users.find(
-        (u) => u.username === username && u.password === password
-      );
+      const foundUser = users.find((u) => u.username === username && u.password === password);
 
       if (foundUser) {
         setUser(foundUser);
-        localStorage.setItem("user", JSON.stringify(foundUser));
-        return { success: true }
-      }
-      else {
-        return { success: false, message: "Kullanıcı adı veya şifre hatalı!" };
+        localStorage.setItem('user', JSON.stringify(foundUser));
+        return { success: true };
+      } else {
+        return { success: false, message: t('Login.IncorrectCred') };
       }
     } catch (error) {
+      console.log('Giriş hatası', error);
 
-      console.log("Giriş hatası", error);
-
-      return { success: false, message: "Sunucu hatası" };
-
+      return { success: false, message: t('Login.ServerError') };
     }
-
   };
 
   /* const login = async (username,password) => {
@@ -71,20 +66,18 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
-
+    localStorage.removeItem('user');
   };
 
   const values = {
     user,
+    setUser,
     isAuthenticated: !!user,
     login,
     logout,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
-
 };
 
 export const useAuth = () => useContext(AuthContext);
-

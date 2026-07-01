@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,18 +12,54 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import myAvatar from '../assets/benimFoto.jpg';
-
 import { useAuth } from '../context/AuthContext';
+import FormControl from '@mui/material/FormControl';
+import LanguageIcon from '@mui/icons-material/Language';
+import Select from '@mui/material/Select';
+import { useTranslation } from 'next-i18next/pages';
+import { useRouter } from 'next/router';
 
-const pages = ['Personel', 'Raporlar', 'Ayarlar'];
-const settings = ['Profil', 'Hesap', 'Logout'];
+const DB_NAME = 'AvatarStorage';
+const STORE_NAME = 'avatars';
 
 function Navbar() {
+  const router = useRouter();
+  const { t, i18n } = useTranslation();
+
+  const [dbAvatar, setDbAvatar] = useState(null);
+
+  const initDB = () =>
+    new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME);
+        }
+      };
+      request.onsuccess = (e) => resolve(e.target.result);
+      request.onerror = (e) => reject(e.target.error);
+    });
+
+  const pages = [
+    { id: 'Staff', label: t('Navbar.Staff') },
+    { id: 'Reports', label: t('Navbar.Reports') },
+    { id: 'Departments', label: t('Navbar.Departments') },
+  ];
+
+  const settings = [
+    { id: 'Profile', label: t('Navbar.UserProfile') },
+    { id: 'Change_password', label: t('Navbar.ChangePw') },
+    { id: 'Settings', label: t('Navbar.Settings') },
+    { id: 'Logout', label: t('Navbar.Logout') },
+  ];
+
   const { logout, user } = useAuth();
+  const id = user?.id;
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const language = router.locale ?? 'en';
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -45,15 +82,74 @@ function Navbar() {
     if (setting == 'Logout') {
       logout();
     }
+    if (setting == 'Change_password') {
+      router.push('/user/forgot-pw');
+    }
+    if (setting == 'Profile') {
+      router.push(`/user/${id}`);
+    }
+    if (setting == 'Settings') {
+      router.push('/user/settings');
+    }
   };
 
-  const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKrfWHfu7t7nVjKwfkdAYTRGdg4WI5XP5zlQ&s";
+  const handlePageClick = (setting) => {
+    handleCloseNavMenu();
+    if (setting == 'Staff') {
+      router.push(`/user/${id}`);
+    }
+    if (setting == 'Reports') {
+      router.push('/reports');
+    }
+    if (setting == 'Departments') {
+      router.push('/departments');
+    }
+  };
+
+  const handleChangeLanguage = (event) => {
+    const selectedLng = event.target.value;
+    document.cookie = `NEXT_LOCALE=${selectedLng}; path=/; max-age=31536000; SameSite=Lax`;
+    router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
+      locale: selectedLng,
+    });
+  };
+
+  const getAvatarFromDB = async (id) => {
+    const db = await initDB();
+    return new Promise((resolve, reject) => {
+      const store = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME);
+      const req = store.get(`avatar-${id}`);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+  };
+
+  useEffect(() => {
+    const handleAvatarUpdate = () => {
+      if (!id) {
+        setDbAvatar(null);
+        return;
+      }
+      getAvatarFromDB(id)
+        .then(setDbAvatar)
+        .catch((err) => console.error('Avatar yüklenemedi:', err));
+    };
+
+    handleAvatarUpdate();
+
+    window.addEventListener('ProfilePictureUpdated', handleAvatarUpdate);
+    return () => {
+      window.removeEventListener('ProfilePictureUpdated', handleAvatarUpdate);
+    };
+  }, [id]);
+
+  const logoUrl =
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKrfWHfu7t7nVjKwfkdAYTRGdg4WI5XP5zlQ&s';
 
   return (
     <AppBar position="static" sx={{ backgroundColor: '#161d20' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-
           <Box
             component="img"
             src={logoUrl}
@@ -64,19 +160,17 @@ function Navbar() {
               height: 40,
               width: 40,
               borderRadius: '50%',
-              objectFit: 'contain'
+              objectFit: 'contain',
             }}
           />
-
-
-
-
 
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={() => {
+              router.push('/dashboard');
+            }}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -88,12 +182,8 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            Yönetim Paneli
+            {t('Navbar.Title')}
           </Typography>
-
-
-
-
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -117,8 +207,15 @@ function Navbar() {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" sx={{ fontFamily: "'Montserrat', sans-serif" }}>{page}</Typography>
+                <MenuItem
+                  key={page.id}
+                  onClick={() => {
+                    handlePageClick(page.id);
+                  }}
+                >
+                  <Typography textAlign="center" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                    {page.label}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -133,7 +230,7 @@ function Navbar() {
               height: 35,
               width: 35,
               borderRadius: '50%',
-              objectFit: 'contain'
+              objectFit: 'contain',
             }}
           />
 
@@ -151,37 +248,85 @@ function Navbar() {
               letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
-
-
             }}
           >
-            Panel
+            {t('Navbar.TitleSmall')}
           </Typography>
-
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.id}
+                onClick={() => {
+                  handlePageClick(page.id);
+                }}
                 sx={{
-                  my: 2, color: 'white', display: 'block', fontFamily: "'Montserrat', sans-serif",
-                  fontWeight: 600, '&:hover': {
-                    backgroundColor: '#2b3234'
-                  }
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                  fontFamily: "'Montserrat', sans-serif",
+                  fontWeight: 600,
+                  '&:hover': {
+                    backgroundColor: '#2b3234',
+                  },
                 }}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
 
+          <FormControl sx={{ mr: 2, minWidth: 70 }}>
+            <Select
+              value={language}
+              onChange={handleChangeLanguage}
+              sx={{
+                color: 'white',
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 600,
+                '.MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '.MuiSvgIcon-root': {
+                  color: 'white',
+                },
+                height: '38px',
+              }}
+            >
+              <MenuItem value="en" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                EN
+              </MenuItem>
+              <MenuItem value="tr" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                TR
+              </MenuItem>
+              <MenuItem value="fr" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                FR
+              </MenuItem>
+              <MenuItem value="it" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                IT
+              </MenuItem>
+            </Select>
+          </FormControl>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Ayarları Aç">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={user?.name || "User"} src={myAvatar}  >
-                  {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                <Avatar
+                  alt={user?.name || 'User'}
+                  src={dbAvatar || undefined}
+                  sx={{
+                    backgroundColor: '#4085a3',
+                    boxShadow: '0px 4px 12px rgba(22, 29, 32, 0.2)',
+                    fontFamily: "'Montserrat', sans-serif",
+                  }}
+                >
+                  {!dbAvatar && (user?.name ? user.name.charAt(0).toUpperCase() : 'U')}
                 </Avatar>
               </IconButton>
             </Tooltip>
@@ -196,20 +341,21 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
-                  <Typography textAlign="center" sx={{ fontFamily: "'Montserrat', sans-serif" }}>{setting}</Typography>
+                <MenuItem
+                  key={setting.id}
+                  onClick={() => handleMenuClick(setting.id)}
+                  sx={{ justifyContent: 'left', textAlign: 'center' }}
+                >
+                  <Typography textAlign="center" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                    {setting.label}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-
         </Toolbar>
-
       </Container>
-
     </AppBar>
-
   );
-
 }
 export default Navbar;

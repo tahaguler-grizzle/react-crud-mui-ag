@@ -1,0 +1,184 @@
+{
+  "Name": "Nome",
+  "Surname": "Cognome",
+  "Username": "Nome utente",
+  "Password": "Password",
+  "Email": "Email",
+  "Phone": "Telefono",
+  "Desc": "Descrizione",
+  "Edit": "Modifica",
+  "Delete": "Elimina",
+  "Cancel": "Annulla",
+  "Back": "Indietro",
+  "Save": "Salva",
+  "Active": "Attive",
+  "Passive": "Passivo",
+  "Navbar": {
+    "Title": "Pannello di amministrazione",
+    "TitleSmall": "Pannello",
+    "Staff": "Personale",
+    "Departments": "Dipartimenti",
+    "Reports": "Report",
+    "Settings": "Impostazioni",
+    "UserProfile": "Profilo",
+    "ChangePw": "Cambia password",
+    "Logout": "Esci"
+  },
+  "Dashboard": {
+    "StaffList": "Elenco del personale",
+    "AddUser": "Aggiungi utente",
+    "SearchLabel": "Cerca nella tabella...",
+    "Columns": {
+      "Member": "Stato membro",
+      "Actions": "Azioni"
+    },
+    "Rows": {
+      "Member": "Attivo",
+      "NoMember": "Passivo"
+    },
+    "DeleteConfirm": {
+      "Title": "Eliminazione",
+      "Text": "Sei sicuro di voler eliminare questo utente???",
+      "Success": "Utente eliminato con successo!",
+      "Fail": "Eliminazione non riuscita!"
+    }
+  },
+  "UserDetail": {
+    "UserNotFound": "Utente non trovato.",
+    "Member": "Membro attivo",
+    "NoMember": "Membro passivo",
+    "About": "Informazioni",
+    "EmptyAbout": "Nessuna descrizione inserita.",
+    "Edit": "Modifica le mie informazioni",
+    "OwnerOnly": "Solo il proprietario può modificare questo profilo.",
+    "DeleteAvatarTitle": "Eliminare l'avatar ?",
+    "DeleteAvatarText": "Sei sicuro di voler eliminare il tuo avatar ?"
+  },
+  "UserEdit": {
+    "EditMode": "Modifica utente",
+    "AddMode": "Crea nuovo record",
+    "Active": "L'utente è attivo?",
+    "Update": "Aggiorna",
+    "Add": "Aggiungi",
+    "DescPlaceholder": "Lavoro presso Grizzle Tech!",
+    "PassVis": "Mostra/nascondi password",
+    "ErrorEmptyName": "Il campo nome non può essere vuoto.",
+    "ErrorEmptySurname": "Il campo cognome non può essere vuoto.",
+    "ErrorEmptyUsername": "Il nome utente è obbligatorio.",
+    "ErrorEmptyEmail": "Il campo email non può essere vuoto.",
+    "ErrorInvalidEmail": "Inserisci un indirizzo email valido.",
+    "ErrorEmptyDescription": "La descrizione è obbligatoria.",
+    "ErrorEmmtyPhone": "Il numero di telefono è obbligatorio.",
+    "ErrorInvalidPhone": "Inserisci un numero di telefono valido (solo cifre, 4-14 cifre).",
+    "ErrorEmptyPassword": "Inserisci la password",
+    "ErrorInvalidPassword": "Deve contenere almeno una lettera e una cifra, e avere un minimo di 8 caratteri.",
+    "DepartmentsLoadFail": "Impossibile caricare i dipartimenti",
+    "DepartmentAssignSuccess": "Personale assegnato con successo",
+    "DepartmentAssignFail": "Impossibile assegnare il personale",
+    "DepartmentUnassignSuccess": "Personale rimosso con successo",
+    "DepartmentUnassignFail": "Impossibile rimuovere il personale"
+  },
+  "Login": {
+    "LoginFail": "Accesso non riuscito!",
+    "Login": "Accedi",
+    "ForgotPassword": "Ha dimenticato la password",
+    "ServerError": "Errore del server",
+    "IncorrectCred": "Nome utente o password errati"
+  },
+  "PwReset": {
+    "CurrentPw": "Password attuale",
+    "NewPw": "Nuova password",
+    "ReEnterPw": "Reinserisci la nuova password",
+    "ChangePwButton": "Cambia password"
+  },
+  "ToastMessage": {
+    "ErrorInvalidForm": "Correggi gli errori nel modulo!",
+    "ErrorEmptyForm": "Compila tutti i campi.",
+    "ErrorNoEdit": "Non hai apportato alcuna modifica!",
+    "EditSuccess": "Utente aggiornato!",
+    "NewUserSuccess": "Nuovo utente aggiunto!",
+    "ErrorProcessFail": "Operazione non riuscita.",
+    "ErrorDifferentPasswordFields": "Le nuove password non corrispondono.",
+    "ErrorWrongCurrentPassword": "La password attuale non è corretta.",
+    "ErrorSamePassword": "La nuova password non può essere uguale a quella attuale.",
+    "ChangePasswordSuccess": "La password è stata cambiata con successo.",
+    "ChangePasswordFail": "Si è verificato un errore durante l'aggiornamento della password.",
+    "UserNotFound": "Utente non trovato.",
+    "ErrorWeakPassword": "Deve contenere almeno una lettera e un numero, e avere un minimo di 8 caratteri.",
+    "SettingsSaveSuccess": "Impostazioni salvate!",
+    "SettingsSaveFail": "Impossibile salvare le impostazioni!"
+  },
+  "Settings": {
+    "Title": "Impostazioni",
+    "DarkMode": "Tema scuro",
+    "Dark": "Scuro",
+    "Light": "Chiaro",
+    "SessionTimeout": "Timeout sessione",
+    "TimeoutUnit": "minuto",
+    "EmailNotifications": "Notifiche email",
+    "PushNotifications": "Notifiche push",
+    "DefaultPage": "Pagina predefinita",
+    "Page": "Pagina",
+    "TimeZone": "Fuso orario",
+    "DateFormat": "Formato data",
+    "SoundEffects": "Effetti sonori",
+    "2FA": {
+      "Title": "Autenticazione a due fattori",
+      "ButtonTitle": "Configura",
+      "SMS": "SMS",
+      "AuthApp": "App di autenticazione"
+    },
+    "DefaultPages": {
+      "Dashboard": "Dashboard",
+      "Profile": "Profilo",
+      "Reports": "Report",
+      "Settings": "Impostazioni"
+    },
+    "DND": {
+      "Title": "Non disturbare",
+      "DNDDuration": "Durata non disturbare",
+      "Off": "Disattivato",
+      "1Hour": "1 ora",
+      "4Hour": "4 ore",
+      "8Hour": "8 ore",
+      "Always": "Sempre"
+    },
+    "DateFormats": {
+      "Title": "Formato ora",
+      "DD/MM/YYYY": "DD/MM/YYYY",
+      "MM/DD/YYYY": "MM/DD/YYYY",
+      "YYYY-MM-DD": "YYYY-MM-DD"
+    }
+  },
+  "Reports": {
+    "Title": "Rapporti",
+    "UserSummary": "Riepilogo utente",
+    "DownloadPdf": "Scarica PDF",
+    "TotalUsers": "Utenti totali",
+    "ActiveUsers": "Utenti attivi",
+    "PassiveUsers": "Utenti passivi",
+    "AllUsers": "Tutti gli utenti",
+    "Status": "Stato",
+    "DownloadAll": "Scarica tutto",
+    "DownloadGridOnly": "Scarica tabella"
+  },
+  "Departments": {
+    "Title": "Dipartimenti",
+    "Assign": "Assegna",
+    "Empty": "Non c'è personale assegnato a questo dipartimento.",
+    "AssignDialogTitle": "Assegna personale",
+    "Department": "Dipartimento",
+    "SelectUser": "Seleziona utente",
+    "SearchUser": "Cerca nome, cognome o telefono",
+    "UnassignTitle": "Rimuovi personale",
+    "UnassignText": "Il membro del personale {{staffName}} verrà rimosso dal dipartimento {{deptName}}. Sei sicuro?",
+    "Operation": "Operazione",
+    "IT": "IT",
+    "HR": "HR",
+    "Software": "Software",
+    "Sales": "Vendite",
+    "Marketing": "Marketing",
+    "Accounting": "Contabilità",
+    "CustomerSupport": "Assistenza clienti"
+  }
+}
