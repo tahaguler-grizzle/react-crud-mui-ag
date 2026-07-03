@@ -1,0 +1,18 @@
+{
+  "LoginFail": "Giriş başarısız!",
+  "Login": "Giriş Yap",
+  "ForgotPassword": "Şifremi Unuttum",
+  "ServerError": "Sunucu Hatası",
+  "IncorrectCred": "Kullanıcı adı ya da şifre hatalı",
+  "CurrentPw": "Mevcut Şifre",
+  "NewPw": "Yeni Şifre",
+  "ReEnterPw": "Yeni şifreyi tekrar giriniz",
+  "ChangePwButton": "Şifreyi değiştir",
+  "ErrorDifferentPasswordFields": "Yeni şifreler birbiriyle eşleşmiyor.",
+  "ErrorWrongCurrentPassword": "Mevcut şifreniz yanlış.",
+  "ErrorSamePassword": "Yeni şifreniz mevcut şifrenizle aynı olamaz.",
+  "ChangePasswordSuccess": "Şifreniz başarıyla değiştirildi.",
+  "ChangePasswordFail": "Şifre güncellenirken bir hata oluştu.",
+  "UserNotFound": "Kullanıcı bulunamadı.",
+  "ErrorWeakPassword": "En az bir harf ve bir rakam içermelidir, ve minimum 8 haneli olmalıdır."
+}

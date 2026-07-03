@@ -1,8 +1,10 @@
 import { Box, Paper } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '@mui/material/styles';
 
 function ForgotPwLayout({ children }) {
   const { user } = useAuth();
+  const theme = useTheme();
 
   return (
     <Box
@@ -11,7 +13,9 @@ function ForgotPwLayout({ children }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: user ? '#FFFFF' : 'linear-gradient(135deg, #2b3234, #161d20, #283236)',
+        background: user
+          ? theme.palette.background.default
+          : 'linear-gradient(135deg, #2b3234, #161d20, #283236)',
       }}
     >
       <Paper
@@ -21,7 +25,7 @@ function ForgotPwLayout({ children }) {
           width: {
             xs: 250,
             sm: 320,
-            md: 450,
+            md: 500,
           },
           minHeight: '330px',
           borderRadius: {
@@ -30,7 +34,7 @@ function ForgotPwLayout({ children }) {
             md: '40px',
           },
           backdropFilter: 'blur(12px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+          backgroundColor: theme.palette.grey[100],
           border: '1px solid rgba(255, 255, 255, 0.3)',
           boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
           display: 'flex',

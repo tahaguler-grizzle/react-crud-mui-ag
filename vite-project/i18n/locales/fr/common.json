@@ -1,0 +1,16 @@
+{
+  "Name": "Nom",
+  "Surname": "Prénom",
+  "Username": "Nom d'utilisateur",
+  "Password": "Mot de passe",
+  "Email": "Email",
+  "Phone": "Téléphone",
+  "Desc": "Description",
+  "Edit": "Modifier",
+  "Delete": "Supprimer",
+  "Cancel": "Annuler",
+  "Back": "Retour",
+  "Save": "Enregistrer",
+  "Active": "Actif",
+  "Passive": "Passif"
+}

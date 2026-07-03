@@ -10,6 +10,7 @@ import {
   TextField,
   InputAdornment,
   useTheme,
+  alpha,
   useMediaQuery,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -25,9 +26,8 @@ import { toast } from 'react-toastify';
 import CustomDialogTitle from '../components/custom/CustomDialogTitle';
 import { CommonTextFieldSx } from '../components/custom/CommonTextFieldSx';
 
-import { useTranslation } from 'next-i18next/pages';
-import { serverSideTranslations } from 'next-i18next/pages/serverSideTranslations';
-import nextI18NextConfig from '../../next-i18next.config.js';
+import { useTranslation } from 'react-i18next';
+
 import {
   AG_GRID_LOCALE_EN,
   AG_GRID_LOCALE_TR,
@@ -36,7 +36,7 @@ import {
 } from '@ag-grid-community/locale';
 
 function Dashboard() {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(['dashboard', 'common']);
 
   const getAgGridLocale = (language) => {
     switch (language) {
@@ -108,11 +108,11 @@ function Dashboard() {
 
     try {
       await deleteUserById(idToDelete);
-      toast.success(t('Dashboard.DeleteConfirm.Success'));
+      toast.success(t('DeleteConfirm.Success'));
       getUsers();
     } catch (error) {
       console.log('Silinemedi', error);
-      toast.error(t('Dashboard.DeleteConfirm.Fail'));
+      toast.error(t('DeleteConfirm.Fail'));
     } finally {
       setOpenDeleteDialog(false);
       setIdToDelete(null);
@@ -145,51 +145,50 @@ function Dashboard() {
       },
       {
         field: 'name',
-        headerValueGetter: () => t('Name'),
+        headerValueGetter: () => t('Name', { ns: 'common' }),
         minWidth: 120,
         width: isMobile ? 120 : undefined,
         flex: isMobile ? undefined : 1,
       },
       {
         field: 'surname',
-        headerValueGetter: () => t('Surname'),
+        headerValueGetter: () => t('Surname', { ns: 'common' }),
         minWidth: 120,
         width: isMobile ? 120 : undefined,
         flex: isMobile ? undefined : 1,
       },
       {
         field: 'email',
-        headerValueGetter: () => t('Email'),
+        headerValueGetter: () => t('Email', { ns: 'common' }),
         minWidth: 220,
         hide: isMobile,
         flex: isMobile ? undefined : 1.5,
       },
       {
         field: 'phone',
-        headerValueGetter: () => t('Phone'),
+        headerValueGetter: () => t('Phone', { ns: 'common' }),
         minWidth: 150,
         hide: isMobile,
         flex: isMobile ? undefined : 1,
       },
       {
         field: 'description',
-        headerValueGetter: () => t('Desc'),
+        headerValueGetter: () => t('Desc', { ns: 'common' }),
         minWidth: 150,
         hide: isMobile,
         flex: isMobile ? undefined : 1.5,
       },
       {
         field: 'isActive',
-        headerValueGetter: () => t('Dashboard.Columns.Member'),
+        headerValueGetter: () => t('Columns.Member'),
         minWidth: 120,
         width: isMobile ? 120 : undefined,
         flex: isMobile ? undefined : 1,
-        cellRenderer: (params) =>
-          params.value ? t('Dashboard.Rows.Member') : t('Dashboard.Rows.NoMember'),
+        cellRenderer: (params) => (params.value ? t('Rows.Member') : t('Rows.NoMember')),
       },
       {
         field: 'id',
-        headerValueGetter: () => t('Dashboard.Columns.Actions'),
+        headerValueGetter: () => t('Columns.Actions'),
         minWidth: isMobile ? 140 : 220,
         width: isMobile ? 140 : undefined,
         flex: isMobile ? undefined : 1.5,
@@ -206,7 +205,7 @@ function Dashboard() {
             >
               <Button
                 variant="outlined"
-                color="primary"
+                color="secondary"
                 size="small"
                 startIcon={!isMobile ? <EditIcon /> : null}
                 onClick={() => handleEdit(params.data)}
@@ -214,20 +213,14 @@ function Dashboard() {
                   minWidth: isMobile ? 35 : 'auto',
                   padding: isMobile ? 1 : '4px 8px',
                   aspectRatio: isMobile ? '1/1' : 'auto',
-                  color: '#4085a3',
-                  borderColor: '#4085a3',
                   fontFamily: "'Montserrat', sans-serif",
                   textTransform: 'none',
                   fontWeight: 600,
                   fontSize: '0.75rem',
                   whiteSpace: 'nowrap',
-                  '&:hover': {
-                    borderColor: '#4085a3',
-                    backgroundColor: 'rgba(64, 133, 163, 0.08)',
-                  },
                 }}
               >
-                {isMobile ? <EditIcon fontSize="small" /> : t('Edit')}
+                {isMobile ? <EditIcon fontSize="small" /> : t('Edit', { ns: 'common' })}
               </Button>
               <Button
                 variant="outlined"
@@ -246,14 +239,14 @@ function Dashboard() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {isMobile ? <DeleteIcon fontSize="small" /> : t('Delete')}
+                {isMobile ? <DeleteIcon fontSize="small" /> : t('Delete', { ns: 'common' })}
               </Button>
             </Box>
           );
         },
       },
     ],
-    [t]
+    [t, isMobile]
   );
 
   return (
@@ -264,11 +257,11 @@ function Dashboard() {
           sx={{
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 700,
-            color: '#161d20',
+            color: theme.palette.text.primary,
             letterSpacing: '-1px',
           }}
         >
-          {t('Dashboard.StaffList')}
+          {t('StaffList')}
         </Typography>
       </Box>
       <Box
@@ -286,24 +279,22 @@ function Dashboard() {
           startIcon={<AddIcon />}
           onClick={handleAddClick}
           sx={{
-            width: {
-              xs: '100%',
-              sm: 'auto',
-              backgroundColor: '#161d20',
-              color: '#ffffff',
-              textTransform: 'none',
-              fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 600,
-              '&:hover': {
-                backgroundColor: '#2b3234',
-              },
+            width: { xs: '100%', sm: 'auto' },
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+            textTransform: 'none',
+            fontFamily: "'Montserrat', sans-serif",
+            fontWeight: 600,
+            '&:hover': {
+              backgroundColor: theme.palette.secondary.light,
+              boxShadow: `0px 4px 12px ${alpha(theme.palette.secondary.main, 0.2)}`,
             },
           }}
         >
-          {t('Dashboard.AddUser')}
+          {t('AddUser')}
         </Button>
         <TextField
-          label={t('Dashboard.SearchLabel')}
+          label={t('SearchLabel')}
           variant="outlined"
           size="small"
           value={searchTerm}
@@ -363,19 +354,11 @@ function Dashboard() {
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         onConfirm={confirmDelete}
-        title={t('Dashboard.DeleteConfirm.Title')}
-        text={t('Dashboard.DeleteConfirm.Text')}
+        title={t('DeleteConfirm.Title')}
+        text={t('DeleteConfirm.Text')}
       />
     </Container>
   );
-}
-
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig)),
-    },
-  };
 }
 
 export default Dashboard;

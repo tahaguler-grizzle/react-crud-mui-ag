@@ -11,6 +11,8 @@ import {
   Avatar,
   Grid,
   IconButton,
+  useTheme,
+  alpha,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -27,11 +29,11 @@ import { fetchUserById } from '../../api/userService';
 import UserFormDrawer from '../../components/UserFormDrawer';
 import CustomTextFieldTitle from '../../components/custom/CustomTextFieldTitle';
 import CustomDialogTitle from '../../components/custom/CustomDialogTitle';
-import { useTranslation } from 'next-i18next/pages';
-import { serverSideTranslations } from 'next-i18next/pages/serverSideTranslations';
-import nextI18NextConfig from '../../../next-i18next.config.js';
+import { useTranslation } from 'react-i18next';
 
 function UserDetail({ id }) {
+  const theme = useTheme();
+
   const DB_NAME = 'AvatarStorage';
   const STORE_NAME = 'avatars';
 
@@ -78,7 +80,7 @@ function UserDetail({ id }) {
     });
   };
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['userDetail', 'common']);
   const router = useRouter();
   const { user: currentUser } = useAuth();
 
@@ -126,7 +128,7 @@ function UserDetail({ id }) {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert(t('UserDetail.InvalidImage', 'Lütfen bir resim seçin.'));
+      alert(t('InvalidImage', 'Lütfen bir resim seçin.'));
       return;
     }
 
@@ -163,7 +165,7 @@ function UserDetail({ id }) {
   if (!profileData) {
     return (
       <Typography sx={{ mt: 4, textAlign: 'center', fontFamily: "'Montserrat', sans-serif" }}>
-        {t('UserDetail.UserNotFound')}
+        {t('UserNotFound')}
       </Typography>
     );
   }
@@ -177,25 +179,31 @@ function UserDetail({ id }) {
         onClick={() => router.back()}
         sx={{
           mb: 3,
-          color: '#161d20',
-          borderColor: '#161d20',
+          color: theme.palette.primary.contrastText,
+          backgroundColor: theme.palette.primary.main,
+          borderColor: theme.palette.divider,
           fontFamily: "'Montserrat', sans-serif",
           fontWeight: 600,
           textTransform: 'none',
           borderRadius: '10px',
           border: '1px solid',
-          '&:hover': { borderColor: '#161d20', backgroundColor: 'rgba(22, 29, 32, 0.05)' },
+          '&:hover': {
+            backgroundColor: theme.palette.secondary.main,
+            boxShadow: `0px 4px 12px ${theme.palette.primary.main}33`,
+          },
         }}
       >
-        {t('Back')}
+        {t('Back', { ns: 'common' })}
       </Button>
 
       <Card
         elevation={0}
         sx={{
           borderRadius: '24px',
-          border: '1px solid #e0e0e0',
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.03)',
+          border: '1px solid',
+          borderColor: theme.palette.divider,
+          backgroundColor: theme.palette.background.paper,
+          boxShadow: '0px 4px 20px rgba(20, 24, 27, 0.03)',
         }}
       >
         <CardContent sx={{ p: { xs: 3, md: 5 } }}>
@@ -220,11 +228,11 @@ function UserDetail({ id }) {
                 sx={{
                   width: 100,
                   height: 100,
-                  backgroundColor: '#4085a3',
+                  backgroundColor: theme.palette.primary.main,
                   fontSize: 40,
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 700,
-                  boxShadow: '0px 4px 12px rgba(22, 29, 32, 0.2)',
+                  boxShadow: '0px 4px 12px rgba(20, 24, 27, 0.2)',
                 }}
               >
                 {!dbAvatar && (profileData.name?.charAt(0).toUpperCase() || 'U')}
@@ -237,7 +245,7 @@ function UserDetail({ id }) {
                     position: 'absolute',
                     inset: 0,
                     borderRadius: '50%',
-                    bgcolor: 'rgba(0,0,0,0.45)',
+                    bgcolor: 'rgba(20, 24, 27, 0.45)',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -247,7 +255,7 @@ function UserDetail({ id }) {
                 >
                   <IconButton
                     onClick={dbAvatar ? () => setOpenDeleteDialog(true) : handleAvatarUpload}
-                    sx={{ color: 'white', width: '100%', height: '100%' }}
+                    sx={{ color: theme.palette.background.paper, width: '100%', height: '100%' }}
                   >
                     {dbAvatar ? <DeleteIcon /> : <PhotoCameraIcon />}
                   </IconButton>
@@ -266,13 +274,21 @@ function UserDetail({ id }) {
             <Box textAlign={{ xs: 'center', sm: 'left' }}>
               <Typography
                 variant="h4"
-                sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, color: '#161d20' }}
+                sx={{
+                  fontFamily: "'Montserrat', sans-serif",
+                  fontWeight: 700,
+                  color: theme.palette.text.primary,
+                }}
               >
                 {profileData.name} {profileData.surname}
               </Typography>
               <Typography
                 variant="h6"
-                sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 500, color: '#161d20' }}
+                sx={{
+                  fontFamily: "'Montserrat', sans-serif",
+                  fontWeight: 500,
+                  color: theme.palette.text.primary,
+                }}
               >
                 @{profileData.username}
               </Typography>
@@ -298,22 +314,28 @@ function UserDetail({ id }) {
                 ) : (
                   <CancelIcon fontSize="small" />
                 )}
-                {profileData.isActive ? t('UserDetail.Member') : t('UserDetail.NoMember')}
+                {profileData.isActive ? t('Member') : t('NoMember')}
               </Box>
             </Box>
           </Box>
 
-          <Divider sx={{ mb: 4 }} />
+          <Divider sx={{ mb: 4, borderColor: theme.palette.divider }} />
 
           <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="center" gap={1.5} mb={1}>
-                <EmailIcon sx={{ color: '#4085a3' }} />
-                <CustomTextFieldTitle height={24}>{t('Email')}</CustomTextFieldTitle>
+                <EmailIcon sx={{ color: theme.palette.primary.main }} />
+                <CustomTextFieldTitle height={24} color={theme.palette.text.primary}>
+                  {t('Email')}
+                </CustomTextFieldTitle>
               </Box>
               <Typography
                 variant="body1"
-                sx={{ fontFamily: "'Montserrat', sans-serif", color: '#555', ml: 4.5 }}
+                sx={{
+                  fontFamily: "'Montserrat', sans-serif",
+                  color: theme.palette.text.primary,
+                  ml: 4.5,
+                }}
               >
                 {profileData.email}
               </Typography>
@@ -321,12 +343,18 @@ function UserDetail({ id }) {
 
             <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="center" gap={1.5} mb={1}>
-                <PhoneIcon sx={{ color: '#4085a3' }} />
-                <CustomTextFieldTitle height={24}>{t('Phone')}</CustomTextFieldTitle>
+                <PhoneIcon sx={{ color: theme.palette.primary.main }} />
+                <CustomTextFieldTitle height={24} color={theme.palette.text.primary}>
+                  {t('Phone')}
+                </CustomTextFieldTitle>
               </Box>
               <Typography
                 variant="body1"
-                sx={{ fontFamily: "'Montserrat', sans-serif", color: '#555', ml: 4.5 }}
+                sx={{
+                  fontFamily: "'Montserrat', sans-serif",
+                  color: theme.palette.text.primary,
+                  ml: 4.5,
+                }}
               >
                 {profileData.phone}
               </Typography>
@@ -334,14 +362,20 @@ function UserDetail({ id }) {
 
             <Grid item xs={12}>
               <Box display="flex" alignItems="center" gap={1.5} mb={1}>
-                <InfoIcon sx={{ color: '#4085a3' }} />
-                <CustomTextFieldTitle height={24}>{t('UserDetail.About')}</CustomTextFieldTitle>
+                <InfoIcon sx={{ color: theme.palette.primary.main }} />
+                <CustomTextFieldTitle height={24} color={theme.palette.text.primary}>
+                  {t('About')}
+                </CustomTextFieldTitle>
               </Box>
               <Typography
                 variant="body1"
-                sx={{ fontFamily: "'Montserrat', sans-serif", color: '#555', ml: 4.5 }}
+                sx={{
+                  fontFamily: "'Montserrat', sans-serif",
+                  color: theme.palette.text.primary,
+                  ml: 4.5,
+                }}
               >
-                {profileData.description || t('UserDetail.EmptyAbout')}
+                {profileData.description || t('EmptyAbout')}
               </Typography>
             </Grid>
           </Grid>
@@ -354,8 +388,8 @@ function UserDetail({ id }) {
                 onClick={handleEditClick}
                 sx={{
                   minWidth: '220px',
-                  backgroundColor: '#4085a3',
-                  color: '#fff',
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.primary.contrastText,
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   textTransform: 'none',
@@ -363,20 +397,23 @@ function UserDetail({ id }) {
                   borderRadius: '12px',
                   boxShadow: 'none',
                   '&:hover': {
-                    backgroundColor: '#346b82',
-                    boxShadow: '0px 4px 12px rgba(64, 133, 163, 0.2)',
+                    backgroundColor: theme.palette.secondary.main,
+                    boxShadow: `0px 4px 12px ${theme.palette.primary.main}33`,
                   },
                 }}
               >
-                {t('UserDetail.Edit')}
+                {t('Edit')}
               </Button>
             ) : (
               <Typography
                 variant="caption"
-                color="text.secondary"
-                sx={{ fontStyle: 'italic', fontFamily: "'Montserrat', sans-serif" }}
+                sx={{
+                  fontStyle: 'italic',
+                  fontFamily: "'Montserrat', sans-serif",
+                  color: theme.palette.text.secondary,
+                }}
               >
-                {t('UserDetail.OwnerOnly')}
+                {t('OwnerOnly')}
               </Typography>
             )}
           </Box>
@@ -405,19 +442,11 @@ function UserDetail({ id }) {
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         onConfirm={confirmDelete}
-        title={t('UserDetail.DeleteAvatarTitle')}
-        text={t('UserDetail.DeleteAvatarText')}
+        title={t('DeleteAvatarTitle')}
+        text={t('DeleteAvatarText')}
       />
     </Container>
   );
 }
 
 export default UserDetail;
-
-export async function getServerSideProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig)),
-    },
-  };
-}

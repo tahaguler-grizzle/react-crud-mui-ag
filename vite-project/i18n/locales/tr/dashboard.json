@@ -1,0 +1,19 @@
+{
+  "StaffList": "Personel Listesi",
+  "AddUser": "Kullanıcı Ekle",
+  "SearchLabel": "Tabloda ara...",
+  "Columns": {
+    "Member": "Üyelik Durumu",
+    "Actions": "İşlemler"
+  },
+  "Rows": {
+    "Member": "Aktif",
+    "NoMember": "Pasif"
+  },
+  "DeleteConfirm": {
+    "Title": "Silme İşlemi",
+    "Text": "Bu kullanıcıyı silmek istediğinize emin misiniz???",
+    "Success": "Kullanıcı başarıyla silindi!",
+    "Fail": "Silme işlemi başarısız oldu!"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "Name": "İsim",
+  "Surname": "Soyisim",
+  "Username": "Kullanıcı Adı",
+  "Password": "Şifre",
+  "Email": "EMail",
+  "Phone": "Telefon",
+  "Desc": "Açıklama",
+  "Edit": "Düzenle",
+  "Delete": "Sil",
+  "Cancel": "Vazgeç",
+  "Back": "Geri",
+  "Save": "Kaydet",
+  "Active": "Aktif",
+  "Passive": "Pasif"
+}

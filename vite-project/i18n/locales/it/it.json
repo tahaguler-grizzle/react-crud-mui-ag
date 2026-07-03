@@ -71,12 +71,7 @@
     "ErrorEmmtyPhone": "Il numero di telefono è obbligatorio.",
     "ErrorInvalidPhone": "Inserisci un numero di telefono valido (solo cifre, 4-14 cifre).",
     "ErrorEmptyPassword": "Inserisci la password",
-    "ErrorInvalidPassword": "Deve contenere almeno una lettera e una cifra, e avere un minimo di 8 caratteri.",
-    "DepartmentsLoadFail": "Impossibile caricare i dipartimenti",
-    "DepartmentAssignSuccess": "Personale assegnato con successo",
-    "DepartmentAssignFail": "Impossibile assegnare il personale",
-    "DepartmentUnassignSuccess": "Personale rimosso con successo",
-    "DepartmentUnassignFail": "Impossibile rimuovere il personale"
+    "ErrorInvalidPassword": "Deve contenere almeno una lettera e una cifra, e avere un minimo di 8 caratteri."
   },
   "Login": {
     "LoginFail": "Accesso non riuscito!",
@@ -106,7 +101,12 @@
     "UserNotFound": "Utente non trovato.",
     "ErrorWeakPassword": "Deve contenere almeno una lettera e un numero, e avere un minimo di 8 caratteri.",
     "SettingsSaveSuccess": "Impostazioni salvate!",
-    "SettingsSaveFail": "Impossibile salvare le impostazioni!"
+    "SettingsSaveFail": "Impossibile salvare le impostazioni!",
+    "DepartmentsLoadFail": "Impossibile caricare i dipartimenti",
+    "DepartmentAssignSuccess": "Personale assegnato con successo",
+    "DepartmentAssignFail": "Impossibile assegnare il personale",
+    "DepartmentUnassignSuccess": "Personale rimosso con successo",
+    "DepartmentUnassignFail": "Impossibile rimuovere il personale"
   },
   "Settings": {
     "Title": "Impostazioni",

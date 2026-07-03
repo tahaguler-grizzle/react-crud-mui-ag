@@ -41,12 +41,14 @@ import PhonelinkLockIcon from '@mui/icons-material/PhonelinkLock';
 import { useAuth } from '../../context/AuthContext';
 import { fetchUserSettings, updateUserSettings } from '../../api/userService';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'next-i18next/pages';
-import { serverSideTranslations } from 'next-i18next/pages/serverSideTranslations';
-import nextI18NextConfig from '../../../next-i18next.config.js';
+import { useTranslation } from 'react-i18next';
+import { useThemeMode } from '../../context/ThemeModeContext';
+import { useTheme } from '@mui/material/styles';
 
 function Settings() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['settings', 'common']);
+  const { setMode } = useThemeMode();
+  const theme = useTheme();
 
   const TIMEZONES = [
     'UTC',
@@ -67,24 +69,24 @@ function Settings() {
   ];
 
   const DEFAULT_PAGES = [
-    { value: 'Dashboard', label: t('Settings.DefaultPages.Dashboard') },
-    { value: 'Profile', label: t('Settings.DefaultPages.Profile') },
-    { value: 'Raporlar', label: t('Settings.DefaultPages.Reports') },
-    { value: 'Settings', label: t('Settings.DefaultPages.Settings') },
+    { value: 'Dashboard', label: t('DefaultPages.Dashboard') },
+    { value: 'Profile', label: t('DefaultPages.Profile') },
+    { value: 'Raporlar', label: t('DefaultPages.Reports') },
+    { value: 'Settings', label: t('DefaultPages.Settings') },
   ];
 
   const DND_OPTIONS = [
-    { value: 'off', label: t('Settings.DND.Off') },
-    { value: '1h', label: t('Settings.DND.1Hour') },
-    { value: '4h', label: t('Settings.DND.4Hour') },
-    { value: '8h', label: t('Settings.DND.8Hour') },
-    { value: 'always', label: t('Settings.DND.Always') },
+    { value: 'off', label: t('DND.Off') },
+    { value: '1h', label: t('DND.1Hour') },
+    { value: '4h', label: t('DND.4Hour') },
+    { value: '8h', label: t('DND.8Hour') },
+    { value: 'always', label: t('DND.Always') },
   ];
 
   const DATE_FORMATS = [
-    { value: 'DD/MM/YYYY', label: t('Settings.DateFormats.DD/MM/YYYY') },
-    { value: 'MM/DD/YYYY', label: t('Settings.DateFormats.MM/DD/YYYY') },
-    { value: 'YYYY-MM-DD', label: t('Settings.DateFormats.YYYY-MM-DD') },
+    { value: 'DD/MM/YYYY', label: t('DateFormats.DD/MM/YYYY') },
+    { value: 'MM/DD/YYYY', label: t('DateFormats.MM/DD/YYYY') },
+    { value: 'YYYY-MM-DD', label: t('DateFormats.YYYY-MM-DD') },
   ];
 
   const [darkMode, setDarkMode] = useState('light');
@@ -171,6 +173,7 @@ function Settings() {
 
   const handleDarkMode = (_, val) => {
     if (val) setDarkMode(val);
+    setMode(val);
   };
   const handleEmailNotif = (e) => setEmailNotif(e.target.checked);
   const handlePushNotif = (e) => setPushNotif(e.target.checked);
@@ -213,16 +216,17 @@ function Settings() {
         twoFAEmail,
         twoFAAuth,
       });
-      toast.success(t('ToastMessage.SettingsSaveSuccess'));
+      toast.success(t('SettingsSaveSuccess'));
     } catch (error) {
       console.error('Ayarlar Kaydedilemedi: ', error);
-      toast.error(t('ToastMessage.SettingsSaveFail'));
+      toast.error(t('SettingsSaveFail'));
     }
   };
 
   const handleCancel = () => {
     if (!originalSettings) return;
     setDarkMode(originalSettings.darkMode);
+    setMode(originalSettings.darkMode);
     setEmailNotif(originalSettings.emailNotif);
     setPushNotif(originalSettings.pushNotif);
     setDnd(originalSettings.dnd);
@@ -256,23 +260,29 @@ function Settings() {
     <Container maxWidth="lg" sx={{ mt: 4, mb: 6 }}>
       <Typography
         variant="h4"
-        sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, color: '#161d20', mb: 4 }}
+        sx={{
+          fontFamily: "'Montserrat', sans-serif",
+          fontWeight: 700,
+          color: theme.palette.primary.light,
+          mb: 4,
+        }}
       >
-        {t('Settings.Title')}
+        {t('Title')}
       </Typography>
 
       <Card
         elevation={0}
         sx={{
           borderRadius: '24px',
-          border: '1px solid #e0e0e0',
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.03)',
+          border: `1px solid ${theme.palette.divider}`,
+          backgroundColor: theme.palette.background.paper,
+          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.3)',
         }}
       >
         <CardContent sx={{ p: { xs: 3, md: 5 } }}>
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <DarkModeIcon />
               </Box>
               <Typography
@@ -280,10 +290,10 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.DarkMode')}
+                {t('DarkMode')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -299,24 +309,24 @@ function Settings() {
                     fontSize: '0.75rem',
                     textTransform: 'none',
                     px: 2,
-                    border: '1px solid #e0e0e0',
-                    color: '#6b7280',
+                    border: `1px solid ${theme.palette.divider}`,
+                    color: theme.palette.text.secondary,
                     '&.Mui-selected': {
-                      backgroundColor: 'rgb(22, 29, 32)',
-                      color: '#fff',
-                      borderColor: 'rgb(22, 29, 32)',
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.primary.contrastText,
+                      borderColor: theme.palette.primary.main,
                     },
-                    '&.Mui-selected:hover': { backgroundColor: '#346b82' },
+                    '&.Mui-selected:hover': { backgroundColor: theme.palette.primary.dark },
                   },
                 }}
               >
                 <ToggleButton value="light">
                   <LightModeIcon sx={{ fontSize: 15, mr: 0.75 }} />
-                  {t('Settings.Light')}
+                  {t('Light')}
                 </ToggleButton>
                 <ToggleButton value="dark">
                   <DarkModeIcon sx={{ fontSize: 15, mr: 0.75 }} />
-                  {t('Settings.Dark')}
+                  {t('Dark')}
                 </ToggleButton>
               </ToggleButtonGroup>
             </Box>
@@ -324,7 +334,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <SecurityIcon />
               </Box>
               <Typography
@@ -332,10 +342,10 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.2FA.Title')}
+                {t('2FA.Title')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -347,22 +357,22 @@ function Settings() {
                   fontWeight: 600,
                   textTransform: 'none',
                   borderRadius: '10px',
-                  borderColor: 'rgb(22, 29, 32)',
-                  color: 'rgb(22, 29, 32)',
+                  borderColor: theme.palette.primary.main,
+                  color: theme.palette.primary.main,
                   '&:hover': {
-                    borderColor: '#346b82',
-                    backgroundColor: 'rgba(64, 133, 163, 0.05)',
+                    borderColor: theme.palette.primary.light,
+                    backgroundColor: `${theme.palette.primary.main}15`,
                   },
                 }}
               >
-                {t('Settings.2FA.ButtonTitle')}
+                {t('2FA.ButtonTitle')}
               </Button>
             </Box>
           </Box>
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <TimerIcon />
               </Box>
               <Typography
@@ -370,10 +380,10 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.SessionTimeout')}
+                {t('SessionTimeout')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -385,9 +395,9 @@ function Settings() {
                   step={5}
                   onChange={handleSessionTimeout}
                   valueLabelDisplay="auto"
-                  valueLabelFormat={(v) => `${v} ` + t('Settings.TimeoutUnit').charAt(0)}
+                  valueLabelFormat={(v) => `${v} ` + t('TimeoutUnit').charAt(0)}
                   sx={{
-                    color: 'rgb(22, 29, 32)',
+                    color: theme.palette.primary.main,
                     '& .MuiSlider-thumb': { boxShadow: 'none' },
                   }}
                 />
@@ -396,19 +406,19 @@ function Settings() {
                     sx={{
                       fontFamily: "'Montserrat', sans-serif",
                       fontSize: '0.7rem',
-                      color: '#6b7280',
+                      color: theme.palette.text.secondary,
                     }}
                   >
-                    5 {t('Settings.TimeoutUnit').charAt(0)}
+                    5 {t('TimeoutUnit').charAt(0)}
                   </Typography>
                   <Typography
                     sx={{
                       fontFamily: "'Montserrat', sans-serif",
                       fontSize: '0.7rem',
-                      color: '#6b7280',
+                      color: theme.palette.text.secondary,
                     }}
                   >
-                    120 {t('Settings.TimeoutUnit').charAt(0)}
+                    120 {t('TimeoutUnit').charAt(0)}
                   </Typography>
                 </Box>
               </Box>
@@ -417,7 +427,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <EmailIcon />
               </Box>
               <Typography
@@ -425,10 +435,10 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.EmailNotifications')}
+                {t('EmailNotifications')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -436,9 +446,9 @@ function Settings() {
                 checked={emailNotif}
                 onChange={handleEmailNotif}
                 sx={{
-                  '& .MuiSwitch-switchBase.Mui-checked': { color: 'rgb(22, 29, 32)' },
+                  '& .MuiSwitch-switchBase.Mui-checked': { color: theme.palette.primary.main },
                   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    backgroundColor: 'rgb(22, 29, 32)',
+                    backgroundColor: theme.palette.primary.main,
                   },
                 }}
               />
@@ -447,7 +457,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <NotificationsActiveIcon />
               </Box>
               <Typography
@@ -455,10 +465,10 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.PushNotifications')}
+                {t('PushNotifications')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -466,27 +476,18 @@ function Settings() {
                 checked={pushNotif}
                 onChange={handlePushNotif}
                 sx={{
-                  '& .MuiSwitch-switchBase.Mui-checked': { color: 'rgb(22, 29, 32)' },
+                  '& .MuiSwitch-switchBase.Mui-checked': { color: theme.palette.primary.main },
                   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    backgroundColor: 'rgb(22, 29, 32)',
+                    backgroundColor: theme.palette.primary.main,
                   },
                 }}
               />
-
-              {/* 
-              <Checkbox
-                checked={soundEffects}
-                onChange={handleSoundEffects}
-                sx={{ color: '#c0c0c0', '&.Mui-checked': { color: 'rgb(22, 29, 32)' } }}
-              
-              />
-              */}
             </Box>
           </Box>
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <DoNotDisturbOnIcon />
               </Box>
               <Typography
@@ -494,16 +495,22 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.DND.Title')}
+                {t('DND.Title')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
               <FormControl size="small" sx={{ minWidth: 165 }}>
-                <InputLabel sx={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.875rem' }}>
-                  {t('Settings.DND.DNDDuration')}
+                <InputLabel
+                  sx={{
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontSize: '0.875rem',
+                    color: theme.palette.text.secondary,
+                  }}
+                >
+                  {t('DND.DNDDuration')}
                 </InputLabel>
                 <Select
                   value={dnd}
@@ -513,6 +520,16 @@ function Settings() {
                     fontFamily: "'Montserrat', sans-serif",
                     borderRadius: '10px',
                     fontSize: '0.875rem',
+                    color: theme.palette.text.primary,
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.divider,
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.primary.main,
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.primary.main,
+                    },
                   }}
                 >
                   {DND_OPTIONS.map((opt) => (
@@ -531,7 +548,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <HomeIcon />
               </Box>
               <Typography
@@ -539,16 +556,22 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.DefaultPage')}
+                {t('DefaultPage')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
               <FormControl size="small" sx={{ minWidth: 165 }}>
-                <InputLabel sx={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.875rem' }}>
-                  {t('Settings.Page')}
+                <InputLabel
+                  sx={{
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontSize: '0.875rem',
+                    color: theme.palette.text.secondary,
+                  }}
+                >
+                  {t('Page')}
                 </InputLabel>
                 <Select
                   value={defaultPage}
@@ -558,6 +581,16 @@ function Settings() {
                     fontFamily: "'Montserrat', sans-serif",
                     borderRadius: '10px',
                     fontSize: '0.875rem',
+                    color: theme.palette.text.primary,
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.divider,
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.primary.main,
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: theme.palette.primary.main,
+                    },
                   }}
                 >
                   {DEFAULT_PAGES.map((page) => (
@@ -576,7 +609,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <PublicIcon />
               </Box>
               <Typography
@@ -584,10 +617,10 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.TimeZone')}
+                {t('TimeZone')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -600,16 +633,27 @@ function Settings() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label={t('Settings.TimeZone')}
+                    label={t('TimeZone')}
                     sx={{
                       '& .MuiInputBase-root': {
                         borderRadius: '10px',
                         fontFamily: "'Montserrat', sans-serif",
                         fontSize: '0.875rem',
+                        color: theme.palette.text.primary,
                       },
                       '& .MuiInputLabel-root': {
                         fontFamily: "'Montserrat', sans-serif",
                         fontSize: '0.875rem',
+                        color: theme.palette.text.secondary,
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: theme.palette.divider,
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: theme.palette.primary.main,
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: theme.palette.primary.main,
                       },
                     }}
                   />
@@ -623,7 +667,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <CalendarMonthIcon />
               </Box>
               <Typography
@@ -631,10 +675,10 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.DateFormat')}
+                {t('DateFormat')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -646,7 +690,10 @@ function Settings() {
                     control={
                       <Radio
                         size="small"
-                        sx={{ color: '#c0c0c0', '&.Mui-checked': { color: 'rgb(22, 29, 32)' } }}
+                        sx={{
+                          color: theme.palette.text.secondary,
+                          '&.Mui-checked': { color: theme.palette.primary.main },
+                        }}
                       />
                     }
                     label={
@@ -654,7 +701,7 @@ function Settings() {
                         sx={{
                           fontFamily: "'Montserrat', sans-serif",
                           fontSize: '0.8rem',
-                          color: '#161d20',
+                          color: theme.palette.text.primary,
                         }}
                       >
                         {fmt.label}
@@ -668,7 +715,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <VolumeUpIcon />
               </Box>
               <Typography
@@ -676,17 +723,20 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.SoundEffects')}
+                {t('SoundEffects')}
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
               <Checkbox
                 checked={soundEffects}
                 onChange={handleSoundEffects}
-                sx={{ color: '#c0c0c0', '&.Mui-checked': { color: 'rgb(22, 29, 32)' } }}
+                sx={{
+                  color: theme.palette.text.secondary,
+                  '&.Mui-checked': { color: theme.palette.primary.main },
+                }}
               />
             </Box>
           </Box>
@@ -703,26 +753,27 @@ function Settings() {
                 textTransform: 'none',
                 padding: '10px 24px',
                 borderRadius: '12px',
-                borderColor: 'rgb(22, 29, 32)',
-                color: 'rgb(22, 29, 32)',
+                borderColor: theme.palette.primary.main,
+                color: theme.palette.primary.main,
                 '&.Mui-disabled': {
-                  borderColor: '#e0e0e0',
+                  borderColor: theme.palette.divider,
+                  color: theme.palette.text.secondary,
                 },
                 '&:hover': {
-                  borderColor: '#346b82',
-                  backgroundColor: 'rgba(64, 133, 163, 0.05)',
+                  borderColor: theme.palette.primary.light,
+                  backgroundColor: `${theme.palette.primary.main}15`,
                 },
               }}
             >
-              {t('Cancel')}
+              {t('Cancel', { ns: 'common' })}
             </Button>
             <Button
               variant="contained"
               onClick={handleSave}
               sx={{
                 minWidth: '120px',
-                backgroundColor: 'rgb(22, 29, 32)',
-                color: '#fff',
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 600,
                 textTransform: 'none',
@@ -730,12 +781,12 @@ function Settings() {
                 borderRadius: '12px',
                 boxShadow: 'none',
                 '&:hover': {
-                  backgroundColor: '#346b82',
-                  boxShadow: '0px 4px 12px rgba(64, 133, 163, 0.2)',
+                  backgroundColor: theme.palette.primary.dark,
+                  boxShadow: `0px 4px 12px ${theme.palette.primary.main}30`,
                 },
               }}
             >
-              {t('Save')}
+              {t('Save', { ns: 'common' })}
             </Button>
           </Box>
         </CardContent>
@@ -747,24 +798,24 @@ function Settings() {
         maxWidth="xs"
         fullWidth
         PaperProps={{
-          sx: { borderRadius: '20px', p: 1 },
+          sx: { borderRadius: '20px', p: 1, backgroundColor: theme.palette.background.paper },
         }}
       >
         <DialogTitle
           sx={{
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 700,
-            color: '#161d20',
+            color: theme.palette.text.primary,
             pb: 0.5,
           }}
         >
-          {t('Settings.2FA.Title')}
+          {t('2FA.Title')}
         </DialogTitle>
 
         <DialogContent>
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <MessageIcon />
               </Box>
               <Typography
@@ -772,19 +823,19 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.2FA.SMS')}
+                {t('2FA.SMS')}
               </Typography>
             </Box>
             <Switch
               checked={tempTwoFASms}
               onChange={(e) => setTempTwoFASms(e.target.checked)}
               sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': { color: 'rgb(22, 29, 32)' },
+                '& .MuiSwitch-switchBase.Mui-checked': { color: theme.palette.primary.main },
                 '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                  backgroundColor: 'rgb(22, 29, 32)',
+                  backgroundColor: theme.palette.primary.main,
                 },
               }}
             />
@@ -792,7 +843,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <EmailIcon />
               </Box>
               <Typography
@@ -800,19 +851,19 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Email')}
+                {t('Email', { ns: 'common' })}
               </Typography>
             </Box>
             <Switch
               checked={tempTwoFAEmail}
               onChange={(e) => setTempTwoFAEmail(e.target.checked)}
               sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': { color: 'rgb(22, 29, 32)' },
+                '& .MuiSwitch-switchBase.Mui-checked': { color: theme.palette.primary.main },
                 '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                  backgroundColor: 'rgb(22, 29, 32)',
+                  backgroundColor: theme.palette.primary.main,
                 },
               }}
             />
@@ -820,7 +871,7 @@ function Settings() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <PhonelinkLockIcon />
               </Box>
               <Typography
@@ -828,10 +879,10 @@ function Settings() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Settings.2FA.AuthApp')}
+                {t('2FA.AuthApp')}
               </Typography>
             </Box>
 
@@ -839,9 +890,9 @@ function Settings() {
               checked={tempTwoFAAuth}
               onChange={(e) => setTempTwoFAAuth(e.target.checked)}
               sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': { color: 'rgb(22, 29, 32)' },
+                '& .MuiSwitch-switchBase.Mui-checked': { color: theme.palette.primary.main },
                 '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                  backgroundColor: 'rgb(22, 29, 32)',
+                  backgroundColor: theme.palette.primary.main,
                 },
               }}
             />
@@ -855,39 +906,31 @@ function Settings() {
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 600,
               textTransform: 'none',
-              color: '#6b7280',
+              color: theme.palette.text.secondary,
               borderRadius: '10px',
             }}
           >
-            {t('Cancel')}
+            {t('Cancel', { ns: 'common' })}
           </Button>
           <Button
             variant="contained"
             onClick={saveTwoFA}
             sx={{
-              backgroundColor: 'rgb(22, 29, 32)',
+              backgroundColor: theme.palette.primary.main,
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 600,
               textTransform: 'none',
               borderRadius: '10px',
               boxShadow: 'none',
-              '&:hover': { backgroundColor: '#346b82', boxShadow: 'none' },
+              '&:hover': { backgroundColor: theme.palette.primary.dark, boxShadow: 'none' },
             }}
           >
-            {t('Save')}
+            {t('Save', { ns: 'common' })}
           </Button>
         </DialogActions>
       </Dialog>
     </Container>
   );
-}
-
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig)),
-    },
-  };
 }
 
 export default Settings;

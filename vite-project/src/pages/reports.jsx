@@ -10,7 +10,6 @@ import {
   Button,
   Chip,
   Divider,
-  useTheme,
   useMediaQuery,
   FormControl,
   RadioGroup,
@@ -23,9 +22,9 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import GroupIcon from '@mui/icons-material/Group';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { fetchUsers } from '../api/userService';
-import { useTranslation } from 'next-i18next/pages';
-import { serverSideTranslations } from 'next-i18next/pages/serverSideTranslations';
-import nextI18NextConfig from '../../next-i18next.config.js';
+import { useTranslation } from 'react-i18next';
+import { useTheme, alpha } from '@mui/material/styles';
+
 import {
   AG_GRID_LOCALE_EN,
   AG_GRID_LOCALE_TR,
@@ -36,7 +35,7 @@ import {
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 function Reports() {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(['reports', 'common']);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -120,7 +119,7 @@ function Reports() {
       },
       {
         field: 'isActive',
-        headerValueGetter: () => t('Reports.Status'),
+        headerValueGetter: () => t('Status', { ns: 'reports' }),
         flex: 1,
         minWidth: 120,
         cellRenderer: (params) => (
@@ -149,7 +148,6 @@ function Reports() {
 
       let dataToExport = users;
       if (pdfScope === 'grid' && gridApi) {
-        console.log('inside down pdf');
         const filteredData = [];
 
         const currentPage = gridApi.paginationGetCurrentPage();
@@ -167,7 +165,6 @@ function Reports() {
           currentIndex++;
         });
 
-        console.log(filteredData);
         dataToExport = filteredData;
       }
 
@@ -175,19 +172,19 @@ function Reports() {
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(20);
-      doc.setTextColor(22, 29, 32);
-      doc.text('User Report', 14, 20);
+      doc.setTextColor(110, 144, 196);
+      doc.text(t('Title', { ns: 'reports' }), 14, 20);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
-      doc.setTextColor(107, 114, 128);
+      doc.setTextColor(138, 159, 184);
       const now = new Date().toLocaleString('tr-TR');
       doc.text(`Generated: ${now}`, 14, 28);
 
       doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(22, 29, 32);
-      doc.text(`Total Users: ${dataToExport.length}`, 14, 40);
+      doc.setTextColor(110, 144, 196);
+      doc.text(`${t('TotalUsers', { ns: 'reports' })}: ${dataToExport.length}`, 14, 40);
       doc.setTextColor(34, 197, 94);
       doc.text(`${t('Active')}: ${dataToExport.filter((u) => u.isActive).length}`, 70, 40);
       doc.setTextColor(239, 68, 68);
@@ -203,7 +200,7 @@ function Reports() {
             t('Username'),
             t('Email'),
             t('Phone'),
-            t('Reports.Status'),
+            t('Status', { ns: 'reports' }),
           ],
         ],
         body: dataToExport.map((u) => [
@@ -216,8 +213,8 @@ function Reports() {
           u.isActive ? t('Active') : t('Passive'),
         ]),
         headStyles: {
-          fillColor: [22, 29, 32],
-          textColor: 255,
+          fillColor: [110, 144, 196],
+          textColor: 245,
           fontStyle: 'bold',
           fontSize: 9,
         },
@@ -243,17 +240,24 @@ function Reports() {
     <Container maxWidth="lg" sx={{ mt: 4, mb: 6 }}>
       <Typography
         variant="h4"
-        sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, color: '#161d20', mb: 4 }}
+        sx={{
+          fontFamily: "'Montserrat', sans-serif",
+          fontWeight: 700,
+          color: theme.palette.text.primary,
+          mb: 4,
+        }}
       >
-        {t('Reports.Title')}
+        {t('Title', { ns: 'reports' })}
       </Typography>
 
       <Card
         elevation={0}
         sx={{
           borderRadius: '24px',
-          border: '1px solid #e0e0e0',
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.03)',
+          backgroundColor: theme.palette.background.paper,
+          borderColor: theme.palette.divider,
+          border: `1px solid ${theme.palette.divider}`,
+          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.15)',
           mb: 3,
         }}
       >
@@ -267,7 +271,7 @@ function Reports() {
             mb={3}
           >
             <Box display="flex" alignItems="center" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)' }}>
+              <Box sx={{ color: theme.palette.primary.main }}>
                 <AssessmentIcon />
               </Box>
               <Typography
@@ -275,10 +279,10 @@ function Reports() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 700,
                   fontSize: '1rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Reports.UserSummary')}
+                {t('UserSummary', { ns: 'reports' })}
               </Typography>
             </Box>
             <Box
@@ -299,7 +303,7 @@ function Reports() {
                       fontFamily: "'Montserrat', sans-serif",
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#161d20',
+                      color: theme.palette.text.primary,
                     },
                   }}
                 >
@@ -308,20 +312,26 @@ function Reports() {
                     control={
                       <Radio
                         size="small"
-                        sx={{ color: '#161d20', '&.Mui-checked': { color: '#161d20' } }}
+                        sx={{
+                          color: theme.palette.primary.main,
+                          '&.Mui-checked': { color: theme.palette.primary.main },
+                        }}
                       />
                     }
-                    label={t('Reports.DownloadAll')}
+                    label={t('DownloadAll', { ns: 'reports' })}
                   />
                   <FormControlLabel
                     value="grid"
                     control={
                       <Radio
                         size="small"
-                        sx={{ color: '#161d20', '&.Mui-checked': { color: '#161d20' } }}
+                        sx={{
+                          color: theme.palette.primary.main,
+                          '&.Mui-checked': { color: theme.palette.primary.main },
+                        }}
                       />
                     }
-                    label={t('Reports.DownloadGridOnly')}
+                    label={t('DownloadGridOnly', { ns: 'reports' })}
                   />
                 </RadioGroup>
               </FormControl>
@@ -330,8 +340,8 @@ function Reports() {
                 onClick={handleDownloadPDF}
                 startIcon={<DownloadIcon />}
                 sx={{
-                  backgroundColor: 'rgb(22, 29, 32)',
-                  color: '#fff',
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.primary.contrastText,
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   textTransform: 'none',
@@ -339,25 +349,25 @@ function Reports() {
                   borderRadius: '12px',
                   boxShadow: 'none',
                   '&:hover': {
-                    backgroundColor: '#346b82',
-                    boxShadow: '0px 4px 12px rgba(64, 133, 163, 0.2)',
+                    backgroundColor: theme.palette.secondary.light,
+                    boxShadow: `0px 4px 12px ${alpha(theme.palette.secondary.main, 0.2)}`,
                   },
                   '&.Mui-disabled': {
-                    backgroundColor: '#e0e0e0',
-                    color: '#9e9e9e',
+                    backgroundColor: theme.palette.action.disabledBackground,
+                    color: theme.palette.action.disabled,
                   },
                 }}
               >
-                {t('Reports.DownloadPdf')}
+                {t('DownloadPdf', { ns: 'reports' })}
               </Button>
             </Box>
           </Box>
 
-          <Divider sx={{ mb: 3, borderColor: '#f0f0f0' }} />
+          <Divider sx={{ mb: 3, borderColor: theme.palette.divider }} />
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: 'rgb(22, 29, 32)', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.primary.main, mt: 0.3, flexShrink: 0 }}>
                 <GroupIcon />
               </Box>
               <Typography
@@ -365,10 +375,10 @@ function Reports() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Reports.TotalUsers')}
+                {t('TotalUsers', { ns: 'reports' })}
               </Typography>
             </Box>
             <Typography
@@ -376,7 +386,7 @@ function Reports() {
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 700,
                 fontSize: '1.35rem',
-                color: '#161d20',
+                color: theme.palette.primary.main,
               }}
             >
               {users.length}
@@ -385,7 +395,7 @@ function Reports() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: '#22c55e', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.success.main, mt: 0.3, flexShrink: 0 }}>
                 <CheckCircleOutlineIcon />
               </Box>
               <Typography
@@ -393,10 +403,10 @@ function Reports() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Reports.ActiveUsers')}
+                {t('ActiveUsers', { ns: 'reports' })}
               </Typography>
             </Box>
             <Box display="flex" alignItems="center" gap={1.5}>
@@ -405,7 +415,7 @@ function Reports() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 700,
                   fontSize: '1.35rem',
-                  color: '#22c55e',
+                  color: theme.palette.success.main,
                 }}
               >
                 {activeCount}
@@ -415,7 +425,7 @@ function Reports() {
 
           <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} py={2.25}>
             <Box display="flex" alignItems="flex-start" gap={2}>
-              <Box sx={{ color: '#ef4444', mt: 0.3, flexShrink: 0 }}>
+              <Box sx={{ color: theme.palette.error.main, mt: 0.3, flexShrink: 0 }}>
                 <CancelOutlinedIcon />
               </Box>
               <Typography
@@ -423,10 +433,10 @@ function Reports() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   fontSize: '0.925rem',
-                  color: '#161d20',
+                  color: theme.palette.text.primary,
                 }}
               >
-                {t('Reports.PassiveUsers')}
+                {t('PassiveUsers', { ns: 'reports' })}
               </Typography>
             </Box>
             <Box display="flex" alignItems="center" gap={1.5}>
@@ -435,7 +445,7 @@ function Reports() {
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 700,
                   fontSize: '1.35rem',
-                  color: '#ef4444',
+                  color: theme.palette.error.main,
                 }}
               >
                 {passiveCount}
@@ -449,13 +459,15 @@ function Reports() {
         elevation={0}
         sx={{
           borderRadius: '24px',
-          border: '1px solid #e0e0e0',
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.03)',
+          backgroundColor: theme.palette.background.paper,
+          borderColor: theme.palette.divider,
+          border: `1px solid ${theme.palette.divider}`,
+          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.15)',
         }}
       >
         <CardContent sx={{ p: { xs: 3, md: 5 } }}>
           <Box display="flex" alignItems="center" gap={2} mb={3}>
-            <Box sx={{ color: 'rgb(22, 29, 32)' }}>
+            <Box sx={{ color: theme.palette.primary.main }}>
               <GroupIcon />
             </Box>
             <Typography
@@ -463,10 +475,10 @@ function Reports() {
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 700,
                 fontSize: '1rem',
-                color: '#161d20',
+                color: theme.palette.text.primary,
               }}
             >
-              {t('Reports.AllUsers')}
+              {t('AllUsers', { ns: 'reports' })}
             </Typography>
           </Box>
 
@@ -489,11 +501,3 @@ function Reports() {
 }
 
 export default Reports;
-
-export async function getServerSideProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig)),
-    },
-  };
-}

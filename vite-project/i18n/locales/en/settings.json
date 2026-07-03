@@ -1,0 +1,44 @@
+{
+  "Title": "Settings",
+  "DarkMode": "Dark Theme",
+  "Dark": "Dark",
+  "Light": "Light",
+  "SessionTimeout": "Session Timeout",
+  "TimeoutUnit": "minute",
+  "EmailNotifications": "Email Notifications",
+  "PushNotifications": "Push Notifications",
+  "DefaultPage": "Default Page",
+  "Page": "Page",
+  "TimeZone": "Time Zone",
+  "DateFormat": "Date Format",
+  "SoundEffects": "Sound Effects",
+  "2FA": {
+    "Title": "Two Factor Authentication",
+    "ButtonTitle": "Configure",
+    "SMS": "SMS",
+    "AuthApp": "Authentication App"
+  },
+  "DefaultPages": {
+    "Dashboard": "Dashboard",
+    "Profile": "Profile",
+    "Reports": "Reports",
+    "Settings": "Settings"
+  },
+  "DND": {
+    "Title": "Do Not Disturb",
+    "DNDDuration": "DND Duration",
+    "Off": "Off",
+    "1Hour": "1 Hour",
+    "4Hour": "4 Hours",
+    "8Hour": "8 Hours",
+    "Always": "Always"
+  },
+  "DateFormats": {
+    "Title": "Time Format",
+    "DD/MM/YYYY": "DD/MM/YYYY",
+    "MM/DD/YYYY": "MM/DD/YYYY",
+    "YYYY-MM-DD": "YYYY-MM-DD"
+  },
+  "SettingsSaveSuccess": "Settings saved!",
+  "SettingsSaveFail": "Settings could not be saved!"
+}

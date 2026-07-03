@@ -4,7 +4,7 @@ export const CommonTextFieldSx = {
   },
   '& .MuiOutlinedInput-root': {
     '&.Mui-focused fieldset': {
-      borderColor: '#161d20',
+      borderColor: '#4085a3',
     },
   },
   '& .MuiInputBase-input': {
@@ -12,5 +12,5 @@ export const CommonTextFieldSx = {
   },
   '& .MuiInputLabel-root': {
     fontFamily: "'Montserrat', sans-serif",
-  }
+  },
 };

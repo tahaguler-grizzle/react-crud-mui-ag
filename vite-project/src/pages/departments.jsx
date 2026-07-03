@@ -28,13 +28,13 @@ import {
   TextField,
 } from '@mui/material';
 import { createFilterOptions } from '@mui/material/Autocomplete';
+import { useTheme, alpha } from '@mui/material/styles';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'next-i18next/pages';
-import { serverSideTranslations } from 'next-i18next/pages/serverSideTranslations';
-import nextI18NextConfig from '../../next-i18next.config.js';
+import { useTranslation } from 'react-i18next';
+
 import {
   fetchUsers,
   fetchDepartments,
@@ -46,22 +46,23 @@ import { COUNTRY_CODES, parsePhoneNumber } from '../components/custom/GlobalPhon
 import CustomDialogTitle from '../components/custom/CustomDialogTitle';
 
 const filterOptions = createFilterOptions({
-  limit: undefined, // Opsiyonel limit seçeneği ile autocompletedeki max user sayısı seçilebilir. "undefined" sınır yok demek
+  limit: undefined,
   stringify: (option) => `${option.name} ${option.surname} ${option.phone}`,
 });
 
 function Departments() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['departments', 'common']);
+  const theme = useTheme();
 
   const DEPARTMENTS = [
-    { value: 'Operation', label: t('Departments.Operation') },
-    { value: 'IT', label: t('Departments.IT') },
-    { value: 'HR', label: t('Departments.HR') },
-    { value: 'Software', label: t('Departments.Software') },
-    { value: 'Sales', label: t('Departments.Sales') },
-    { value: 'Marketing', label: t('Departments.Marketing') },
-    { value: 'Accounting', label: t('Departments.Accounting') },
-    { value: 'CustomerSupport', label: t('Departments.CustomerSupport') },
+    { value: 'Operation', label: t('Operation') },
+    { value: 'IT', label: t('IT') },
+    { value: 'HR', label: t('HR') },
+    { value: 'Software', label: t('Software') },
+    { value: 'Sales', label: t('Sales') },
+    { value: 'Marketing', label: t('Marketing') },
+    { value: 'Accounting', label: t('Accounting') },
+    { value: 'CustomerSupport', label: t('CustomerSupport') },
   ];
 
   const [departments, setDepartments] = useState([]);
@@ -94,7 +95,7 @@ function Departments() {
       setAllUsers(userData);
     } catch (error) {
       console.error(error);
-      toast.error(t('ToastMessage.DepartmentsLoadFail'));
+      toast.error(t('DepartmentsLoadFail'));
     }
   };
 
@@ -210,11 +211,11 @@ function Departments() {
       setDepartments((prev) =>
         prev.map((d) => (d.department_name === assignDept ? updatedDept : d))
       );
-      toast.success(t('ToastMessage.DepartmentAssignSuccess'));
+      toast.success(t('DepartmentAssignSuccess'));
       closeAssignDialog();
     } catch (error) {
       console.error(error);
-      toast.error(t('ToastMessage.DepartmentAssignFail'));
+      toast.error(t('DepartmentAssignFail'));
     }
   };
 
@@ -247,10 +248,10 @@ function Departments() {
         staff: newStaff,
       });
       setDepartments((prev) => prev.map((d) => (d.id === dept.id ? { ...d, staff: newStaff } : d)));
-      toast.success(t('ToastMessage.DepartmentUnassignSuccess'));
+      toast.success(t('DepartmentUnassignSuccess'));
     } catch (error) {
       console.error(error);
-      toast.error(t('ToastMessage.DepartmentUnassignFail'));
+      toast.error(t('DepartmentUnassignFail'));
     } finally {
       closeDeleteDialog();
     }
@@ -261,17 +262,21 @@ function Departments() {
       <Box display="flex" alignItems="center" justifyContent="space-between" mb={4}>
         <Typography
           variant="h4"
-          sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, color: '#161d20' }}
+          sx={{
+            fontFamily: "'Montserrat', sans-serif",
+            fontWeight: 700,
+            color: theme.palette.text.primary,
+          }}
         >
-          {t('Departments.Title')}
+          {t('Title')}
         </Typography>
         <Button
           variant="contained"
           startIcon={<PersonAddAlt1Icon />}
           onClick={openAssignDialog}
           sx={{
-            backgroundColor: 'rgb(22, 29, 32)',
-            color: '#fff',
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 600,
             textTransform: 'none',
@@ -279,12 +284,12 @@ function Departments() {
             borderRadius: '12px',
             boxShadow: 'none',
             '&:hover': {
-              backgroundColor: '#346b82',
-              boxShadow: '0px 4px 12px rgba(64, 133, 163, 0.2)',
+              backgroundColor: theme.palette.secondary.light,
+              boxShadow: `0px 4px 12px ${alpha(theme.palette.secondary.main, 0.2)}`,
             },
           }}
         >
-          {t('Departments.Assign')}
+          {t('Assign')}
         </Button>
       </Box>
 
@@ -292,9 +297,9 @@ function Departments() {
         elevation={0}
         sx={{
           borderRadius: '24px',
-          border: '1px solid #e0e0e0',
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.03)',
-          bgcolor: '#fafafa',
+          border: `1px solid ${theme.palette.divider}`,
+          boxShadow: `0px 4px 20px ${alpha(theme.palette.common.black, 0.03)}`,
+          bgcolor: theme.palette.background.subtle,
         }}
       >
         <CardContent sx={{ p: { xs: 3, md: 5 } }}>
@@ -307,12 +312,12 @@ function Departments() {
               <Box
                 key={dept.department_name}
                 sx={{
-                  border: '1px solid #e0e0e0',
+                  border: `1px solid ${theme.palette.divider}`,
                   borderRadius: '14px',
                   mb: 2,
                   overflow: 'hidden',
                   '&:last-of-type': { mb: 0 },
-                  bgcolor: '#fff',
+                  bgcolor: theme.palette.background.paper,
                 }}
               >
                 <Box
@@ -324,8 +329,8 @@ function Departments() {
                     px: 2.5,
                     py: 2,
                     cursor: 'pointer',
-                    backgroundColor: '#f0f0f0',
-                    '&:hover': { backgroundColor: 'rgba(22, 29, 32, 0.03)' },
+                    backgroundColor: theme.palette.grey[50],
+                    '&:hover': { backgroundColor: theme.palette.grey[200] },
                   }}
                 >
                   <Box display="flex" alignItems="center" gap={2}>
@@ -334,7 +339,7 @@ function Departments() {
                         fontFamily: "'Montserrat', sans-serif",
                         fontWeight: 600,
                         fontSize: '0.925rem',
-                        color: '#161d20',
+                        color: theme.palette.text.primary,
                       }}
                     >
                       {displayLabel}
@@ -346,8 +351,8 @@ function Departments() {
                         fontFamily: "'Montserrat', sans-serif",
                         fontWeight: 600,
                         fontSize: '0.7rem',
-                        backgroundColor: 'rgba(22, 29, 32, 0.06)',
-                        color: 'rgb(22, 29, 32)',
+                        backgroundColor: alpha(theme.palette.secondary.dark),
+                        color: theme.palette.secondary.main,
                       }}
                     />
                   </Box>
@@ -358,22 +363,22 @@ function Departments() {
                       transition: 'transform 0.2s',
                     }}
                   >
-                    <KeyboardArrowDownIcon sx={{ color: 'rgb(22, 29, 32)' }} />
+                    <KeyboardArrowDownIcon sx={{ color: theme.palette.primary.main }} />
                   </IconButton>
                 </Box>
 
                 <Collapse in={isOpen} timeout="auto" unmountOnExit>
                   <Divider />
                   {dept.staff.length === 0 ? (
-                    <Box sx={{ p: 3, textAlign: 'center' }}>
+                    <Box sx={{ p: 3, textAlign: 'center', bgcolor: theme.palette.grey[100] }}>
                       <Typography
                         sx={{
                           fontFamily: "'Montserrat', sans-serif",
                           fontSize: '0.85rem',
-                          color: '#6b7280',
+                          color: theme.palette.text.secondary,
                         }}
                       >
-                        {t('Departments.Empty')}
+                        {t('Empty')}
                       </Typography>
                     </Box>
                   ) : (
@@ -385,49 +390,64 @@ function Departments() {
                               sx={{
                                 fontFamily: "'Montserrat', sans-serif",
                                 fontWeight: 700,
-                                bgcolor: '#e6e6e6',
+                                bgcolor: theme.palette.grey[200],
                               }}
                             >
-                              {t('Name')}
+                              {t('Name', { ns: 'common' })}
                             </TableCell>
                             <TableCell
                               sx={{
                                 fontFamily: "'Montserrat', sans-serif",
                                 fontWeight: 700,
-                                bgcolor: '#e6e6e6',
+                                bgcolor: theme.palette.grey[200],
                               }}
                             >
-                              {t('Surname')}
+                              {t('Surname', { ns: 'common' })}
                             </TableCell>
                             <TableCell
                               sx={{
                                 fontFamily: "'Montserrat', sans-serif",
                                 fontWeight: 700,
-                                bgcolor: '#e6e6e6',
+                                bgcolor: theme.palette.grey[200],
                               }}
                             >
-                              {t('Phone')}
+                              {t('Phone', { ns: 'common' })}
                             </TableCell>
-                            <TableCell sx={{ bgcolor: '#e6e6e6' }} align="right" />
+                            <TableCell sx={{ bgcolor: theme.palette.grey[200] }} align="right" />
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           {dept.staff.map((staff) => (
                             <TableRow key={staff.id} hover>
-                              <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                              <TableCell
+                                sx={{
+                                  fontFamily: "'Montserrat', sans-serif",
+                                  bgcolor: theme.palette.grey[100],
+                                }}
+                              >
                                 {staff.name}
                               </TableCell>
-                              <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                              <TableCell
+                                sx={{
+                                  fontFamily: "'Montserrat', sans-serif",
+                                  bgcolor: theme.palette.grey[100],
+                                }}
+                              >
                                 {staff.surname}
                               </TableCell>
-                              <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                              <TableCell
+                                sx={{
+                                  fontFamily: "'Montserrat', sans-serif",
+                                  bgcolor: theme.palette.grey[100],
+                                }}
+                              >
                                 {staff.phone}
                               </TableCell>
-                              <TableCell align="right">
+                              <TableCell align="right" sx={{ bgcolor: theme.palette.grey[100] }}>
                                 <IconButton
                                   size="small"
                                   onClick={() => requestUnassign(dept, staff)}
-                                  sx={{ color: 'rgb(211, 47, 47)' }}
+                                  sx={{ color: theme.palette.error.main }}
                                 >
                                   <CloseIcon fontSize="small" />
                                 </IconButton>
@@ -450,28 +470,30 @@ function Departments() {
         onClose={closeAssignDialog}
         maxWidth="sm"
         fullWidth
-        PaperProps={{ sx: { borderRadius: '20px', p: 1.5 } }}
+        PaperProps={{
+          sx: { borderRadius: '20px', p: 1.5, bgcolor: theme.palette.background.subtle },
+        }}
       >
         <DialogTitle
           sx={{
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 700,
-            color: '#161d20',
+            color: theme.palette.text.primary,
             pt: 2,
             px: 3,
           }}
         >
-          {t('Departments.AssignDialogTitle')}
+          {t('AssignDialogTitle')}
         </DialogTitle>
 
         <DialogContent sx={{ px: 3, py: 1 }}>
           <FormControl fullWidth size="small" sx={{ mt: 1.5, mb: 3 }}>
             <InputLabel sx={{ fontFamily: "'Montserrat', sans-serif" }}>
-              {t('Departments.Department')}
+              {t('Department')}
             </InputLabel>
             <Select
               value={assignDept}
-              label={t('Departments.Department')}
+              label={t('Department')}
               onChange={handleAssignDeptChange}
               sx={{ fontFamily: "'Montserrat', sans-serif" }}
             >
@@ -518,7 +540,7 @@ function Departments() {
                     sx={{
                       fontFamily: "'Montserrat', sans-serif",
                       fontSize: '0.75rem',
-                      color: '#6b7280',
+                      color: theme.palette.text.secondary,
                     }}
                   >
                     {option.phone}
@@ -529,8 +551,8 @@ function Departments() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={t('Departments.SelectUser')}
-                placeholder={t('Departments.SearchUser')}
+                label={t('SelectUser')}
+                placeholder={t('SearchUser')}
                 sx={{
                   '& .MuiInputBase-root': { fontFamily: "'Montserrat', sans-serif" },
                   '& .MuiInputLabel-root': { fontFamily: "'Montserrat', sans-serif" },
@@ -543,7 +565,7 @@ function Departments() {
           <TextField
             fullWidth
             size="small"
-            label={t('Name')}
+            label={t('Name', { ns: 'common' })}
             value={assignName}
             onChange={(e) => setAssignName(e.target.value)}
             disabled={!assignUser}
@@ -557,7 +579,7 @@ function Departments() {
           <TextField
             fullWidth
             size="small"
-            label={t('Surname')}
+            label={t('Surname', { ns: 'common' })}
             value={assignSurname}
             onChange={(e) => setAssignSurname(e.target.value)}
             disabled={!assignUser}
@@ -584,7 +606,7 @@ function Departments() {
                       style={{
                         fontFamily: "'Montserrat', sans-serif",
                         fontSize: '0.8rem',
-                        color: '#000000',
+                        color: theme.palette.text.primary,
                       }}
                     >
                       {selected}
@@ -596,15 +618,15 @@ function Departments() {
                 minWidth: 110,
                 flexShrink: 0,
                 fontFamily: "'Montserrat', sans-serif",
-                backgroundColor: '#fff',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(0,0,0,0.23)',
-                },
+                //backgroundColor: theme.palette.background.paper,
+                /* '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: theme.palette.divider,
+                }, */
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#161d20',
+                  borderColor: theme.palette.primary.main,
                 },
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#161d20',
+                  borderColor: theme.palette.primary.main,
                 },
               }}
               MenuProps={{
@@ -630,7 +652,7 @@ function Departments() {
                       sx={{
                         fontFamily: "'Montserrat', sans-serif",
                         fontSize: '0.8rem',
-                        color: '#666',
+                        color: theme.palette.text.secondary,
                         ml: 'auto',
                         pl: 1,
                       }}
@@ -665,27 +687,27 @@ function Departments() {
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 600,
               textTransform: 'none',
-              color: '#6b7280',
+              color: theme.palette.text.secondary,
               borderRadius: '10px',
             }}
           >
-            {t('Cancel')}
+            {t('Cancel', { ns: 'common' })}
           </Button>
           <Button
             variant="contained"
             onClick={handleSaveAssign}
             disabled={!assignDept || !assignUser}
             sx={{
-              backgroundColor: 'rgb(22, 29, 32)',
+              backgroundColor: theme.palette.secondary.main,
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 600,
               textTransform: 'none',
               borderRadius: '10px',
               boxShadow: 'none',
-              '&:hover': { backgroundColor: '#346b82', boxShadow: 'none' },
+              '&:hover': { backgroundColor: theme.palette.secondary.light, boxShadow: 'none' },
             }}
           >
-            {t('Save')}
+            {t('Save', { ns: 'common' })}
           </Button>
         </DialogActions>
       </Dialog>
@@ -694,10 +716,10 @@ function Departments() {
         open={deleteDialogOpen}
         onClose={closeDeleteDialog}
         onConfirm={confirmUnassign}
-        title={t('Departments.UnassignTitle')}
+        title={t('UnassignTitle')}
         text={
           deleteTarget
-            ? t('Departments.UnassignText', {
+            ? t('UnassignText', {
                 staffName: deleteTarget.staffName,
                 deptName: deleteTarget.deptName,
               })
@@ -706,14 +728,6 @@ function Departments() {
       />
     </Container>
   );
-}
-
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'], nextI18NextConfig)),
-    },
-  };
 }
 
 export default Departments;

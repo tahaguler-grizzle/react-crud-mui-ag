@@ -8,10 +8,10 @@ import {
   Button,
 } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
-import { useTranslation } from 'next-i18next/pages';
+import { useTranslation } from 'react-i18next';
 
 const CustomDialogTitle = ({ open, onClose, onConfirm, title, text }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['common']);
 
   return (
     <Dialog

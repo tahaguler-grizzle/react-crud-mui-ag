@@ -1,0 +1,12 @@
+{
+  "Title": "Raporlar",
+  "UserSummary": "Kullanıcı Özeti",
+  "DownloadPdf": "PDF İndir",
+  "TotalUsers": "Toplam Kullanıcı",
+  "ActiveUsers": "Aktif Kullanıcı",
+  "PassiveUsers": "Pasif Kullanıcı",
+  "AllUsers": "Tüm Kullanıcılar",
+  "Status": "Durum",
+  "DownloadAll": "Tümünü İndir",
+  "DownloadGridOnly": "Tabloyu İndir"
+}

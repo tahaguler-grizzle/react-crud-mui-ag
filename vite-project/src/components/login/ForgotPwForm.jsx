@@ -6,15 +6,17 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'next-i18next/pages';
+import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import WestIcon from '@mui/icons-material/West';
 import { updateExistingUser, fetchUsers } from '../../api/userService';
+import { useTheme, alpha } from '@mui/material/styles';
 
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)\S{8,}$/;
 
 function ForgotPwForm() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['login', 'common']);
+  const theme = useTheme();
   const router = useRouter();
   const { user, setUser } = useAuth();
 
@@ -43,7 +45,7 @@ function ForgotPwForm() {
     const { credential, newPw, reEnter } = formValues;
 
     if (!credential || !newPw || !reEnter) {
-      toast.error(t('ToastMessage.ErrorEmptyForm'));
+      toast.error(t('ErrorEmptyForm'));
       setErrors({
         credential: !credential,
         newPw: !newPw,
@@ -54,14 +56,14 @@ function ForgotPwForm() {
     }
 
     if (!passwordRegex.test(newPw)) {
-      toast.error(t('ToastMessage.ErrorWeakPassword'));
+      toast.error(t('ErrorWeakPassword'));
       setErrors({ credential: false, newPw: true, reEnter: true });
       setIsDisabled(false);
       return;
     }
 
     if (newPw !== reEnter) {
-      toast.error(t('ToastMessage.ErrorDifferentPasswordFields'));
+      toast.error(t('ErrorDifferentPasswordFields'));
       setErrors({ credential: false, newPw: true, reEnter: true });
       setIsDisabled(false);
       return;
@@ -69,14 +71,14 @@ function ForgotPwForm() {
 
     if (user) {
       if (credential !== user.password) {
-        toast.error(t('ToastMessage.ErrorWrongCurrentPassword'));
+        toast.error(t('ErrorWrongCurrentPassword'));
         setErrors({ credential: true, newPw: false, reEnter: false });
         setIsDisabled(false);
         return;
       }
 
       if (credential === newPw) {
-        toast.error(t('ToastMessage.ErrorSamePassword'));
+        toast.error(t('ErrorSamePassword'));
         setErrors({ credential: false, newPw: true, reEnter: true });
         setIsDisabled(false);
         return;
@@ -102,11 +104,11 @@ function ForgotPwForm() {
         };
         localStorage.setItem('user', JSON.stringify(updatedUserObj));
         setUser(updatedUserObj);
-        toast.success(t('ToastMessage.ChangePasswordSuccess'));
+        toast.success(t('ChangePasswordSuccess'));
         setFormValues({ credential: '', newPw: '', reEnter: '' });
         setErrors({ credential: false, newPw: false, reEnter: false });
       } catch (error) {
-        toast.error(t('ToastMessage.ChangePasswordFail'));
+        toast.error(t('ChangePasswordFail'));
       }
     } else {
       try {
@@ -114,14 +116,14 @@ function ForgotPwForm() {
         const targetUser = users.find((u) => u.username === credential);
 
         if (!targetUser) {
-          toast.error(t('ToastMessage.UserNotFound'));
+          toast.error(t('UserNotFound'));
           setErrors({ credential: true, newPw: false, reEnter: false });
           setIsDisabled(false);
           return;
         }
 
         if (targetUser.password === newPw) {
-          toast.error(t('ToastMessage.ErrorSamePassword'));
+          toast.error(t('ErrorSamePassword'));
           setErrors({ credential: false, newPw: true, reEnter: true });
           setIsDisabled(false);
           return;
@@ -139,11 +141,11 @@ function ForgotPwForm() {
         };
 
         await updateExistingUser(targetUser.id, payload);
-        toast.success(t('ToastMessage.ChangePasswordSuccess'));
+        toast.success(t('ChangePasswordSuccess'));
         setFormValues({ credential: '', newPw: '', reEnter: '' });
         setErrors({ credential: false, newPw: false, reEnter: false });
       } catch (error) {
-        toast.error(t('ToastMessage.ChangePasswordFail'));
+        toast.error(t('ChangePasswordFail'));
       }
     }
 
@@ -169,17 +171,18 @@ function ForgotPwForm() {
             left: 0,
             top: 0,
             width: 'auto',
-            backgroundColor: '#161d20',
-            color: '#ffffff',
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
             textTransform: 'none',
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 600,
             '&:hover': {
-              backgroundColor: '#2b3234',
+              backgroundColor: theme.palette.secondary.light,
+              boxShadow: `0px 4px 12px ${alpha(theme.palette.secondary.main, 0.2)}`,
             },
           }}
         >
-          {t('Back')}
+          {t('Back', { ns: 'common' })}
         </Button>
 
         <Box
@@ -197,7 +200,7 @@ function ForgotPwForm() {
 
       <TextField
         name="credential"
-        label={user ? t('PwReset.CurrentPw') : t('Username')}
+        label={user ? t('CurrentPw') : t('Username', { ns: 'common' })}
         type={user ? (showPassword.credential ? 'text' : 'password') : 'text'}
         fullWidth
         size="small"
@@ -238,7 +241,7 @@ function ForgotPwForm() {
 
       <TextField
         name="newPw"
-        label={t('PwReset.NewPw')}
+        label={t('NewPw')}
         type={showPassword.newPw ? 'text' : 'password'}
         fullWidth
         size="small"
@@ -275,7 +278,7 @@ function ForgotPwForm() {
 
       <TextField
         name="reEnter"
-        label={t('PwReset.ReEnterPw')}
+        label={t('ReEnterPw')}
         type={showPassword.reEnter ? 'text' : 'password'}
         fullWidth
         size="small"
@@ -315,22 +318,22 @@ function ForgotPwForm() {
         size="large"
         sx={{
           borderRadius: 5,
-          width: '50%',
+          width: '75%',
           alignSelf: 'center',
-          background: '#161d20',
-          color: '#ffffff',
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
           textTransform: 'none',
           fontSize: '1rem',
           boxShadow: 0,
           '&:hover': {
-            backgroundColor: '#2b3234',
-            boxShadow: 0,
+            backgroundColor: theme.palette.secondary.light,
+            boxShadow: `0px 4px 12px ${alpha(theme.palette.secondary.main, 0.2)}`,
           },
         }}
         onClick={handleSubmit}
         disabled={isDisabled}
       >
-        {t('PwReset.ChangePwButton')}
+        {t('ChangePwButton')}
       </Button>
     </Box>
   );

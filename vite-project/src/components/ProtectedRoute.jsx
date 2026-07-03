@@ -1,8 +1,6 @@
-"use client";
-
-import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -10,12 +8,12 @@ export default function ProtectedRoute({ children }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      router.replace("/");
+      router.replace('/');
     }
   }, [isAuthenticated, router]);
 
   if (!isAuthenticated) {
-    return null; // Or a loading spinner
+    return null;
   }
 
   return <>{children}</>;

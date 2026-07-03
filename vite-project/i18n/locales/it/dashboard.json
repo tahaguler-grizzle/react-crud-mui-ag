@@ -1,0 +1,19 @@
+{
+  "StaffList": "Elenco del personale",
+  "AddUser": "Aggiungi utente",
+  "SearchLabel": "Cerca nella tabella...",
+  "Columns": {
+    "Member": "Stato membro",
+    "Actions": "Azioni"
+  },
+  "Rows": {
+    "Member": "Attivo",
+    "NoMember": "Passivo"
+  },
+  "DeleteConfirm": {
+    "Title": "Eliminazione",
+    "Text": "Sei sicuro di voler eliminare questo utente???",
+    "Success": "Utente eliminato con successo!",
+    "Fail": "Eliminazione non riuscita!"
+  }
+}

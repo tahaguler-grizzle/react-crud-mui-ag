@@ -1,0 +1,17 @@
+{
+  "Name": "Name",
+  "Surname": "Surname",
+  "Username": "Username",
+  "Password": "Password",
+  "Email": "Email",
+  "Phone": "Phone",
+  "Desc": "Desc",
+  "Edit": "Edit",
+  "Delete": "Delete",
+  "Cancel": "Cancel",
+  "Back": "Back",
+  "Save": "Save",
+  "Active": "Active",
+  "Passive": "Passive",
+  "Status": "Status"
+}

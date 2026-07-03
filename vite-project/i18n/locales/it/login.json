@@ -1,0 +1,18 @@
+{
+  "LoginFail": "Accesso non riuscito!",
+  "Login": "Accedi",
+  "ForgotPassword": "Ha dimenticato la password",
+  "ServerError": "Errore del server",
+  "IncorrectCred": "Nome utente o password errati",
+  "CurrentPw": "Password attuale",
+  "NewPw": "Nuova password",
+  "ReEnterPw": "Reinserisci la nuova password",
+  "ChangePwButton": "Cambia password",
+  "ErrorDifferentPasswordFields": "Le nuove password non corrispondono.",
+  "ErrorWrongCurrentPassword": "La password attuale non è corretta.",
+  "ErrorSamePassword": "La nuova password non può essere uguale a quella attuale.",
+  "ChangePasswordSuccess": "La password è stata cambiata con successo.",
+  "ChangePasswordFail": "Si è verificato un errore durante l'aggiornamento della password.",
+  "UserNotFound": "Utente non trovato.",
+  "ErrorWeakPassword": "Deve contenere almeno una lettera e un numero, e avere un minimo di 8 caratteri."
+}

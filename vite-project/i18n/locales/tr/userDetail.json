@@ -1,0 +1,11 @@
+{
+  "UserNotFound": "Kullanıcı bulunamadı.",
+  "Member": "Aktif Üye",
+  "NoMember": "Pasif Üye",
+  "About": "Hakkında",
+  "EmptyAbout": "Henüz bir açıklama girilmemiş.",
+  "Edit": "Bilgilerimi Düzenle",
+  "OwnerOnly": "Bu profili sadece sahibi düzenleyebilir.",
+  "DeleteAvatarTitle": "Avatarı Sil ?",
+  "DeleteAvatarText": "Avatarı silmek istediğinize emin misiniz ?"
+}

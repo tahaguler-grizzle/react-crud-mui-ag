@@ -1,0 +1,18 @@
+{
+  "LoginFail": "Login failed!",
+  "Login": "Log in",
+  "ForgotPassword": "Forgot Password",
+  "ServerError": "Server Error",
+  "IncorrectCred": "Incorrect username or password",
+  "CurrentPw": "Current Password",
+  "NewPw": "New Password",
+  "ReEnterPw": "Enter the new password again",
+  "ChangePwButton": "Change Password",
+  "ErrorDifferentPasswordFields": "The new passwords do not match.",
+  "ErrorWrongCurrentPassword": "Your current password is incorrect.",
+  "ErrorSamePassword": "Your new password cannot be the same as your current password.",
+  "ChangePasswordSuccess": "Your password has been successfully changed.",
+  "ChangePasswordFail": "An error occurred while updating the password.",
+  "UserNotFound": "User not found.",
+  "ErrorWeakPassword": "Must contain at least one letter and one number, and must be a minimum of 8 characters."
+}

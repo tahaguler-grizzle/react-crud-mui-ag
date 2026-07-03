@@ -2,12 +2,12 @@
 import { createContext, useState, useContext } from 'react';
 import { fetchUsers } from '../api/userService';
 //import { loginUserApi } from "../api/userService";
-import { useTranslation } from 'next-i18next/pages';
+import { useTranslation } from 'react-i18next';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['common', 'login']);
   const [user, setUser] = useState(() => {
     if (typeof window !== 'undefined') {
       try {

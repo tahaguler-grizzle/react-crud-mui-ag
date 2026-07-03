@@ -1,0 +1,19 @@
+{
+  "StaffList": "Staff List",
+  "AddUser": "Add User",
+  "SearchLabel": "Search table...",
+  "Columns": {
+    "Member": "Member Status",
+    "Actions": "Actions"
+  },
+  "Rows": {
+    "Member": "Active",
+    "NoMember": "Inactive"
+  },
+  "DeleteConfirm": {
+    "Title": "Deletion",
+    "Text": "Are you sure you want to delete this user???",
+    "Success": "User successfully deleted!",
+    "Fail": "Deletion failed!"
+  }
+}

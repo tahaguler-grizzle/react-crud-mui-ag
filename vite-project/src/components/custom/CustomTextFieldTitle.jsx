@@ -1,13 +1,15 @@
 import { Typography } from '@mui/material';
 
-const CustomTextFieldTitle = ({children ,fontSize = 18,
+const CustomTextFieldTitle = ({
+  children,
+  fontSize = 18,
   fontWeight = 600,
   color = '#161d20',
   fontFamily = "'Montserrat', sans-serif",
   transition = 'opacity 180ms ease, transform 180ms ease',
   height = 16,
-  pointerEvents = 'none'}) => {
-
+  pointerEvents = 'none',
+}) => {
   return (
     <Typography
       sx={{
@@ -22,8 +24,7 @@ const CustomTextFieldTitle = ({children ,fontSize = 18,
     >
       {children}
     </Typography>
-  )
+  );
+};
 
-}
-
-export default CustomTextFieldTitle
+export default CustomTextFieldTitle;

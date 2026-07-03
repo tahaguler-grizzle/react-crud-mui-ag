@@ -1,0 +1,11 @@
+{
+  "UserNotFound": "Utilisateur introuvable.",
+  "Member": "Membre actif",
+  "NoMember": "Membre passif",
+  "About": "À propos",
+  "EmptyAbout": "Aucune description n'a encore été saisie.",
+  "Edit": "Modifier mes informations",
+  "OwnerOnly": "Seul le propriétaire peut modifier ce profil.",
+  "DeleteAvatarTitle": "Supprimer l'avatar ?",
+  "DeleteAvatarText": "Êtes-vous sûr de vouloir supprimer votre avatar ?"
+}

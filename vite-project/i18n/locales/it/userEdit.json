@@ -1,0 +1,19 @@
+{
+  "EditMode": "Modifica utente",
+  "AddMode": "Crea nuovo record",
+  "Active": "L'utente è attivo?",
+  "Update": "Aggiorna",
+  "Add": "Aggiungi",
+  "DescPlaceholder": "Lavoro presso Grizzle Tech!",
+  "PassVis": "Mostra/nascondi password",
+  "ErrorEmptyName": "Il campo nome non può essere vuoto.",
+  "ErrorEmptySurname": "Il campo cognome non può essere vuoto.",
+  "ErrorEmptyUsername": "Il nome utente è obbligatorio.",
+  "ErrorEmptyEmail": "Il campo email non può essere vuoto.",
+  "ErrorInvalidEmail": "Inserisci un indirizzo email valido.",
+  "ErrorEmptyDescription": "La descrizione è obbligatoria.",
+  "ErrorEmmtyPhone": "Il numero di telefono è obbligatorio.",
+  "ErrorInvalidPhone": "Inserisci un numero di telefono valido (solo cifre, 4-14 cifre).",
+  "ErrorEmptyPassword": "Inserisci la password",
+  "ErrorInvalidPassword": "Deve contenere almeno una lettera e una cifra, e avere un minimo di 8 caratteri."
+}

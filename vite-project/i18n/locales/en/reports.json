@@ -1,0 +1,12 @@
+{
+  "Title": "Reports",
+  "UserSummary": "User Summary",
+  "DownloadPdf": "Download PDF",
+  "TotalUsers": "Total Users",
+  "ActiveUsers": "Active Users",
+  "PassiveUsers": "Passive Users",
+  "AllUsers": "All Users",
+  "Status": "Status",
+  "DownloadAll": "Download All",
+  "DownloadGridOnly": "Download Table"
+}

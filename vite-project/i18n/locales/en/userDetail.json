@@ -1,0 +1,11 @@
+{
+  "UserNotFound": "User not found.",
+  "Member": "Active Member",
+  "NoMember": "Passive Member",
+  "About": "About",
+  "EmptyAbout": "No description has been entered yet.",
+  "Edit": "Edit My Information",
+  "OwnerOnly": "Only the owner can edit this profile.",
+  "DeleteAvatarTitle": "Delete Avatar ?",
+  "DeleteAvatarText": "Are you sure you want to delete your avatar ?"
+}

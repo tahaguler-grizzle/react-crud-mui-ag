@@ -21,7 +21,7 @@ function LoginLayout({ children }) {
           width: {
             xs: 250,
             sm: 320,
-            md: 450,
+            md: 500,
           },
           minHeight: '330px',
           borderRadius: {

@@ -5,8 +5,7 @@ import '../styles/globals.css';
 import Navbar from '../components/Navbar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { appWithTranslation } from 'next-i18next/pages';
-import nextI18NextConfig from '../../next-i18next.config.js';
+import { ThemeModeProvider } from '../context/ThemeModeContext';
 
 function AppContent({ Component, pageProps }) {
   const { isAuthenticated } = useAuth();
@@ -42,18 +41,18 @@ function AppContent({ Component, pageProps }) {
   );
 }
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      <AppContent Component={Component} pageProps={pageProps} />
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        theme="colored"
-      />
-    </AuthProvider>
+    <ThemeModeProvider>
+      <AuthProvider>
+        <AppContent Component={Component} pageProps={pageProps} />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          theme="colored"
+        />
+      </AuthProvider>
+    </ThemeModeProvider>
   );
 }
-
-export default appWithTranslation(MyApp, nextI18NextConfig);

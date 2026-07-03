@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Drawer,
   Box,
@@ -9,12 +9,10 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Avatar,
   Select,
   MenuItem,
 } from '@mui/material';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useTheme, alpha } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
@@ -23,10 +21,13 @@ import CustomTextFieldTitle from './custom/CustomTextFieldTitle';
 import { toast } from 'react-toastify';
 import { CommonTextFieldSx } from './custom/CommonTextFieldSx';
 import { createNewUser, updateExistingUser } from '../api/userService';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { COUNTRY_CODES, parsePhoneNumber } from './custom/GlobalPhoneNumber';
 
 const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visibleFieldsProp }) => {
+  const { t } = useTranslation(['userEdit', 'common']);
+  const theme = useTheme();
+
   const initialFormData = {
     name: '',
     surname: '',
@@ -59,7 +60,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -89,37 +89,37 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
     const newErrors = {};
 
     if (visibleFields.name && !formData.name?.trim()) {
-      newErrors.name = t('UserEdit.ErrorEmptyName');
+      newErrors.name = t('ErrorEmptyName');
     }
 
     if (visibleFields.surname && !formData.surname?.trim()) {
-      newErrors.surname = t('UserEdit.ErrorEmptySurname');
+      newErrors.surname = t('ErrorEmptySurname');
     }
 
     if (visibleFields.username && !formData.username?.trim()) {
-      newErrors.username = t('UserEdit.ErrorEmptyUsername');
+      newErrors.username = t('ErrorEmptyUsername');
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (visibleFields.email) {
       if (!formData.email?.trim()) {
-        newErrors.email = t('UserEdit.ErrorEmptyEmail');
+        newErrors.email = t('ErrorEmptyEmail');
       } else if (!emailRegex.test(formData.email)) {
-        newErrors.email = t('UserEdit.ErrorInvalidEmail');
+        newErrors.email = t('ErrorInvalidEmail');
       }
     }
 
     if (visibleFields.description && !formData.description?.trim()) {
-      newErrors.description = t('UserEdit.ErrorEmptyDescription');
+      newErrors.description = t('ErrorEmptyDescription');
     }
 
     const phoneNumberRegex = /^\d{4,14}$/;
 
     if (visibleFields.phone) {
       if (!formData.phoneNumber?.trim()) {
-        newErrors.phone = t('UserEdit.ErrorEmptyPhone');
+        newErrors.phone = t('ErrorEmptyPhone');
       } else if (!phoneNumberRegex.test(formData.phoneNumber.replace(/\s+/g, ''))) {
-        newErrors.phone = t('UserEdit.ErrorInvalidPhone');
+        newErrors.phone = t('ErrorInvalidPhone');
       }
     }
 
@@ -129,13 +129,13 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
 
       if (!editId) {
         if (!pass) {
-          newErrors.password = t('UserEdit.ErrorEmptyPassword');
+          newErrors.password = t('ErrorEmptyPassword');
         } else if (!passwordRegex.test(pass)) {
-          newErrors.password = t('UserEdit.ErrorInvalidPassword');
+          newErrors.password = t('ErrorInvalidPassword');
         }
       } else {
         if (pass && !passwordRegex.test(pass)) {
-          newErrors.password = t('UserEdit.ErrorInvalidPassword');
+          newErrors.password = t('ErrorInvalidPassword');
         }
       }
     }
@@ -146,7 +146,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
 
   const handleSave = async () => {
     if (!validateForm()) {
-      toast.warning(t('ToastMessage.ErrorInvalidForm'));
+      toast.warning(t('ErrorInvalidForm'));
       return;
     }
 
@@ -165,7 +165,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
       Boolean(formData.isActive ?? false) === Boolean(initialData.isActive ?? false);
 
     if (editId && isFormUnchanged) {
-      toast.error(t('ToastMessage.ErrorNoEdit'));
+      toast.error(t('ErrorNoEdit'));
       return;
     }
 
@@ -185,16 +185,16 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
     try {
       if (editId) {
         await updateExistingUser(editId, apiPayload);
-        toast.success(t('ToastMessage.EditSuccess'));
+        toast.success(t('EditSuccess'));
       } else {
         await createNewUser(apiPayload);
-        toast.success(t('ToastMessage.NewUserSuccess'));
+        toast.success(t('NewUserSuccess'));
       }
       if (onSuccess) onSuccess();
       onClose();
     } catch (error) {
       console.log('Kayıt oluşturulurken bir hata oluştu.', error);
-      toast.error(t('ToastMessage.ErrorProcessFail'));
+      toast.error(t('ErrorProcessFail'));
       throw error;
     } finally {
       setIsSubmitting(false);
@@ -234,9 +234,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
     }
   }, [open]);
 
-  const selectedCountry =
-    COUNTRY_CODES.find((c) => c.code === formData.phoneCode) ?? COUNTRY_CODES[0];
-
   return (
     <Drawer
       anchor="right"
@@ -252,7 +249,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
           top: '5vh',
           right: { sm: '20px' },
           borderRadius: '20px',
-          backgroundColor: '#f8f9fa',
+          backgroundColor: theme.palette.background.paper,
         },
       }}
     >
@@ -267,19 +264,28 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-          <Typography variant="h6" sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700 }}>
-            {editId ? t('UserEdit.EditMode') : t('UserEdit.AddMode')}
+          <Typography
+            variant="h6"
+            sx={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 700,
+              color: theme.palette.text.primary,
+            }}
+          >
+            {editId ? t('EditMode') : t('AddMode')}
           </Typography>
-          <IconButton onClick={onClose}>
+          <IconButton onClick={onClose} sx={{ color: theme.palette.text.primary }}>
             <CloseIcon />
           </IconButton>
         </Box>
 
-        <Divider />
+        <Divider sx={{ borderColor: theme.palette.divider }} />
 
         {visibleFields.name && (
           <>
-            <CustomTextFieldTitle>{t('Name')}</CustomTextFieldTitle>
+            <CustomTextFieldTitle color={theme.palette.text.primary}>
+              {t('Name', { ns: 'common' })}
+            </CustomTextFieldTitle>
             <TextField
               name="name"
               size="small"
@@ -296,7 +302,9 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
 
         {visibleFields.surname && (
           <>
-            <CustomTextFieldTitle>{t('Surname')}</CustomTextFieldTitle>
+            <CustomTextFieldTitle color={theme.palette.text.primary}>
+              {t('Surname', { ns: 'common' })}
+            </CustomTextFieldTitle>
             <TextField
               name="surname"
               size="small"
@@ -313,7 +321,9 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
 
         {visibleFields.username && (
           <>
-            <CustomTextFieldTitle>{t('Username')}</CustomTextFieldTitle>
+            <CustomTextFieldTitle color={theme.palette.text.primary}>
+              {t('Username', { ns: 'common' })}
+            </CustomTextFieldTitle>
             <TextField
               name="username"
               variant="outlined"
@@ -330,7 +340,9 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
 
         {visibleFields.password && (
           <>
-            <CustomTextFieldTitle>{t('Password')}</CustomTextFieldTitle>
+            <CustomTextFieldTitle color={theme.palette.text.primary}>
+              {t('Password', { ns: 'common' })}
+            </CustomTextFieldTitle>
             <TextField
               name="password"
               variant="outlined"
@@ -346,10 +358,11 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      aria-label={t('UserEdit.PassVis')}
+                      aria-label={t('PassVis')}
                       onClick={handleClickShowPassword}
                       edge="end"
                       size="small"
+                      sx={{ color: theme.palette.text.secondary }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -362,7 +375,9 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
 
         {visibleFields.email && (
           <>
-            <CustomTextFieldTitle>{t('Email')}</CustomTextFieldTitle>
+            <CustomTextFieldTitle color={theme.palette.text.primary}>
+              {t('Email', { ns: 'common' })}
+            </CustomTextFieldTitle>
             <TextField
               name="email"
               variant="outlined"
@@ -379,7 +394,9 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
 
         {visibleFields.phone && (
           <>
-            <CustomTextFieldTitle>{t('Phone')}</CustomTextFieldTitle>
+            <CustomTextFieldTitle color={theme.palette.text.primary}>
+              {t('Phone', { ns: 'common' })}
+            </CustomTextFieldTitle>
             <Box display="flex" gap={1} alignItems="flex-start">
               <Select
                 value={formData.phoneCode}
@@ -395,7 +412,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                         style={{
                           fontFamily: "'Montserrat', sans-serif",
                           fontSize: '0.8rem',
-                          color: '#000000',
+                          color: theme.palette.text.primary,
                         }}
                       >
                         {selected}
@@ -407,15 +424,22 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                   minWidth: 100,
                   flexShrink: 0,
                   fontFamily: "'Montserrat', sans-serif",
-                  backgroundColor: '#f8f9fa',
+                  backgroundColor: theme.palette.background.paper,
+                  color: theme.palette.text.primary,
                   '& .MuiOutlinedInput-notchedOutline': {
-                    borderColor: errors.phone ? '#d32f2f' : 'rgba(0,0,0,0.23)',
+                    borderColor: errors.phone
+                      ? theme.palette.error.main
+                      : alpha(theme.palette.text.primary, 0.23),
                   },
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: errors.phone ? '#d32f2f' : '#161d20',
+                    borderColor: errors.phone
+                      ? theme.palette.error.main
+                      : theme.palette.text.primary,
                   },
                   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: errors.phone ? '#d32f2f' : '#161d20',
+                    borderColor: errors.phone
+                      ? theme.palette.error.main
+                      : theme.palette.primary.main,
                   },
                 }}
                 MenuProps={{
@@ -424,6 +448,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                       maxHeight: 260,
                       borderRadius: '10px',
                       mt: 0.5,
+                      backgroundColor: theme.palette.background.paper,
                     },
                   },
                 }}
@@ -433,7 +458,11 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                     <Box display="flex" alignItems="center" gap={1}>
                       <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>{country.flag}</span>
                       <Typography
-                        sx={{ fontFamily: "'Montserrat', sans-serif", fontSize: '0.85rem' }}
+                        sx={{
+                          fontFamily: "'Montserrat', sans-serif",
+                          fontSize: '0.85rem',
+                          color: theme.palette.text.primary,
+                        }}
                       >
                         {country.name}
                       </Typography>
@@ -441,7 +470,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                         sx={{
                           fontFamily: "'Montserrat', sans-serif",
                           fontSize: '0.8rem',
-                          color: '#666',
+                          color: theme.palette.text.secondary,
                           ml: 'auto',
                           pl: 1,
                         }}
@@ -472,14 +501,16 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
 
         {visibleFields.description && (
           <>
-            <CustomTextFieldTitle>{t('Desc')}</CustomTextFieldTitle>
+            <CustomTextFieldTitle color={theme.palette.text.primary}>
+              {t('Desc', { ns: 'common' })}
+            </CustomTextFieldTitle>
             <TextField
               name="description"
               variant="outlined"
               size="small"
               value={formData.description}
               onChange={handleChange}
-              placeholder={t('UserEdit.DescPlaceholder')}
+              placeholder={t('DescPlaceholder')}
               error={!!errors.description}
               helperText={errors.description}
               sx={CommonTextFieldSx}
@@ -498,16 +529,18 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                   onChange={handleChange}
                   name="isActive"
                   sx={{
-                    color: '#161d20',
+                    color: theme.palette.text.primary,
                     '&.Mui-checked': {
-                      color: '#161d20',
+                      color: theme.palette.primary.main,
                     },
                   }}
                 />
               }
               label={
-                <Typography sx={{ fontFamily: "'Montserrat', sans-serif" }}>
-                  {t('UserEdit.Active')}
+                <Typography
+                  sx={{ fontFamily: "'Montserrat', sans-serif", color: theme.palette.text.primary }}
+                >
+                  {t('Active', { ns: 'common' })}
                 </Typography>
               }
             />
@@ -517,40 +550,40 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         <Box display="flex" gap={2} mt={2} flexDirection={{ xs: 'column', sm: 'row' }}>
           <Button
             variant="contained"
-            color={editId ? 'warning' : 'primary'}
             onClick={handleSave}
             fullWidth
             disabled={isSubmitting}
             sx={{
-              backgroundColor: editId ? '#4085a3' : '#161d20',
-              color: '#ffffff',
+              backgroundColor: editId ? theme.palette.secondary.main : theme.palette.primary.main,
+              color: editId
+                ? theme.palette.secondary.contrastText
+                : theme.palette.primary.contrastText,
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 600,
               textTransform: 'none',
               '&:hover': {
-                backgroundColor: editId ? '#346b82' : '#2b3234',
+                backgroundColor: editId ? theme.palette.secondary.dark : theme.palette.primary.dark,
               },
             }}
           >
-            {editId ? t('UserEdit.Update') : t('UserEdit.Add')}
+            {editId ? t('Update') : t('Add')}
           </Button>
           <Button
             variant="outlined"
-            color="inherit"
             onClick={onClose}
             fullWidth
             sx={{
-              color: '#161d20',
-              borderColor: '#161d20',
+              color: theme.palette.text.primary,
+              borderColor: alpha(theme.palette.text.primary, 0.5),
               fontFamily: "'Montserrat', sans-serif",
               textTransform: 'none',
               '&:hover': {
-                borderColor: '#161d20',
-                backgroundColor: 'rgba(22, 29, 32, 0.05)',
+                borderColor: theme.palette.text.primary,
+                backgroundColor: alpha(theme.palette.text.primary, 0.05),
               },
             }}
           >
-            {t('Cancel')}
+            {t('Cancel', { ns: 'common' })}
           </Button>
         </Box>
       </Box>

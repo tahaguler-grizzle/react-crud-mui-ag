@@ -1,0 +1,12 @@
+{
+  "Title": "Rapports",
+  "UserSummary": "Résumé des utilisateurs",
+  "DownloadPdf": "Télécharger le PDF",
+  "TotalUsers": "Nombre total d'utilisateurs",
+  "ActiveUsers": "Utilisateurs actifs",
+  "PassiveUsers": "Utilisateurs passifs",
+  "AllUsers": "Tous les utilisateurs",
+  "Status": "Statut",
+  "DownloadAll": "Tout télécharger",
+  "DownloadGridOnly": "Télécharger le tableau"
+}

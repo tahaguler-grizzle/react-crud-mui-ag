@@ -16,15 +16,16 @@ import { useAuth } from '../context/AuthContext';
 import FormControl from '@mui/material/FormControl';
 import LanguageIcon from '@mui/icons-material/Language';
 import Select from '@mui/material/Select';
-import { useTranslation } from 'next-i18next/pages';
+import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import i18n from '../../i18n';
 
 const DB_NAME = 'AvatarStorage';
 const STORE_NAME = 'avatars';
 
 function Navbar() {
   const router = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(['navbar', 'common']);
 
   const [dbAvatar, setDbAvatar] = useState(null);
 
@@ -42,16 +43,16 @@ function Navbar() {
     });
 
   const pages = [
-    { id: 'Staff', label: t('Navbar.Staff') },
-    { id: 'Reports', label: t('Navbar.Reports') },
-    { id: 'Departments', label: t('Navbar.Departments') },
+    { id: 'Staff', label: t('Staff') },
+    { id: 'Reports', label: t('Reports') },
+    { id: 'Departments', label: t('Departments') },
   ];
 
   const settings = [
-    { id: 'Profile', label: t('Navbar.UserProfile') },
-    { id: 'Change_password', label: t('Navbar.ChangePw') },
-    { id: 'Settings', label: t('Navbar.Settings') },
-    { id: 'Logout', label: t('Navbar.Logout') },
+    { id: 'Profile', label: t('UserProfile') },
+    { id: 'Change_password', label: t('ChangePw') },
+    { id: 'Settings', label: t('Settings') },
+    { id: 'Logout', label: t('Logout') },
   ];
 
   const { logout, user } = useAuth();
@@ -59,7 +60,7 @@ function Navbar() {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const language = router.locale ?? 'en';
+  const [language, setLanguage] = React.useState(i18n.resolvedLanguage);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -108,10 +109,8 @@ function Navbar() {
 
   const handleChangeLanguage = (event) => {
     const selectedLng = event.target.value;
-    document.cookie = `NEXT_LOCALE=${selectedLng}; path=/; max-age=31536000; SameSite=Lax`;
-    router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
-      locale: selectedLng,
-    });
+    setLanguage(selectedLng);
+    i18n.changeLanguage(selectedLng);
   };
 
   const getAvatarFromDB = async (id) => {
@@ -182,7 +181,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            {t('Navbar.Title')}
+            {t('Title')}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -250,7 +249,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            {t('Navbar.TitleSmall')}
+            {t('TitleSmall')}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -315,21 +314,19 @@ function Navbar() {
           </FormControl>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Ayarları Aç">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt={user?.name || 'User'}
-                  src={dbAvatar || undefined}
-                  sx={{
-                    backgroundColor: '#4085a3',
-                    boxShadow: '0px 4px 12px rgba(22, 29, 32, 0.2)',
-                    fontFamily: "'Montserrat', sans-serif",
-                  }}
-                >
-                  {!dbAvatar && (user?.name ? user.name.charAt(0).toUpperCase() : 'U')}
-                </Avatar>
-              </IconButton>
-            </Tooltip>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar
+                alt={user?.name || 'User'}
+                src={dbAvatar || undefined}
+                sx={{
+                  backgroundColor: '#4085a3',
+                  boxShadow: '0px 4px 12px rgba(22, 29, 32, 0.2)',
+                  fontFamily: "'Montserrat', sans-serif",
+                }}
+              >
+                {!dbAvatar && (user?.name ? user.name.charAt(0).toUpperCase() : 'U')}
+              </Avatar>
+            </IconButton>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"

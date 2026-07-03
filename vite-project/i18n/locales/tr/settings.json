@@ -1,0 +1,44 @@
+{
+  "Title": "Ayarlar",
+  "DarkMode": "Koyu Tema",
+  "Dark": "Koyu",
+  "Light": "Aydınlık",
+  "SessionTimeout": "Oturum Zaman Aşımı",
+  "TimeoutUnit": "dakika",
+  "EmailNotifications": "Email Bildirimleri",
+  "PushNotifications": "Anlık Bildirimleri",
+  "DefaultPage": "Varsayılan Sayfa",
+  "Page": "Sayfa",
+  "TimeZone": "Zaman Dilimi",
+  "DateFormat": "Tarih Formatı",
+  "SoundEffects": "Ses Efektleri",
+  "2FA": {
+    "Title": "İki Faktörlü Doğrulama",
+    "ButtonTitle": "Yapılandır",
+    "SMS": "SMS",
+    "AuthApp": "Uygulama ile Doğrulama "
+  },
+  "DefaultPages": {
+    "Dashboard": "Ana Sayfa",
+    "Profile": "Profil",
+    "Reports": "Raporlar",
+    "Settings": "Ayarlar"
+  },
+  "DND": {
+    "Title": "Rahatsız Etme",
+    "DNDDuration": "Rahatsız Etme Süresi",
+    "Off": "Kapalı",
+    "1Hour": "1 Saat",
+    "4Hour": "4 Saat",
+    "8Hour": "8 Saat",
+    "Always": "Her Zaman"
+  },
+  "DateFormats": {
+    "Title": "Zaman Formatı",
+    "DD/MM/YYYY": "GG/AA/YYYY",
+    "MM/DD/YYYY": "AA/GG/YYYY",
+    "YYYY-MM-DD": "YYYY-AA-GG"
+  },
+  "SettingsSaveSuccess": "Ayarlar kaydedildi!",
+  "SettingsSaveFail": "Ayarlar kaydedilemedi!"
+}
