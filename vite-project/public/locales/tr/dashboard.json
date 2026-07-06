@@ -3,8 +3,7 @@
   "AddUser": "Kullanıcı Ekle",
   "SearchLabel": "Tabloda ara...",
   "Columns": {
-    "Member": "Üyelik Durumu",
-    "Actions": "İşlemler"
+    "Member": "Üyelik Durumu"
   },
   "Rows": {
     "Member": "Aktif",

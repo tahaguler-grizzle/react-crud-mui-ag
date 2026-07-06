@@ -208,16 +208,7 @@ function ForgotPwForm() {
         onChange={handleInputChange}
         error={errors.credential}
         autoComplete="off"
-        sx={{
-          '& label.Mui-focused': {
-            color: errors.credential ? 'error.main' : '#161d20',
-          },
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: errors.credential ? 'error.main' : '#161d20',
-            },
-          },
-        }}
+        autoComplete="off"
         slotProps={
           user
             ? {
@@ -249,16 +240,7 @@ function ForgotPwForm() {
         onChange={handleInputChange}
         error={errors.newPw}
         autoComplete="off"
-        sx={{
-          '& label.Mui-focused': {
-            color: errors.newPw ? 'error.main' : '#161d20',
-          },
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: errors.newPw ? 'error.main' : '#161d20',
-            },
-          },
-        }}
+        autoComplete="off"
         slotProps={{
           input: {
             endAdornment: (
@@ -286,16 +268,7 @@ function ForgotPwForm() {
         onChange={handleInputChange}
         error={errors.reEnter}
         autoComplete="off"
-        sx={{
-          '& label.Mui-focused': {
-            color: errors.reEnter ? 'error.main' : '#161d20',
-          },
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: errors.reEnter ? 'error.main' : '#161d20',
-            },
-          },
-        }}
+        autoComplete="off"
         slotProps={{
           input: {
             endAdornment: (
@@ -317,7 +290,7 @@ function ForgotPwForm() {
         variant="contained"
         size="large"
         sx={{
-          borderRadius: 5,
+          //borderRadius: 5,
           width: '75%',
           alignSelf: 'center',
           backgroundColor: theme.palette.primary.main,

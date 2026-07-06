@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 import lightTheme from './lightTheme';
 import darkTheme from './darkTheme';
+import componentOverrides from './componentOverrides';
 
 const shared = {
   typography: {
@@ -16,5 +17,6 @@ export function getTheme(mode) {
   return createTheme({
     ...shared,
     palette,
+    components: componentOverrides,
   });
 }

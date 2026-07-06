@@ -175,7 +175,7 @@ function UserDetail({ id }) {
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Button
-        startIcon={<ArrowBackIcon />}
+        startIcon={<ArrowBackIcon sx={{ color: theme.palette.primary.contrastText }} />}
         onClick={() => router.back()}
         sx={{
           mb: 3,
@@ -186,7 +186,7 @@ function UserDetail({ id }) {
           fontWeight: 600,
           textTransform: 'none',
           borderRadius: '10px',
-          border: '1px solid',
+          border: 'none',
           '&:hover': {
             backgroundColor: theme.palette.secondary.main,
             boxShadow: `0px 4px 12px ${theme.palette.primary.main}33`,
@@ -228,9 +228,10 @@ function UserDetail({ id }) {
                 sx={{
                   width: 100,
                   height: 100,
-                  backgroundColor: theme.palette.primary.main,
+                  backgroundColor: theme.palette.secondary.dark,
                   fontSize: 40,
                   fontFamily: "'Montserrat', sans-serif",
+                  color: theme.palette.primary.contrastText,
                   fontWeight: 700,
                   boxShadow: '0px 4px 12px rgba(20, 24, 27, 0.2)',
                 }}
@@ -255,7 +256,11 @@ function UserDetail({ id }) {
                 >
                   <IconButton
                     onClick={dbAvatar ? () => setOpenDeleteDialog(true) : handleAvatarUpload}
-                    sx={{ color: theme.palette.background.paper, width: '100%', height: '100%' }}
+                    sx={{
+                      color: theme.palette.primary.contrastText,
+                      width: '100%',
+                      height: '100%',
+                    }}
                   >
                     {dbAvatar ? <DeleteIcon /> : <PhotoCameraIcon />}
                   </IconButton>
@@ -384,7 +389,7 @@ function UserDetail({ id }) {
             {isOwner ? (
               <Button
                 variant="contained"
-                startIcon={<EditIcon />}
+                startIcon={<EditIcon sx={{ color: theme.palette.primary.contrastText }} />}
                 onClick={handleEditClick}
                 sx={{
                   minWidth: '220px',

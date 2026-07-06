@@ -57,16 +57,6 @@ function LoginForm() {
         value={username}
         autoComplete="off"
         onChange={(e) => setUsername(e.target.value)}
-        sx={{
-          '& label.Mui-focused': {
-            color: '#161d20',
-          },
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: '#161d20',
-            },
-          },
-        }}
       />
 
       <TextField
@@ -77,16 +67,6 @@ function LoginForm() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         autoComplete="off"
-        sx={{
-          '& label.Mui-focused': {
-            color: '#161d20',
-          },
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: '#161d20',
-            },
-          },
-        }}
         slotProps={{
           input: {
             endAdornment: (
@@ -106,13 +86,13 @@ function LoginForm() {
           router.push('/forgot-pw');
         }}
         sx={{
-          color: '#161D20',
+          color: theme.palette.primary.main,
           backgroundColor: 'transparent',
           textTransform: 'none',
           alignSelf: 'flex-end',
           mt: -2,
           '&:hover': {
-            backgroundColor: 'rgba(0, 98, 255, 0.08)',
+            backgroundColor: theme.palette.action.hover,
           },
         }}
       >
@@ -126,13 +106,13 @@ function LoginForm() {
           borderRadius: 5,
           width: '50%',
           alignSelf: 'center',
-          background: '#161d20',
-          color: '#ffffff',
+          background: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
           textTransform: 'none',
           fontSize: '1rem',
           boxShadow: 0,
           '&:hover': {
-            backgroundColor: '#2b3234',
+            backgroundColor: theme.palette.primary.dark,
             boxShadow: 0,
           },
         }}

@@ -4,7 +4,7 @@ const CustomTextFieldTitle = ({
   children,
   fontSize = 18,
   fontWeight = 600,
-  color = '#161d20',
+  color = 'text.primary',
   fontFamily = "'Montserrat', sans-serif",
   transition = 'opacity 180ms ease, transform 180ms ease',
   height = 16,

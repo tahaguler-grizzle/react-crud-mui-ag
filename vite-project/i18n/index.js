@@ -1,7 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import en from './locales/en/en.json';
+import HttpApi from 'i18next-http-backend';
+/* import en from './locales/en/en.json';
 import tr from './locales/tr/tr.json';
 import fr from './locales/fr/fr.json';
 import it from './locales/it/it.json';
@@ -44,9 +45,10 @@ import navbarIT from './locales/it/navbar.json';
 import reportsIT from './locales/it/reports.json';
 import settingsIT from './locales/it/settings.json';
 import userDetailIT from './locales/it/userDetail.json';
-import userEditIT from './locales/it/userEdit.json';
+import userEditIT from './locales/it/userEdit.json'; */
 
 i18n
+  .use(HttpApi)
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
@@ -55,7 +57,10 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    resources: {
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+    },
+    /* resources: {
       en: {
         common: commonEN,
         dashboard: dashboardEN,
@@ -99,8 +104,8 @@ i18n
         settings: settingsIT,
         userDetail: userDetailIT,
         userEdit: userEditIT,
-      },
-    },
+      }, 
+    },*/
     ns: [
       'common',
       'dashboard',
@@ -111,6 +116,7 @@ i18n
       'settings',
       'userDetail',
       'userEdit',
+      'i18ntest',
     ],
     defaultNS: 'common',
     detection: {

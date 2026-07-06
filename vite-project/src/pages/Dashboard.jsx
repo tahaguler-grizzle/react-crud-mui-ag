@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import {
+  ModuleRegistry,
+  AllCommunityModule,
+  colorSchemeDarkBlue,
+  themeQuartz,
+} from 'ag-grid-community';
 ModuleRegistry.registerModules([AllCommunityModule]);
 import {
   Container,
@@ -24,7 +29,6 @@ import UserFormDrawer from '../components/UserFormDrawer';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import CustomDialogTitle from '../components/custom/CustomDialogTitle';
-import { CommonTextFieldSx } from '../components/custom/CommonTextFieldSx';
 
 import { useTranslation } from 'react-i18next';
 
@@ -133,6 +137,11 @@ function Dashboard() {
     getUsers();
   };
 
+  const agGridTheme = useMemo(
+    () => (theme.palette.mode === 'dark' ? themeQuartz.withPart(colorSchemeDarkBlue) : themeQuartz),
+    [theme.palette.mode]
+  );
+
   const columnDefs = useMemo(
     () => [
       {
@@ -188,7 +197,7 @@ function Dashboard() {
       },
       {
         field: 'id',
-        headerValueGetter: () => t('Columns.Actions'),
+        headerValueGetter: () => t('Actions', { ns: 'common' }),
         minWidth: isMobile ? 140 : 220,
         width: isMobile ? 140 : undefined,
         flex: isMobile ? undefined : 1.5,
@@ -311,7 +320,6 @@ function Dashboard() {
           }}
           sx={{
             width: { xs: '100%', sm: 300 },
-            ...CommonTextFieldSx,
           }}
         />
       </Box>
@@ -321,11 +329,13 @@ function Dashboard() {
           key={i18n.resolvedLanguage}
           rowData={users}
           columnDefs={columnDefs}
+          theme={agGridTheme}
           localeText={getAgGridLocale(i18n.resolvedLanguage)}
           pagination={true}
           paginationPageSize={isMobile ? 12 : 20}
           paginationPageSizeSelector={[12, 20, 40, 100]}
           quickFilterText={debouncedSearchTerm}
+          suppressCellFocus={true}
           onGridReady={(params) => {
             setGridApi(params.api);
             if (!isMobile) {

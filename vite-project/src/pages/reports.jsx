@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import {
+  ModuleRegistry,
+  AllCommunityModule,
+  colorSchemeDarkBlue,
+  themeQuartz,
+} from 'ag-grid-community';
 import {
   Container,
   Typography,
@@ -78,6 +83,10 @@ function Reports() {
     setGridApi(params.api);
   }, []);
 
+  const agGridTheme = useMemo(
+    () => (theme.palette.mode === 'dark' ? themeQuartz.withPart(colorSchemeDarkBlue) : themeQuartz),
+    [theme.palette.mode]
+  );
   const columnDefs = useMemo(
     () => [
       {
@@ -487,6 +496,7 @@ function Reports() {
               key={i18n.resolvedLanguage}
               rowData={users}
               columnDefs={columnDefs}
+              theme={agGridTheme}
               localeText={getAgGridLocale(i18n.resolvedLanguage)}
               pagination={true}
               paginationPageSize={isMobile ? 12 : 20}

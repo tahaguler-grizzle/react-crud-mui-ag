@@ -19,7 +19,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CustomTextFieldTitle from './custom/CustomTextFieldTitle';
 import { toast } from 'react-toastify';
-import { CommonTextFieldSx } from './custom/CommonTextFieldSx';
 import { createNewUser, updateExistingUser } from '../api/userService';
 import { useTranslation } from 'react-i18next';
 import { COUNTRY_CODES, parsePhoneNumber } from './custom/GlobalPhoneNumber';
@@ -295,7 +294,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               placeholder={'John'}
               error={!!errors.name}
               helperText={errors.name}
-              sx={CommonTextFieldSx}
             />
           </>
         )}
@@ -314,7 +312,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               placeholder={'Doe'}
               error={!!errors.surname}
               helperText={errors.surname}
-              sx={CommonTextFieldSx}
             />
           </>
         )}
@@ -333,7 +330,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               placeholder={'johndoe'}
               error={!!errors.username}
               helperText={errors.username}
-              sx={CommonTextFieldSx}
             />
           </>
         )}
@@ -352,7 +348,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               error={!!errors.password}
               helperText={errors.password}
               type={showPassword ? 'text' : 'password'}
-              sx={CommonTextFieldSx}
               autoComplete="off"
               InputProps={{
                 endAdornment: (
@@ -387,7 +382,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               error={!!errors.email}
               helperText={errors.email}
               placeholder={'johndoe@gmail.com'}
-              sx={CommonTextFieldSx}
             />
           </>
         )}
@@ -397,7 +391,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
             <CustomTextFieldTitle color={theme.palette.text.primary}>
               {t('Phone', { ns: 'common' })}
             </CustomTextFieldTitle>
-            <Box display="flex" gap={1} alignItems="flex-start">
+            <Box display="flex" gap={1} alignItems="center">
               <Select
                 value={formData.phoneCode}
                 onChange={handlePhoneCodeChange}
@@ -411,7 +405,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                       <span
                         style={{
                           fontFamily: "'Montserrat', sans-serif",
-                          fontSize: '0.8rem',
+                          fontSize: '14px',
                           color: theme.palette.text.primary,
                         }}
                       >
@@ -424,22 +418,35 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                   minWidth: 100,
                   flexShrink: 0,
                   fontFamily: "'Montserrat', sans-serif",
-                  backgroundColor: theme.palette.background.paper,
+                  fontSize: '14px',
                   color: theme.palette.text.primary,
+                  borderRadius: '8px',
+                  backgroundColor: theme.palette.grey[50],
+                  transition: 'all 0.2s ease',
+                  '& .MuiSelect-select': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    boxSizing: 'border-box',
+                    height: '1.4375em',
+                    minHeight: '1.4375em',
+                    paddingTop: '8.5px',
+                    paddingBottom: '8.5px',
+                    lineHeight: '1.4375em',
+                  },
                   '& .MuiOutlinedInput-notchedOutline': {
-                    borderColor: errors.phone
-                      ? theme.palette.error.main
-                      : alpha(theme.palette.text.primary, 0.23),
+                    borderRadius: '8px',
+                    borderColor: errors.phone ? theme.palette.error.main : theme.palette.divider,
                   },
                   '&:hover .MuiOutlinedInput-notchedOutline': {
                     borderColor: errors.phone
                       ? theme.palette.error.main
-                      : theme.palette.text.primary,
+                      : theme.palette.customInput?.hoverBorder || theme.palette.text.secondary,
                   },
                   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                     borderColor: errors.phone
                       ? theme.palette.error.main
                       : theme.palette.primary.main,
+                    borderWidth: '2px',
                   },
                 }}
                 MenuProps={{
@@ -493,7 +500,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                 error={!!errors.phone}
                 helperText={errors.phone}
                 inputProps={{ inputMode: 'numeric' }}
-                sx={CommonTextFieldSx}
               />
             </Box>
           </>
@@ -513,7 +519,6 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               placeholder={t('DescPlaceholder')}
               error={!!errors.description}
               helperText={errors.description}
-              sx={CommonTextFieldSx}
               multiline
               rows={3}
             />

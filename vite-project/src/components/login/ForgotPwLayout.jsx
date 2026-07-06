@@ -13,9 +13,7 @@ function ForgotPwLayout({ children }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: user
-          ? theme.palette.background.default
-          : 'linear-gradient(135deg, #2b3234, #161d20, #283236)',
+        background: theme.palette.background.default,
       }}
     >
       <Paper

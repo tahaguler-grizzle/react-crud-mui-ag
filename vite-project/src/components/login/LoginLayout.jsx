@@ -1,8 +1,10 @@
 import { Box, Paper } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '@mui/material/styles';
 
 function LoginLayout({ children }) {
   const { user } = useAuth();
+  const theme = useTheme();
 
   return (
     <Box
@@ -11,7 +13,7 @@ function LoginLayout({ children }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #2b3234, #161d20, #283236)',
+        background: theme.palette.background.default,
       }}
     >
       <Paper
@@ -30,8 +32,8 @@ function LoginLayout({ children }) {
             md: '40px',
           },
           backdropFilter: 'blur(12px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.75)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
           boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
           display: 'flex',
           flexDirection: 'column',

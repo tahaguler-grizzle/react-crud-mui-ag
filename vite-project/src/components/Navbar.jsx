@@ -11,21 +11,33 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 import MenuItem from '@mui/material/MenuItem';
 import { useAuth } from '../context/AuthContext';
 import FormControl from '@mui/material/FormControl';
-import LanguageIcon from '@mui/icons-material/Language';
+import TranslateIcon from '@mui/icons-material/Translate';
 import Select from '@mui/material/Select';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import i18n from '../../i18n';
+import { useTheme } from '@mui/material/styles';
+import { useThemeMode } from '../context/ThemeModeContext';
 
 const DB_NAME = 'AvatarStorage';
 const STORE_NAME = 'avatars';
+const LANGUAGES = [
+  { code: 'en', label: 'EN' },
+  { code: 'tr', label: 'TR' },
+  { code: 'fr', label: 'FR' },
+  { code: 'it', label: 'IT' },
+];
 
 function Navbar() {
   const router = useRouter();
   const { t, i18n } = useTranslation(['navbar', 'common']);
+  const theme = useTheme();
+  const { mode, toggleMode } = useThemeMode(); // burdaki mode'u "as" olarak import edebilsek çok iyi olur
 
   const [dbAvatar, setDbAvatar] = useState(null);
 
@@ -113,6 +125,10 @@ function Navbar() {
     i18n.changeLanguage(selectedLng);
   };
 
+  const handleThemeChange = () => {
+    toggleMode();
+  };
+
   const getAvatarFromDB = async (id) => {
     const db = await initDB();
     return new Promise((resolve, reject) => {
@@ -146,7 +162,7 @@ function Navbar() {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKrfWHfu7t7nVjKwfkdAYTRGdg4WI5XP5zlQ&s';
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#161d20' }}>
+    <AppBar position="static" sx={{ backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.paper : theme.palette.primary.main }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
@@ -261,12 +277,12 @@ function Navbar() {
                 }}
                 sx={{
                   my: 2,
-                  color: 'white',
+                  color: theme.palette.primary.contrastText,
                   display: 'block',
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 600,
                   '&:hover': {
-                    backgroundColor: '#2b3234',
+                    backgroundColor: theme.palette.primary.light,
                   },
                 }}
               >
@@ -275,41 +291,68 @@ function Navbar() {
             ))}
           </Box>
 
-          <FormControl sx={{ mr: 2, minWidth: 70 }}>
+          <IconButton
+            onClick={() => {
+              handleThemeChange();
+            }}
+            /* sx={{
+              bgcolor: 'transparent',
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+              '.MuiSelect-select': {
+                paddingRight: '0px !important',
+                paddingLeft: '8px',
+                display: 'flex',
+                alignItems: 'center',
+              },
+            }} */
+          >
+            {mode === 'light' ? (
+              <DarkModeIcon sx={{ color: theme.palette.primary.contrastText }} />
+            ) : (
+              <LightModeIcon sx={{ color: theme.palette.primary.contrastText }} />
+            )}
+          </IconButton>
+
+          <FormControl sx={{ mr: 2, minWidth: 40 }}>
             <Select
               value={language}
               onChange={handleChangeLanguage}
+              IconComponent={() => null}
+              renderValue={() => <TranslateIcon sx={{ color: 'white' }} />}
               sx={{
-                color: 'white',
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 600,
+                bgcolor: 'transparent',
+                height: '38px',
                 '.MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  border: 'none',
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  border: 'none',
                 },
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
+                  border: 'none',
                 },
-                '.MuiSvgIcon-root': {
-                  color: 'white',
+                '.MuiSelect-select': {
+                  paddingRight: '0px !important',
+                  paddingLeft: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
                 },
-                height: '38px',
               }}
             >
-              <MenuItem value="en" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
-                EN
-              </MenuItem>
-              <MenuItem value="tr" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
-                TR
-              </MenuItem>
-              <MenuItem value="fr" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
-                FR
-              </MenuItem>
-              <MenuItem value="it" sx={{ fontFamily: "'Montserrat', sans-serif" }}>
-                IT
-              </MenuItem>
+              {LANGUAGES.map((lang) => (
+                <MenuItem
+                  key={lang.code}
+                  value={lang.code}
+                  sx={{ fontFamily: "'Montserrat', sans-serif" }}
+                >
+                  {lang.label}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -319,8 +362,8 @@ function Navbar() {
                 alt={user?.name || 'User'}
                 src={dbAvatar || undefined}
                 sx={{
-                  backgroundColor: '#4085a3',
-                  boxShadow: '0px 4px 12px rgba(22, 29, 32, 0.2)',
+                  backgroundColor: theme.palette.secondary.main,
+                  boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
                   fontFamily: "'Montserrat', sans-serif",
                 }}
               >

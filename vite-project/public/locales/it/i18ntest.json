@@ -1,0 +1,13 @@
+{
+  "Title": "Test del codice di errore",
+  "EnterCode": "Inserisci il codice di errore",
+  "SendingRequest": "Invio della richiesta",
+  "TestBtn": "Test",
+  "SuccessMessage": "Successo, nessun messaggio di errore",
+  "errors": {
+    "4002": "Codice di errore tipo 1 : {{errorCode}}",
+    "300": "Codice di errore tipo 2 : 300",
+    "400": "Codice di errore tipo 3 : Richiesta non valida",
+    "DEFAULT": "Codice di errore sconosciuto"
+  }
+}

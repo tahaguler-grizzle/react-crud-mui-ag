@@ -32,7 +32,7 @@ const CustomDialogTitle = ({ open, onClose, onConfirm, title, text }) => {
           gap: 1.5,
           fontFamily: "'Montserrat', sans-serif",
           fontWeight: 700,
-          color: '#d32f2f',
+          color: 'error.main',
         }}
       >
         <WarningIcon color="warning" fontSize="medium" />
@@ -43,7 +43,7 @@ const CustomDialogTitle = ({ open, onClose, onConfirm, title, text }) => {
         <DialogContentText
           sx={{
             fontFamily: "'Montserrat', sans-serif",
-            color: '#555',
+            color: 'text.secondary',
             fontSize: '0.95rem',
           }}
         >
@@ -55,16 +55,11 @@ const CustomDialogTitle = ({ open, onClose, onConfirm, title, text }) => {
         <Button
           onClick={onClose}
           variant="outlined"
+          color="primary"
           sx={{
-            color: '#161d20',
-            borderColor: '#161d20',
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 600,
             textTransform: 'none',
-            '&:hover': {
-              borderColor: '#161d20',
-              backgroundColor: 'rgba(22, 29, 32, 0.05)',
-            },
           }}
         >
           {t('Cancel')}
@@ -78,10 +73,6 @@ const CustomDialogTitle = ({ open, onClose, onConfirm, title, text }) => {
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 600,
             textTransform: 'none',
-            backgroundColor: '#d32f2f',
-            '&:hover': {
-              backgroundColor: '#b71c1c',
-            },
           }}
         >
           {t('Delete')}

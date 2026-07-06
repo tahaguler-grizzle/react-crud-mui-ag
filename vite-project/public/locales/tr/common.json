@@ -3,7 +3,7 @@
   "Surname": "Soyisim",
   "Username": "Kullanıcı Adı",
   "Password": "Şifre",
-  "Email": "EMail",
+  "Email": "Email",
   "Phone": "Telefon",
   "Desc": "Açıklama",
   "Edit": "Düzenle",
@@ -12,5 +12,6 @@
   "Back": "Geri",
   "Save": "Kaydet",
   "Active": "Aktif",
-  "Passive": "Pasif"
+  "Passive": "Pasif",
+  "Actions": "İşlemler"
 }

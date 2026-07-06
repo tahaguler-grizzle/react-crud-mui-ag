@@ -3,8 +3,7 @@
   "AddUser": "Add User",
   "SearchLabel": "Search table...",
   "Columns": {
-    "Member": "Member Status",
-    "Actions": "Actions"
+    "Member": "Member Status"
   },
   "Rows": {
     "Member": "Active",

@@ -10,12 +10,6 @@ import {
   Collapse,
   Divider,
   Chip,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -35,6 +29,21 @@ import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
+import { AgGridReact } from 'ag-grid-react';
+import {
+  ModuleRegistry,
+  AllCommunityModule,
+  themeQuartz,
+  colorSchemeDarkBlue,
+} from 'ag-grid-community';
+ModuleRegistry.registerModules([AllCommunityModule]);
+import {
+  AG_GRID_LOCALE_EN,
+  AG_GRID_LOCALE_TR,
+  AG_GRID_LOCALE_FR,
+  AG_GRID_LOCALE_IT,
+} from '@ag-grid-community/locale';
+
 import {
   fetchUsers,
   fetchDepartments,
@@ -51,8 +60,28 @@ const filterOptions = createFilterOptions({
 });
 
 function Departments() {
-  const { t } = useTranslation(['departments', 'common']);
+  const { t, i18n } = useTranslation(['departments', 'common']);
   const theme = useTheme();
+
+  const getAgGridLocale = (language) => {
+    switch (language) {
+      case 'tr':
+        return AG_GRID_LOCALE_TR;
+      case 'en':
+        return AG_GRID_LOCALE_EN;
+      case 'fr':
+        return AG_GRID_LOCALE_FR;
+      case 'it':
+        return AG_GRID_LOCALE_IT;
+      default:
+        return AG_GRID_LOCALE_TR;
+    }
+  };
+
+  const agGridTheme = useMemo(
+    () => (theme.palette.mode === 'dark' ? themeQuartz.withPart(colorSchemeDarkBlue) : themeQuartz),
+    [theme.palette.mode]
+  );
 
   const DEPARTMENTS = [
     { value: 'Operation', label: t('Operation') },
@@ -352,7 +381,7 @@ function Departments() {
                         fontWeight: 600,
                         fontSize: '0.7rem',
                         backgroundColor: alpha(theme.palette.secondary.dark),
-                        color: theme.palette.secondary.main,
+                        color: theme.palette.text.primary,
                       }}
                     />
                   </Box>
@@ -363,7 +392,7 @@ function Departments() {
                       transition: 'transform 0.2s',
                     }}
                   >
-                    <KeyboardArrowDownIcon sx={{ color: theme.palette.primary.main }} />
+                    <KeyboardArrowDownIcon sx={{ color: theme.palette.text.primary }} />
                   </IconButton>
                 </Box>
 
@@ -382,81 +411,50 @@ function Departments() {
                       </Typography>
                     </Box>
                   ) : (
-                    <TableContainer sx={{ maxHeight: 224 }}>
-                      <Table stickyHeader size="small">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell
-                              sx={{
-                                fontFamily: "'Montserrat', sans-serif",
-                                fontWeight: 700,
-                                bgcolor: theme.palette.grey[200],
-                              }}
-                            >
-                              {t('Name', { ns: 'common' })}
-                            </TableCell>
-                            <TableCell
-                              sx={{
-                                fontFamily: "'Montserrat', sans-serif",
-                                fontWeight: 700,
-                                bgcolor: theme.palette.grey[200],
-                              }}
-                            >
-                              {t('Surname', { ns: 'common' })}
-                            </TableCell>
-                            <TableCell
-                              sx={{
-                                fontFamily: "'Montserrat', sans-serif",
-                                fontWeight: 700,
-                                bgcolor: theme.palette.grey[200],
-                              }}
-                            >
-                              {t('Phone', { ns: 'common' })}
-                            </TableCell>
-                            <TableCell sx={{ bgcolor: theme.palette.grey[200] }} align="right" />
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {dept.staff.map((staff) => (
-                            <TableRow key={staff.id} hover>
-                              <TableCell
-                                sx={{
-                                  fontFamily: "'Montserrat', sans-serif",
-                                  bgcolor: theme.palette.grey[100],
-                                }}
+                    <Box sx={{ height: 260, width: '100%' }}>
+                      <AgGridReact
+                        key={i18n.resolvedLanguage}
+                        rowData={dept.staff}
+                        theme={agGridTheme}
+                        localeText={getAgGridLocale(i18n.resolvedLanguage)}
+                        pagination={true}
+                        paginationPageSize={20}
+                        paginationPageSizeSelector={[20, 40, 100]}
+                        suppressCellFocus={true}
+                        columnDefs={[
+                          {
+                            field: 'name',
+                            headerName: t('Name', { ns: 'common' }),
+                            flex: 1,
+                          },
+                          {
+                            field: 'surname',
+                            headerName: t('Surname', { ns: 'common' }),
+                            flex: 1,
+                          },
+                          {
+                            field: 'phone',
+                            headerName: t('Phone', { ns: 'common' }),
+                            flex: 1,
+                          },
+                          {
+                            headerName: t('Actions', { ns: 'common' }),
+                            width: 100,
+                            sortable: false,
+                            filter: false,
+                            cellRenderer: (params) => (
+                              <IconButton
+                                size="small"
+                                onClick={() => requestUnassign(dept, params.data)}
+                                sx={{ color: theme.palette.error.main }}
                               >
-                                {staff.name}
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontFamily: "'Montserrat', sans-serif",
-                                  bgcolor: theme.palette.grey[100],
-                                }}
-                              >
-                                {staff.surname}
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontFamily: "'Montserrat', sans-serif",
-                                  bgcolor: theme.palette.grey[100],
-                                }}
-                              >
-                                {staff.phone}
-                              </TableCell>
-                              <TableCell align="right" sx={{ bgcolor: theme.palette.grey[100] }}>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => requestUnassign(dept, staff)}
-                                  sx={{ color: theme.palette.error.main }}
-                                >
-                                  <CloseIcon fontSize="small" />
-                                </IconButton>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
+                                <CloseIcon fontSize="small" />
+                              </IconButton>
+                            ),
+                          },
+                        ]}
+                      />
+                    </Box>
                   )}
                 </Collapse>
               </Box>
@@ -471,7 +469,14 @@ function Departments() {
         maxWidth="sm"
         fullWidth
         PaperProps={{
-          sx: { borderRadius: '20px', p: 1.5, bgcolor: theme.palette.background.subtle },
+          elevation: 0,
+          sx: {
+            borderRadius: '20px',
+            border: `1px solid ${theme.palette.divider}`,
+            p: 1.5,
+            bgcolor: theme.palette.background.subtle,
+            boxShadow: `0px 4px 20px ${alpha(theme.palette.common.black, 0.03)}`,
+          },
         }}
       >
         <DialogTitle
@@ -486,8 +491,8 @@ function Departments() {
           {t('AssignDialogTitle')}
         </DialogTitle>
 
-        <DialogContent sx={{ px: 3, py: 1 }}>
-          <FormControl fullWidth size="small" sx={{ mt: 1.5, mb: 3 }}>
+        <DialogContent sx={{ px: 5, py: 2 }}>
+          <FormControl fullWidth size="small" sx={{ mt: 1.5, mb: 4 }}>
             <InputLabel sx={{ fontFamily: "'Montserrat', sans-serif" }}>
               {t('Department')}
             </InputLabel>
@@ -559,7 +564,7 @@ function Departments() {
                 }}
               />
             )}
-            sx={{ mb: 3 }}
+            sx={{ mb: 4, pointerEvents: !assignDept ? 'none' : 'auto' }}
           />
 
           <TextField
@@ -570,7 +575,8 @@ function Departments() {
             onChange={(e) => setAssignName(e.target.value)}
             disabled={!assignUser}
             sx={{
-              mb: 3,
+              mb: 4,
+              pointerEvents: !assignUser ? 'none' : 'auto',
               '& .MuiInputBase-root': { fontFamily: "'Montserrat', sans-serif" },
               '& .MuiInputLabel-root': { fontFamily: "'Montserrat', sans-serif" },
             }}
@@ -584,13 +590,14 @@ function Departments() {
             onChange={(e) => setAssignSurname(e.target.value)}
             disabled={!assignUser}
             sx={{
-              mb: 3,
+              mb: 4,
+              pointerEvents: !assignUser ? 'none' : 'auto',
               '& .MuiInputBase-root': { fontFamily: "'Montserrat', sans-serif" },
               '& .MuiInputLabel-root': { fontFamily: "'Montserrat', sans-serif" },
             }}
           />
 
-          <Box display="flex" gap={1.5} alignItems="flex-start" sx={{ mb: 3 }}>
+          <Box display="flex" gap={1.5} alignItems="flex-start" sx={{ mb: 4 }}>
             <Select
               value={assignPhoneCode}
               onChange={(e) => setAssignPhoneCode(e.target.value)}
@@ -605,7 +612,7 @@ function Departments() {
                     <span
                       style={{
                         fontFamily: "'Montserrat', sans-serif",
-                        fontSize: '0.8rem',
+                        fontSize: '14px',
                         color: theme.palette.text.primary,
                       }}
                     >
@@ -616,12 +623,10 @@ function Departments() {
               }}
               sx={{
                 minWidth: 110,
+                pointerEvents: !assignUser ? 'none' : 'auto',
                 flexShrink: 0,
+                fontSize: '14px',
                 fontFamily: "'Montserrat', sans-serif",
-                //backgroundColor: theme.palette.background.paper,
-                /* '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: theme.palette.divider,
-                }, */
                 '&:hover .MuiOutlinedInput-notchedOutline': {
                   borderColor: theme.palette.primary.main,
                 },
@@ -673,6 +678,7 @@ function Departments() {
               placeholder="532 235 94 76"
               inputProps={{ inputMode: 'numeric' }}
               sx={{
+                pointerEvents: !assignUser ? 'none' : 'auto',
                 '& .MuiInputBase-root': { fontFamily: "'Montserrat', sans-serif" },
                 '& .MuiInputLabel-root': { fontFamily: "'Montserrat', sans-serif" },
               }}
@@ -698,7 +704,7 @@ function Departments() {
             onClick={handleSaveAssign}
             disabled={!assignDept || !assignUser}
             sx={{
-              backgroundColor: theme.palette.secondary.main,
+              backgroundColor: theme.palette.primary.main,
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 600,
               textTransform: 'none',

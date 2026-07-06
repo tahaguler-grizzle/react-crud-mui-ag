@@ -1,0 +1,13 @@
+{
+  "Title": "Error Code Test",
+  "EnterCode": "Enter Error Code",
+  "SendingRequest": "Sending Request",
+  "TestBtn": "Test",
+  "SuccessMessage": "Success, No Error Message",
+  "errors": {
+    "4002": "Error code type1 : {{errorCode}}",
+    "300": "Error code type2 :  300",
+    "400": "Error code type3 : Bad Request",
+    "DEFAULT": "Unknown error code"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "Title": "Hata Kodu Testi",
+  "EnterCode": "Hata Kodu Giriniz",
+  "SendingRequest": "İstek Gönderiliyor",
+  "TestBtn": "Test",
+  "SuccessMessage": "Başarılı, Hata Mesajı Yok",
+  "errors": {
+    "4002": "Hata kodu tip1 : {{errorCode}}",
+    "300": "Hata kodu tip2 : 300",
+    "400": "Hata kodu tip3 : Kötü İstek",
+    "DEFAULT": "Bilinmeyen Hata Kodu"
+  }
+}

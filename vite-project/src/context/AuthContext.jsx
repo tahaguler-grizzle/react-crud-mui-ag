@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { t } = useTranslation(['common', 'login']);
+  const { t } = useTranslation(['login', 'common']);
   const [user, setUser] = useState(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -30,12 +30,12 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(foundUser));
         return { success: true };
       } else {
-        return { success: false, message: t('Login.IncorrectCred') };
+        return { success: false, message: t('IncorrectCred') };
       }
     } catch (error) {
       console.log('Giriş hatası', error);
 
-      return { success: false, message: t('Login.ServerError') };
+      return { success: false, message: t('ServerError') };
     }
   };
 
