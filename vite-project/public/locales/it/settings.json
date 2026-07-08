@@ -26,7 +26,7 @@
   },
   "DND": {
     "Title": "Non disturbare",
-    "DNDDuration": "Durata non disturbare",
+    "Duration": "Durata non disturbare",
     "Off": "Disattivato",
     "1Hour": "1 ora",
     "4Hour": "4 ore",

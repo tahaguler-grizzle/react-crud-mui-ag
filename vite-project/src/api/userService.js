@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axiosInstance';
 
 const API_URL = 'https://697e36ac97386252a26a2c01.mockapi.io/kullanici';
 const SETTINGS_API_URL = 'https://6a3bc0d3e4a07f202e15c956.mockapi.io/settings';

@@ -7,5 +7,6 @@
   "Edit": "Edit My Information",
   "OwnerOnly": "Only the owner can edit this profile.",
   "DeleteAvatarTitle": "Delete Avatar ?",
-  "DeleteAvatarText": "Are you sure you want to delete your avatar ?"
+  "DeleteAvatarText": "Are you sure you want to delete your avatar ?",
+  "InvalidImage": "Please upload an image file"
 }

@@ -7,5 +7,6 @@
   "Edit": "Modifier mes informations",
   "OwnerOnly": "Seul le propriétaire peut modifier ce profil.",
   "DeleteAvatarTitle": "Supprimer l'avatar ?",
-  "DeleteAvatarText": "Êtes-vous sûr de vouloir supprimer votre avatar ?"
+  "DeleteAvatarText": "Êtes-vous sûr de vouloir supprimer votre avatar ?",
+  "InvalidImage": "Veuillez télécharger un fichier image"
 }

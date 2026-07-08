@@ -7,11 +7,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import Translations from '../custom/Translations';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material/styles';
 
 function LoginForm() {
-  const { t } = useTranslation(['login', 'common']);
+  const { t } = useTranslation('login');
   const router = useRouter();
   const { login } = useAuth();
   const theme = useTheme();
@@ -29,7 +30,8 @@ function LoginForm() {
     const result = await login(username, password);
 
     if (!result.success) {
-      toast.error(result.message || t('LoginFail'));
+      const defaultMsg = t('login:LoginFail');
+      toast.error(t(`login:${result.message}`, { defaultValue: defaultMsg }));
       setIsDisabled(false);
     }
   };
@@ -51,7 +53,7 @@ function LoginForm() {
       />
 
       <TextField
-        label={t('Username', { ns: 'common' })}
+        label=<Translations text="Username" ns="common" />
         fullWidth
         size="small"
         value={username}
@@ -60,7 +62,7 @@ function LoginForm() {
       />
 
       <TextField
-        label={t('Password', { ns: 'common' })}
+        label=<Translations text="Password" ns="common" />
         type={showPassword ? 'text' : 'password'}
         fullWidth
         size="small"
@@ -96,7 +98,7 @@ function LoginForm() {
           },
         }}
       >
-        {t('ForgotPassword')}
+        <Translations text="ForgotPassword" ns="login" />
       </Button>
 
       <Button
@@ -119,7 +121,7 @@ function LoginForm() {
         onClick={handleSubmit}
         disabled={isDisabled}
       >
-        {t('Login')}
+        <Translations text="Login" ns="login" />
       </Button>
     </Box>
   );

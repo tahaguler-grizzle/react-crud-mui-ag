@@ -1,13 +1,34 @@
 {
-  "Title": "Test de code d'erreur",
-  "EnterCode": "Entrez le code d'erreur",
-  "SendingRequest": "Envoi de la requête",
-  "TestBtn": "Test",
-  "SuccessMessage": "Succès, aucun message d'erreur",
+  "Title": "Test de Code d'Erreur",
+  "EnterCode": "Saisir le Code d'Erreur",
+  "TestBtn": "Tester",
+  "SuccessMessage": "Succès, Aucun Message d'Erreur",
   "errors": {
-    "4002": "Code d'erreur type 1 : {{errorCode}}",
-    "300": "Code d'erreur type 2 : 300",
-    "400": "Code d'erreur type 3 : Mauvaise requête",
-    "DEFAULT": "Code d'erreur inconnu"
+    "4002": "Type de code d'erreur 1 : {{errorCode}}",
+    "4003": "Type de code d'erreur 1 : {{errorCode}}",
+    "3000": "Type de code d'erreur 2 : 3000",
+    "4000": "Type de code d'erreur 3 : prévention administrative",
+    "4010": "Échec de la validation MFA",
+    "4025": "Délai d'attente de la connexion d'enregistrement de session",
+    "5001": "Rotation des identifiants privilégiés requise",
+    "PAM_UNAUTHORIZED_ACCESS": "Accès non autorisé à l'actif privilégié",
+    "MFA_REQUIRED": "Authentification multifacteur requise",
+    "APPROVAL_REQUIRED": "Demande d'accès en attente d'approbation double",
+    "TARGET_OFFLINE": "Le système cible est inaccessible ou hors ligne",
+    "DEFAULT": "Code d'erreur inconnu : {{errorCode}}"
+  },
+  "guide": {
+    "4002": "Type de code d'erreur 1 (Dynamique)",
+    "4003": "Type de code d'erreur 1 (Dynamique)",
+    "3000": "Type de code d'erreur 2 (Statique 3000)",
+    "4000": "Type de code d'erreur 3 : prévention administrative",
+    "4010": "Échec de la validation MFA",
+    "4025": "Délai d'attente de la connexion d'enregistrement de session",
+    "5001": "Rotation des identifiants privilégiés requise",
+    "PAM_UNAUTHORIZED_ACCESS": "Accès non autorisé à l'actif privilégié",
+    "MFA_REQUIRED": "Authentification multifacteur requise",
+    "APPROVAL_REQUIRED": "Demande d'accès en attente d'approbation double",
+    "TARGET_OFFLINE": "Le système cible est inaccessible ou hors ligne",
+    "DEFAULT": "Code d'erreur de secours inconnu"
   }
 }

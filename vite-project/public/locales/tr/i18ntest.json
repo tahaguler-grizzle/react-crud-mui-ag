@@ -1,13 +1,34 @@
 {
   "Title": "Hata Kodu Testi",
-  "EnterCode": "Hata Kodu Giriniz",
-  "SendingRequest": "İstek Gönderiliyor",
-  "TestBtn": "Test",
+  "EnterCode": "Hata Kodu Girin",
+  "TestBtn": "Test Et",
   "SuccessMessage": "Başarılı, Hata Mesajı Yok",
   "errors": {
-    "4002": "Hata kodu tip1 : {{errorCode}}",
-    "300": "Hata kodu tip2 : 300",
-    "400": "Hata kodu tip3 : Kötü İstek",
-    "DEFAULT": "Bilinmeyen Hata Kodu"
+    "4002": "Hata kodu tipi 1 : {{errorCode}}",
+    "4003": "Hata kodu tipi 1 : {{errorCode}}",
+    "3000": "Hata kodu tipi 2 : 3000",
+    "4000": "Hata kodu tipi 3 : yönetici engellemesi",
+    "4010": "MFA doğrulaması başarısız oldu",
+    "4025": "Oturum kaydı bağlantı zaman aşımı",
+    "5001": "Yetkili kimlik bilgisi rotasyonu gerekli",
+    "PAM_UNAUTHORIZED_ACCESS": "Yetkili varlığa yetkisiz erişim isteği",
+    "MFA_REQUIRED": "Çok Faktörlü Kimlik Doğrulama (MFA) gerekli",
+    "APPROVAL_REQUIRED": "Erişim talebi çift aşamalı onay bekliyor",
+    "TARGET_OFFLINE": "Hedef sisteme ulaşılamıyor veya sistem kapalı",
+    "DEFAULT": "Bilinmeyen hata kodu : {{errorCode}}"
+  },
+  "guide": {
+    "4002": "Hata kodu tipi 1 (Dinamik)",
+    "4003": "Hata kodu tipi 1 (Dinamik)",
+    "3000": "Hata kodu tipi 2 (Sabit 3000)",
+    "4000": "Hata kodu tipi 3 : yönetici engellemesi",
+    "4010": "MFA doğrulaması başarısız oldu",
+    "4025": "Oturum kaydı bağlantı zaman aşımı",
+    "5001": "Yetkili kimlik bilgisi rotasyonu gerekli",
+    "PAM_UNAUTHORIZED_ACCESS": "Yetkili varlığa yetkisiz erişim isteği",
+    "MFA_REQUIRED": "Çok Faktörlü Kimlik Doğrulama (MFA) gerekli",
+    "APPROVAL_REQUIRED": "Erişim talebi çift aşamalı onay bekliyor",
+    "TARGET_OFFLINE": "Hedef sisteme ulaşılamıyor veya sistem kapalı",
+    "DEFAULT": "Bilinmeyen yedek hata kodu"
   }
 }

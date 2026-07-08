@@ -26,7 +26,7 @@
   },
   "DND": {
     "Title": "Do Not Disturb",
-    "DNDDuration": "DND Duration",
+    "Duration": "DND Duration",
     "Off": "Off",
     "1Hour": "1 Hour",
     "4Hour": "4 Hours",

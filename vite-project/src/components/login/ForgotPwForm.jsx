@@ -7,6 +7,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import Translations from '../custom/Translations';
 import { useRouter } from 'next/router';
 import WestIcon from '@mui/icons-material/West';
 import { updateExistingUser, fetchUsers } from '../../api/userService';
@@ -15,7 +16,7 @@ import { useTheme, alpha } from '@mui/material/styles';
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)\S{8,}$/;
 
 function ForgotPwForm() {
-  const { t } = useTranslation(['login', 'common']);
+  const { t } = useTranslation('login');
   const theme = useTheme();
   const router = useRouter();
   const { user, setUser } = useAuth();
@@ -45,7 +46,7 @@ function ForgotPwForm() {
     const { credential, newPw, reEnter } = formValues;
 
     if (!credential || !newPw || !reEnter) {
-      toast.error(t('ErrorEmptyForm'));
+      toast.error(t('login:ErrorEmptyForm'));
       setErrors({
         credential: !credential,
         newPw: !newPw,
@@ -56,14 +57,14 @@ function ForgotPwForm() {
     }
 
     if (!passwordRegex.test(newPw)) {
-      toast.error(t('ErrorWeakPassword'));
+      toast.error(t('login:ErrorWeakPassword'));
       setErrors({ credential: false, newPw: true, reEnter: true });
       setIsDisabled(false);
       return;
     }
 
     if (newPw !== reEnter) {
-      toast.error(t('ErrorDifferentPasswordFields'));
+      toast.error(t('login:ErrorDifferentPasswordFields'));
       setErrors({ credential: false, newPw: true, reEnter: true });
       setIsDisabled(false);
       return;
@@ -71,14 +72,14 @@ function ForgotPwForm() {
 
     if (user) {
       if (credential !== user.password) {
-        toast.error(t('ErrorWrongCurrentPassword'));
+        toast.error(t('login:ErrorWrongCurrentPassword'));
         setErrors({ credential: true, newPw: false, reEnter: false });
         setIsDisabled(false);
         return;
       }
 
       if (credential === newPw) {
-        toast.error(t('ErrorSamePassword'));
+        toast.error(t('login:ErrorSamePassword'));
         setErrors({ credential: false, newPw: true, reEnter: true });
         setIsDisabled(false);
         return;
@@ -104,11 +105,11 @@ function ForgotPwForm() {
         };
         localStorage.setItem('user', JSON.stringify(updatedUserObj));
         setUser(updatedUserObj);
-        toast.success(t('ChangePasswordSuccess'));
+        toast.success(t('login:ChangePasswordSuccess'));
         setFormValues({ credential: '', newPw: '', reEnter: '' });
         setErrors({ credential: false, newPw: false, reEnter: false });
       } catch (error) {
-        toast.error(t('ChangePasswordFail'));
+        toast.error(t('login:ChangePasswordFail'));
       }
     } else {
       try {
@@ -116,14 +117,14 @@ function ForgotPwForm() {
         const targetUser = users.find((u) => u.username === credential);
 
         if (!targetUser) {
-          toast.error(t('UserNotFound'));
+          toast.error(t('login:UserNotFound'));
           setErrors({ credential: true, newPw: false, reEnter: false });
           setIsDisabled(false);
           return;
         }
 
         if (targetUser.password === newPw) {
-          toast.error(t('ErrorSamePassword'));
+          toast.error(t('login:ErrorSamePassword'));
           setErrors({ credential: false, newPw: true, reEnter: true });
           setIsDisabled(false);
           return;
@@ -141,11 +142,11 @@ function ForgotPwForm() {
         };
 
         await updateExistingUser(targetUser.id, payload);
-        toast.success(t('ChangePasswordSuccess'));
+        toast.success(t('login:ChangePasswordSuccess'));
         setFormValues({ credential: '', newPw: '', reEnter: '' });
         setErrors({ credential: false, newPw: false, reEnter: false });
       } catch (error) {
-        toast.error(t('ChangePasswordFail'));
+        toast.error(t('login:ChangePasswordFail'));
       }
     }
 
@@ -182,7 +183,7 @@ function ForgotPwForm() {
             },
           }}
         >
-          {t('Back', { ns: 'common' })}
+          <Translations text="Back" ns="common" />
         </Button>
 
         <Box
@@ -200,7 +201,13 @@ function ForgotPwForm() {
 
       <TextField
         name="credential"
-        label={user ? t('CurrentPw') : t('Username', { ns: 'common' })}
+        label={
+          user ? (
+            <Translations text="CurrentPw" ns="login" />
+          ) : (
+            <Translations text="Username" ns="common" />
+          )
+        }
         type={user ? (showPassword.credential ? 'text' : 'password') : 'text'}
         fullWidth
         size="small"
@@ -232,7 +239,7 @@ function ForgotPwForm() {
 
       <TextField
         name="newPw"
-        label={t('NewPw')}
+        label=<Translations text="NewPw" ns="login" />
         type={showPassword.newPw ? 'text' : 'password'}
         fullWidth
         size="small"
@@ -260,7 +267,7 @@ function ForgotPwForm() {
 
       <TextField
         name="reEnter"
-        label={t('ReEnterPw')}
+        label=<Translations text="ReEnterPw" ns="login" />
         type={showPassword.reEnter ? 'text' : 'password'}
         fullWidth
         size="small"
@@ -306,7 +313,7 @@ function ForgotPwForm() {
         onClick={handleSubmit}
         disabled={isDisabled}
       >
-        {t('ChangePwButton')}
+        <Translations text="ChangePwButton" ns="login" />
       </Button>
     </Box>
   );

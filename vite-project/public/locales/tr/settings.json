@@ -26,7 +26,7 @@
   },
   "DND": {
     "Title": "Rahatsız Etme",
-    "DNDDuration": "Rahatsız Etme Süresi",
+    "Duration": "Rahatsız Etme Süresi",
     "Off": "Kapalı",
     "1Hour": "1 Saat",
     "4Hour": "4 Saat",

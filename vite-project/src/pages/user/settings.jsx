@@ -42,12 +42,12 @@ import { useAuth } from '../../context/AuthContext';
 import { fetchUserSettings, updateUserSettings } from '../../api/userService';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import Translations from '../../components/custom/Translations';
 import { useThemeMode } from '../../context/ThemeModeContext';
 import { useTheme } from '@mui/material/styles';
 
 function Settings() {
-  const { t } = useTranslation(['settings', 'common']);
-  const { setMode } = useThemeMode();
+  const { t } = useTranslation('settings');
   const theme = useTheme();
 
   const TIMEZONES = [
@@ -69,24 +69,24 @@ function Settings() {
   ];
 
   const DEFAULT_PAGES = [
-    { value: 'Dashboard', label: t('DefaultPages.Dashboard') },
-    { value: 'Profile', label: t('DefaultPages.Profile') },
-    { value: 'Raporlar', label: t('DefaultPages.Reports') },
-    { value: 'Settings', label: t('DefaultPages.Settings') },
+    { value: 'Dashboard', label: <Translations text="DefaultPages.Dashboard" ns="settings" /> },
+    { value: 'Profile', label: <Translations text="DefaultPages.Profile" ns="settings" /> },
+    { value: 'Raporlar', label: <Translations text="DefaultPages.Reports" ns="settings" /> },
+    { value: 'Settings', label: <Translations text="DefaultPages.Settings" ns="settings" /> },
   ];
 
   const DND_OPTIONS = [
-    { value: 'off', label: t('DND.Off') },
-    { value: '1h', label: t('DND.1Hour') },
-    { value: '4h', label: t('DND.4Hour') },
-    { value: '8h', label: t('DND.8Hour') },
-    { value: 'always', label: t('DND.Always') },
+    { value: 'off', label: <Translations text="DND.Off" ns="settings" /> },
+    { value: '1h', label: <Translations text="DND.1Hour" ns="settings" /> },
+    { value: '4h', label: <Translations text="DND.4Hour" ns="settings" /> },
+    { value: '8h', label: <Translations text="DND.8Hour" ns="settings" /> },
+    { value: 'always', label: <Translations text="DND.Always" ns="settings" /> },
   ];
 
   const DATE_FORMATS = [
-    { value: 'DD/MM/YYYY', label: t('DateFormats.DD/MM/YYYY') },
-    { value: 'MM/DD/YYYY', label: t('DateFormats.MM/DD/YYYY') },
-    { value: 'YYYY-MM-DD', label: t('DateFormats.YYYY-MM-DD') },
+    { value: 'DD/MM/YYYY', label: <Translations text="DateFormats.DD/MM/YYYY" ns="settings" /> },
+    { value: 'MM/DD/YYYY', label: <Translations text="DateFormats.MM/DD/YYYY" ns="settings" /> },
+    { value: 'YYYY-MM-DD', label: <Translations text="DateFormats.YYYY-MM-DD" ns="settings" /> },
   ];
 
   const [darkMode, setDarkMode] = useState('light');
@@ -171,10 +171,7 @@ function Settings() {
     }
   };
 
-  const handleDarkMode = (_, val) => {
-    if (val) setDarkMode(val);
-    setMode(val);
-  };
+  const handleDarkMode = (_, val) => setDarkMode(val);
   const handleEmailNotif = (e) => setEmailNotif(e.target.checked);
   const handlePushNotif = (e) => setPushNotif(e.target.checked);
   const handleDnd = (e) => setDnd(e.target.value);
@@ -216,17 +213,16 @@ function Settings() {
         twoFAEmail,
         twoFAAuth,
       });
-      toast.success(t('SettingsSaveSuccess'));
+      toast.success(t('settings:SettingsSaveSuccess'));
     } catch (error) {
       console.error('Ayarlar Kaydedilemedi: ', error);
-      toast.error(t('SettingsSaveFail'));
+      toast.error(t('settings:SettingsSaveFail'));
     }
   };
 
   const handleCancel = () => {
     if (!originalSettings) return;
     setDarkMode(originalSettings.darkMode);
-    setMode(originalSettings.darkMode);
     setEmailNotif(originalSettings.emailNotif);
     setPushNotif(originalSettings.pushNotif);
     setDnd(originalSettings.dnd);
@@ -267,7 +263,7 @@ function Settings() {
           mb: 4,
         }}
       >
-        {t('Title')}
+        <Translations text="Title" ns="settings" />
       </Typography>
 
       <Card
@@ -293,7 +289,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('DarkMode')}
+                <Translations text="DarkMode" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -322,11 +318,11 @@ function Settings() {
               >
                 <ToggleButton value="light">
                   <LightModeIcon sx={{ fontSize: 15, mr: 0.75 }} />
-                  {t('Light')}
+                  {t('settings:Light')}
                 </ToggleButton>
                 <ToggleButton value="dark">
                   <DarkModeIcon sx={{ fontSize: 15, mr: 0.75 }} />
-                  {t('Dark')}
+                  <Translations text="Dark" ns="settings" />
                 </ToggleButton>
               </ToggleButtonGroup>
             </Box>
@@ -345,7 +341,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('2FA.Title')}
+                <Translations text="2FA.Title" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -365,7 +361,7 @@ function Settings() {
                   },
                 }}
               >
-                {t('2FA.ButtonTitle')}
+                <Translations text="2FA.ButtonTitle" ns="settings" />
               </Button>
             </Box>
           </Box>
@@ -383,7 +379,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('SessionTimeout')}
+                <Translations text="SessionTimeout" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -395,7 +391,7 @@ function Settings() {
                   step={5}
                   onChange={handleSessionTimeout}
                   valueLabelDisplay="auto"
-                  valueLabelFormat={(v) => `${v} ` + t('TimeoutUnit').charAt(0)}
+                  valueLabelFormat={(v) => `${v} ` + t('settings:TimeoutUnit').charAt(0)} // burda charAt string istiyor
                   sx={{
                     color: theme.palette.primary.main,
                     '& .MuiSlider-thumb': { boxShadow: 'none' },
@@ -409,7 +405,7 @@ function Settings() {
                       color: theme.palette.text.secondary,
                     }}
                   >
-                    5 {t('TimeoutUnit').charAt(0)}
+                    5 {t('settings:TimeoutUnit').charAt(0) /* burda charAt string istiyor */}
                   </Typography>
                   <Typography
                     sx={{
@@ -418,7 +414,7 @@ function Settings() {
                       color: theme.palette.text.secondary,
                     }}
                   >
-                    120 {t('TimeoutUnit').charAt(0)}
+                    120 {t('settings:TimeoutUnit').charAt(0) /* burda charAt string istiyor */}
                   </Typography>
                 </Box>
               </Box>
@@ -438,7 +434,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('EmailNotifications')}
+                <Translations text="EmailNotifications" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -468,7 +464,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('PushNotifications')}
+                <Translations text="PushNotifications" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -498,7 +494,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('DND.Title')}
+                <Translations text="DND.Title" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -510,11 +506,11 @@ function Settings() {
                     color: theme.palette.text.secondary,
                   }}
                 >
-                  {t('DND.DNDDuration')}
+                  <Translations text="DND.Duration" ns="settings" />
                 </InputLabel>
                 <Select
                   value={dnd}
-                  label="DND Duration"
+                  label=<Translations text="DND.Duration" ns="settings" />
                   onChange={handleDnd}
                   sx={{
                     fontFamily: "'Montserrat', sans-serif",
@@ -559,7 +555,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('DefaultPage')}
+                <Translations text="DefaultPage" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -571,11 +567,11 @@ function Settings() {
                     color: theme.palette.text.secondary,
                   }}
                 >
-                  {t('Page')}
+                  <Translations text="Page" ns="settings" />
                 </InputLabel>
                 <Select
                   value={defaultPage}
-                  label="Page"
+                  label=<Translations text="Page" ns="settings" />
                   onChange={handleDefaultPage}
                   sx={{
                     fontFamily: "'Montserrat', sans-serif",
@@ -620,7 +616,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('TimeZone')}
+                <Translations text="TimeZone" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -633,7 +629,7 @@ function Settings() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label={t('TimeZone')}
+                    label=<Translations text="TimeZone" ns="settings" />
                     sx={{
                       '& .MuiInputBase-root': {
                         borderRadius: '10px',
@@ -678,7 +674,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('DateFormat')}
+                <Translations text="DateFormat" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -726,7 +722,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('SoundEffects')}
+                <Translations text="SoundEffects" ns="settings" />
               </Typography>
             </Box>
             <Box sx={{ flexShrink: 0 }}>
@@ -765,7 +761,7 @@ function Settings() {
                 },
               }}
             >
-              {t('Cancel', { ns: 'common' })}
+              <Translations text="Cancel" ns="common" />
             </Button>
             <Button
               variant="contained"
@@ -786,7 +782,7 @@ function Settings() {
                 },
               }}
             >
-              {t('Save', { ns: 'common' })}
+              <Translations text="Save" ns="common" />
             </Button>
           </Box>
         </CardContent>
@@ -809,7 +805,7 @@ function Settings() {
             pb: 0.5,
           }}
         >
-          {t('2FA.Title')}
+          <Translations text="2FA.Title" ns="settings" />
         </DialogTitle>
 
         <DialogContent>
@@ -826,7 +822,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('2FA.SMS')}
+                <Translations text="2FA.SMS" ns="settings" />
               </Typography>
             </Box>
             <Switch
@@ -854,7 +850,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('Email', { ns: 'common' })}
+                <Translations text="Email" ns="common" />
               </Typography>
             </Box>
             <Switch
@@ -882,7 +878,7 @@ function Settings() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('2FA.AuthApp')}
+                <Translations text="2FA.AuthApp" ns="settings" />
               </Typography>
             </Box>
 
@@ -910,7 +906,7 @@ function Settings() {
               borderRadius: '10px',
             }}
           >
-            {t('Cancel', { ns: 'common' })}
+            <Translations text="Cancel" ns="common" />
           </Button>
           <Button
             variant="contained"
@@ -925,7 +921,7 @@ function Settings() {
               '&:hover': { backgroundColor: theme.palette.primary.dark, boxShadow: 'none' },
             }}
           >
-            {t('Save', { ns: 'common' })}
+            <Translations text="Save" ns="common" />
           </Button>
         </DialogActions>
       </Dialog>

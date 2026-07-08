@@ -21,10 +21,11 @@ import CustomTextFieldTitle from './custom/CustomTextFieldTitle';
 import { toast } from 'react-toastify';
 import { createNewUser, updateExistingUser } from '../api/userService';
 import { useTranslation } from 'react-i18next';
+import Translations from '../components/custom/Translations';
 import { COUNTRY_CODES, parsePhoneNumber } from './custom/GlobalPhoneNumber';
 
 const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visibleFieldsProp }) => {
-  const { t } = useTranslation(['userEdit', 'common']);
+  const { t } = useTranslation('userEdit');
   const theme = useTheme();
 
   const initialFormData = {
@@ -271,7 +272,11 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               color: theme.palette.text.primary,
             }}
           >
-            {editId ? t('EditMode') : t('AddMode')}
+            {editId ? (
+              <Translations text="EditMode" ns="userEdit" />
+            ) : (
+              <Translations text="AddMode" ns="userEdit" />
+            )}
           </Typography>
           <IconButton onClick={onClose} sx={{ color: theme.palette.text.primary }}>
             <CloseIcon />
@@ -283,7 +288,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         {visibleFields.name && (
           <>
             <CustomTextFieldTitle color={theme.palette.text.primary}>
-              {t('Name', { ns: 'common' })}
+              <Translations text="Name" ns="common" />
             </CustomTextFieldTitle>
             <TextField
               name="name"
@@ -301,7 +306,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         {visibleFields.surname && (
           <>
             <CustomTextFieldTitle color={theme.palette.text.primary}>
-              {t('Surname', { ns: 'common' })}
+              <Translations text="Surname" ns="common" />
             </CustomTextFieldTitle>
             <TextField
               name="surname"
@@ -319,7 +324,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         {visibleFields.username && (
           <>
             <CustomTextFieldTitle color={theme.palette.text.primary}>
-              {t('Username', { ns: 'common' })}
+              <Translations text="Username" ns="common" />
             </CustomTextFieldTitle>
             <TextField
               name="username"
@@ -337,7 +342,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         {visibleFields.password && (
           <>
             <CustomTextFieldTitle color={theme.palette.text.primary}>
-              {t('Password', { ns: 'common' })}
+              <Translations text="Password" ns="common" />
             </CustomTextFieldTitle>
             <TextField
               name="password"
@@ -371,7 +376,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         {visibleFields.email && (
           <>
             <CustomTextFieldTitle color={theme.palette.text.primary}>
-              {t('Email', { ns: 'common' })}
+              <Translations text="Email" ns="common" />
             </CustomTextFieldTitle>
             <TextField
               name="email"
@@ -389,7 +394,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         {visibleFields.phone && (
           <>
             <CustomTextFieldTitle color={theme.palette.text.primary}>
-              {t('Phone', { ns: 'common' })}
+              <Translations text="Phone" ns="common" />
             </CustomTextFieldTitle>
             <Box display="flex" gap={1} alignItems="center">
               <Select
@@ -508,7 +513,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
         {visibleFields.description && (
           <>
             <CustomTextFieldTitle color={theme.palette.text.primary}>
-              {t('Desc', { ns: 'common' })}
+              <Translations text="Desc" ns="common" />
             </CustomTextFieldTitle>
             <TextField
               name="description"
@@ -545,7 +550,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
                 <Typography
                   sx={{ fontFamily: "'Montserrat', sans-serif", color: theme.palette.text.primary }}
                 >
-                  {t('Active', { ns: 'common' })}
+                  <Translations text="Active" ns="common" />
                 </Typography>
               }
             />
@@ -571,7 +576,11 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               },
             }}
           >
-            {editId ? t('Update') : t('Add')}
+            {editId ? (
+              <Translations text="Update" ns="userEdit" />
+            ) : (
+              <Translations text="Add" ns="userEdit" />
+            )}
           </Button>
           <Button
             variant="outlined"
@@ -588,7 +597,7 @@ const UserFormDrawer = ({ open, onClose, editId, initialData, onSuccess, visible
               },
             }}
           >
-            {t('Cancel', { ns: 'common' })}
+            <Translations text="Cancel" ns="common" />
           </Button>
         </Box>
       </Box>

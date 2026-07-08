@@ -28,6 +28,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import Translations from '../components/custom/Translations';
 
 import { AgGridReact } from 'ag-grid-react';
 import {
@@ -60,7 +61,7 @@ const filterOptions = createFilterOptions({
 });
 
 function Departments() {
-  const { t, i18n } = useTranslation(['departments', 'common']);
+  const { t, i18n } = useTranslation('departments');
   const theme = useTheme();
 
   const getAgGridLocale = (language) => {
@@ -74,7 +75,7 @@ function Departments() {
       case 'it':
         return AG_GRID_LOCALE_IT;
       default:
-        return AG_GRID_LOCALE_TR;
+        return AG_GRID_LOCALE_EN;
     }
   };
 
@@ -84,15 +85,26 @@ function Departments() {
   );
 
   const DEPARTMENTS = [
-    { value: 'Operation', label: t('Operation') },
-    { value: 'IT', label: t('IT') },
-    { value: 'HR', label: t('HR') },
-    { value: 'Software', label: t('Software') },
-    { value: 'Sales', label: t('Sales') },
-    { value: 'Marketing', label: t('Marketing') },
-    { value: 'Accounting', label: t('Accounting') },
-    { value: 'CustomerSupport', label: t('CustomerSupport') },
+    { value: 'Operation', label: t('departments:Operation') },
+    { value: 'IT', label: t('departments:IT') },
+    { value: 'HR', label: t('departments:HR') },
+    { value: 'Software', label: t('departments:Software') },
+    { value: 'Sales', label: t('departments:Sales') },
+    { value: 'Marketing', label: t('departments:Marketing') },
+    { value: 'Accounting', label: t('departments:Accounting') },
+    { value: 'CustomerSupport', label: t('departments:CustomerSupport') },
   ];
+
+  /*   const DEPARTMENTS = [
+    { value: 'Operation', label: <Translations text="Operation" ns="departments" /> },
+    { value: 'IT', label: <Translations text="IT" ns="departments" /> },
+    { value: 'HR', label: <Translations text="HR" ns="departments" /> },
+    { value: 'Software', label: <Translations text="Software" ns="departments" /> },
+    { value: 'Sales', label: <Translations text="Sales" ns="departments" /> },
+    { value: 'Marketing', label: <Translations text="Marketing" ns="departments" /> },
+    { value: 'Accounting', label: <Translations text="Accounting" ns="departments" /> },
+    { value: 'CustomerSupport', label: <Translations text="CustomerSupport" ns="departments" /> },
+  ]; */
 
   const [departments, setDepartments] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
@@ -124,7 +136,8 @@ function Departments() {
       setAllUsers(userData);
     } catch (error) {
       console.error(error);
-      toast.error(t('DepartmentsLoadFail'));
+      toast.error(<Translations text="DepartmentsLoadFail" ns="departments" />);
+      //toast.error(t("DepartmentLoadFail"));
     }
   };
 
@@ -240,11 +253,13 @@ function Departments() {
       setDepartments((prev) =>
         prev.map((d) => (d.department_name === assignDept ? updatedDept : d))
       );
-      toast.success(t('DepartmentAssignSuccess'));
+      //toast.success(t('departments:DepartmentAssignSuccess'));
+      toast.success(<Translations text="DepartmentAssignSuccess" ns="departments" />);
       closeAssignDialog();
     } catch (error) {
       console.error(error);
-      toast.error(t('DepartmentAssignFail'));
+      //toast.error(t('departments:DepartmentAssignFail'));
+      toast.error(<Translations text="CustomerSupport" ns="departments" />);
     }
   };
 
@@ -277,10 +292,12 @@ function Departments() {
         staff: newStaff,
       });
       setDepartments((prev) => prev.map((d) => (d.id === dept.id ? { ...d, staff: newStaff } : d)));
-      toast.success(t('DepartmentUnassignSuccess'));
+      //toast.success(t('departments:DepartmentUnassignSuccess'));
+      toast.success(<Translations text="DepartmentUnassignSuccess" ns="departments" />);
     } catch (error) {
       console.error(error);
-      toast.error(t('DepartmentUnassignFail'));
+      //toast.error(t('departments:DepartmentUnassignFail'));
+      toast.error(<Translations text="DepartmentUnassignFail" ns="departments" />);
     } finally {
       closeDeleteDialog();
     }
@@ -297,7 +314,7 @@ function Departments() {
             color: theme.palette.text.primary,
           }}
         >
-          {t('Title')}
+          <Translations text="Title" ns="departments" />
         </Typography>
         <Button
           variant="contained"
@@ -318,7 +335,7 @@ function Departments() {
             },
           }}
         >
-          {t('Assign')}
+          <Translations text="Assign" ns="departments" />
         </Button>
       </Box>
 
@@ -407,7 +424,7 @@ function Departments() {
                           color: theme.palette.text.secondary,
                         }}
                       >
-                        {t('Empty')}
+                        <Translations text="Empty" ns="departments" />
                       </Typography>
                     </Box>
                   ) : (
@@ -424,21 +441,21 @@ function Departments() {
                         columnDefs={[
                           {
                             field: 'name',
-                            headerName: t('Name', { ns: 'common' }),
+                            headerName: t('common:Name'),
                             flex: 1,
                           },
                           {
                             field: 'surname',
-                            headerName: t('Surname', { ns: 'common' }),
+                            headerName: t('common:Surname'),
                             flex: 1,
                           },
                           {
                             field: 'phone',
-                            headerName: t('Phone', { ns: 'common' }),
+                            headerName: t('common:Phone'),
                             flex: 1,
                           },
                           {
-                            headerName: t('Actions', { ns: 'common' }),
+                            headerName: t('common:Actions'),
                             width: 100,
                             sortable: false,
                             filter: false,
@@ -488,17 +505,17 @@ function Departments() {
             px: 3,
           }}
         >
-          {t('AssignDialogTitle')}
+          <Translations text="AssignDialogTitle" ns="departments" />
         </DialogTitle>
 
         <DialogContent sx={{ px: 5, py: 2 }}>
           <FormControl fullWidth size="small" sx={{ mt: 1.5, mb: 4 }}>
             <InputLabel sx={{ fontFamily: "'Montserrat', sans-serif" }}>
-              {t('Department')}
+              <Translations text="Department" ns="departments" />
             </InputLabel>
             <Select
               value={assignDept}
-              label={t('Department')}
+              label=<Translations text="Department" ns="departments" />
               onChange={handleAssignDeptChange}
               sx={{ fontFamily: "'Montserrat', sans-serif" }}
             >
@@ -556,8 +573,9 @@ function Departments() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={t('SelectUser')}
-                placeholder={t('SearchUser')}
+                //label={t('departments:SelectUser')}
+                label=<Translations text="SelectUser" ns="departments" />
+                placeholder={t('departments:SearchUser')}
                 sx={{
                   '& .MuiInputBase-root': { fontFamily: "'Montserrat', sans-serif" },
                   '& .MuiInputLabel-root': { fontFamily: "'Montserrat', sans-serif" },
@@ -570,7 +588,8 @@ function Departments() {
           <TextField
             fullWidth
             size="small"
-            label={t('Name', { ns: 'common' })}
+            //label={t('common:Name')}
+            label=<Translations text="Name" />
             value={assignName}
             onChange={(e) => setAssignName(e.target.value)}
             disabled={!assignUser}
@@ -585,7 +604,8 @@ function Departments() {
           <TextField
             fullWidth
             size="small"
-            label={t('Surname', { ns: 'common' })}
+            //label={t('common:Surname')}
+            label=<Translations text="Surname" />
             value={assignSurname}
             onChange={(e) => setAssignSurname(e.target.value)}
             disabled={!assignUser}
@@ -697,7 +717,7 @@ function Departments() {
               borderRadius: '10px',
             }}
           >
-            {t('Cancel', { ns: 'common' })}
+            <Translations text="Cancel" />
           </Button>
           <Button
             variant="contained"
@@ -713,7 +733,7 @@ function Departments() {
               '&:hover': { backgroundColor: theme.palette.secondary.light, boxShadow: 'none' },
             }}
           >
-            {t('Save', { ns: 'common' })}
+            <Translations text="Save" />
           </Button>
         </DialogActions>
       </Dialog>
@@ -722,10 +742,11 @@ function Departments() {
         open={deleteDialogOpen}
         onClose={closeDeleteDialog}
         onConfirm={confirmUnassign}
-        title={t('UnassignTitle')}
+        //title={t('departments:UnassignTitle')}
+        title=<Translations text="UnassignTitle" ns="departments" />
         text={
           deleteTarget
-            ? t('UnassignText', {
+            ? t('departments:UnassignText', {
                 staffName: deleteTarget.staffName,
                 deptName: deleteTarget.deptName,
               })

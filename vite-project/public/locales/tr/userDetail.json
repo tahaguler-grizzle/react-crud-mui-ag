@@ -7,5 +7,6 @@
   "Edit": "Bilgilerimi Düzenle",
   "OwnerOnly": "Bu profili sadece sahibi düzenleyebilir.",
   "DeleteAvatarTitle": "Avatarı Sil ?",
-  "DeleteAvatarText": "Avatarı silmek istediğinize emin misiniz ?"
+  "DeleteAvatarText": "Avatarı silmek istediğinize emin misiniz ?",
+  "InvalidImage": "Lütfen bir resim dosyası yükleyin"
 }

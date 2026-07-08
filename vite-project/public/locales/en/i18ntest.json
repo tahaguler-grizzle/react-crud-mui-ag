@@ -1,13 +1,34 @@
 {
   "Title": "Error Code Test",
   "EnterCode": "Enter Error Code",
-  "SendingRequest": "Sending Request",
   "TestBtn": "Test",
   "SuccessMessage": "Success, No Error Message",
   "errors": {
-    "4002": "Error code type1 : {{errorCode}}",
-    "300": "Error code type2 :  300",
-    "400": "Error code type3 : Bad Request",
-    "DEFAULT": "Unknown error code"
+    "4002": "Error code type 1 : {{errorCode}}",
+    "4003": "Error code type 1 : {{errorCode}}",
+    "3000": "Error code type 2 : 3000",
+    "4000": "Error code type 3 : admin prevention",
+    "4010": "MFA validation failed",
+    "4025": "Session recording connection timeout",
+    "5001": "Privileged credential rotation required",
+    "PAM_UNAUTHORIZED_ACCESS": "Unauthorized access to privileged asset",
+    "MFA_REQUIRED": "Multi-Factor Authentication required",
+    "APPROVAL_REQUIRED": "Access request pending dual-authorization approval",
+    "TARGET_OFFLINE": "Target system is unreachable or offline",
+    "DEFAULT": "Unknown error code : {{errorCode}}"
+  },
+  "guide": {
+    "4002": "Error code type 1 (Dynamic)",
+    "4003": "Error code type 1 (Dynamic)",
+    "3000": "Error code type 2 (Static 3000)",
+    "4000": "Error code type 3 : admin prevention",
+    "4010": "MFA validation failed",
+    "4025": "Session recording connection timeout",
+    "5001": "Privileged credential rotation required",
+    "PAM_UNAUTHORIZED_ACCESS": "Unauthorized access to privileged asset",
+    "MFA_REQUIRED": "Multi-Factor Authentication required",
+    "APPROVAL_REQUIRED": "Access request pending dual-authorization approval",
+    "TARGET_OFFLINE": "Target system is unreachable or offline",
+    "DEFAULT": "Unknown fallback error code"
   }
 }

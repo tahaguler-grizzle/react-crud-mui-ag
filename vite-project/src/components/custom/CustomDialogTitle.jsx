@@ -9,9 +9,10 @@ import {
 } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { useTranslation } from 'react-i18next';
+import Translations from './Translations';
 
 const CustomDialogTitle = ({ open, onClose, onConfirm, title, text }) => {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation();
 
   return (
     <Dialog
@@ -62,7 +63,7 @@ const CustomDialogTitle = ({ open, onClose, onConfirm, title, text }) => {
             textTransform: 'none',
           }}
         >
-          {t('Cancel')}
+          <Translations text="Cancel" ns="common" />
         </Button>
         <Button
           onClick={onConfirm}
@@ -75,7 +76,7 @@ const CustomDialogTitle = ({ open, onClose, onConfirm, title, text }) => {
             textTransform: 'none',
           }}
         >
-          {t('Delete')}
+          <Translations text="Delete" ns="common" />
         </Button>
       </DialogActions>
     </Dialog>

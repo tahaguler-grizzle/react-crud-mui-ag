@@ -36,11 +36,12 @@ import {
   AG_GRID_LOCALE_FR,
   AG_GRID_LOCALE_IT,
 } from '@ag-grid-community/locale';
+import Translations from '../components/custom/Translations';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 function Reports() {
-  const { t, i18n } = useTranslation(['reports', 'common']);
+  const { t, i18n } = useTranslation('reports');
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -91,49 +92,49 @@ function Reports() {
     () => [
       {
         field: 'id',
-        headerValueGetter: () => t('ID'),
+        headerValueGetter: () => t('common:ID'),
         width: 70,
         minWidth: 70,
         suppressMovable: true,
       },
       {
         field: 'name',
-        headerValueGetter: () => t('Name'),
+        headerValueGetter: () => t('common:Name'),
         flex: 1,
         minWidth: 120,
       },
       {
         field: 'surname',
-        headerValueGetter: () => t('Surname'),
+        headerValueGetter: () => t('common:Surname'),
         flex: 1,
         minWidth: 120,
       },
       {
         field: 'username',
-        headerValueGetter: () => t('Username'),
+        headerValueGetter: () => t('common:Username'),
         flex: 1,
         minWidth: 120,
       },
       {
         field: 'email',
-        headerValueGetter: () => t('Email'),
+        headerValueGetter: () => t('common:Email'),
         flex: 1.5,
         minWidth: 180,
       },
       {
         field: 'phone',
-        headerValueGetter: () => t('Phone'),
+        headerValueGetter: () => t('common:Phone'),
         flex: 1,
         minWidth: 140,
       },
       {
         field: 'isActive',
-        headerValueGetter: () => t('Status', { ns: 'reports' }),
+        headerValueGetter: () => t('reports:Status'),
         flex: 1,
         minWidth: 120,
         cellRenderer: (params) => (
           <Chip
-            label={params.value ? t('Active') : t('Passive')}
+            label={params.value ? t('common:Active') : t('common:Passive')}
             size="small"
             sx={{
               fontFamily: "'Montserrat', sans-serif",
@@ -182,7 +183,7 @@ function Reports() {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(20);
       doc.setTextColor(110, 144, 196);
-      doc.text(t('Title', { ns: 'reports' }), 14, 20);
+      doc.text(t('reports:Title'), 14, 20);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
@@ -193,23 +194,27 @@ function Reports() {
       doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(110, 144, 196);
-      doc.text(`${t('TotalUsers', { ns: 'reports' })}: ${dataToExport.length}`, 14, 40);
+      doc.text(`${t('reports:TotalUsers')}: ${dataToExport.length}`, 14, 40);
       doc.setTextColor(34, 197, 94);
-      doc.text(`${t('Active')}: ${dataToExport.filter((u) => u.isActive).length}`, 70, 40);
+      doc.text(`${t('common:Active')}: ${dataToExport.filter((u) => u.isActive).length}`, 70, 40);
       doc.setTextColor(239, 68, 68);
-      doc.text(`${t('Passive')}: ${dataToExport.filter((u) => !u.isActive).length}`, 120, 40);
+      doc.text(
+        `${t('common:Passive')}: ${dataToExport.filter((u) => !u.isActive).length}`,
+        120,
+        40
+      );
 
       autoTable(doc, {
         startY: 50,
         head: [
           [
-            t('ID'),
-            t('Name'),
-            t('Surname'),
-            t('Username'),
-            t('Email'),
-            t('Phone'),
-            t('Status', { ns: 'reports' }),
+            t('common:ID'),
+            t('common:Name'),
+            t('common:Surname'),
+            t('common:Username'),
+            t('common:Email'),
+            t('common:Phone'),
+            t('reports:Status'),
           ],
         ],
         body: dataToExport.map((u) => [
@@ -219,7 +224,7 @@ function Reports() {
           u.username || '-',
           u.email || '-',
           u.phone || '-',
-          u.isActive ? t('Active') : t('Passive'),
+          u.isActive ? t('common:Active') : t('common:Passive'),
         ]),
         headStyles: {
           fillColor: [110, 144, 196],
@@ -256,7 +261,7 @@ function Reports() {
           mb: 4,
         }}
       >
-        {t('Title', { ns: 'reports' })}
+        <Translations text="Title" ns="reports" />
       </Typography>
 
       <Card
@@ -291,7 +296,7 @@ function Reports() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('UserSummary', { ns: 'reports' })}
+                <Translations text="UserSummary" ns="reports" />
               </Typography>
             </Box>
             <Box
@@ -327,7 +332,7 @@ function Reports() {
                         }}
                       />
                     }
-                    label={t('DownloadAll', { ns: 'reports' })}
+                    label=<Translations text="DownloadAll" ns="reports" />
                   />
                   <FormControlLabel
                     value="grid"
@@ -340,7 +345,7 @@ function Reports() {
                         }}
                       />
                     }
-                    label={t('DownloadGridOnly', { ns: 'reports' })}
+                    label=<Translations text="DownloadGridOnly" ns="reports" />
                   />
                 </RadioGroup>
               </FormControl>
@@ -367,7 +372,7 @@ function Reports() {
                   },
                 }}
               >
-                {t('DownloadPdf', { ns: 'reports' })}
+                <Translations text="DownloadPdf" ns="reports" />
               </Button>
             </Box>
           </Box>
@@ -387,7 +392,7 @@ function Reports() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('TotalUsers', { ns: 'reports' })}
+                <Translations text="TotalUsers" ns="reports" />
               </Typography>
             </Box>
             <Typography
@@ -415,7 +420,7 @@ function Reports() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('ActiveUsers', { ns: 'reports' })}
+                <Translations text="ActiveUsers" ns="reports" />
               </Typography>
             </Box>
             <Box display="flex" alignItems="center" gap={1.5}>
@@ -445,7 +450,7 @@ function Reports() {
                   color: theme.palette.text.primary,
                 }}
               >
-                {t('PassiveUsers', { ns: 'reports' })}
+                <Translations text="PassiveUsers" ns="reports" />
               </Typography>
             </Box>
             <Box display="flex" alignItems="center" gap={1.5}>
@@ -487,7 +492,7 @@ function Reports() {
                 color: theme.palette.text.primary,
               }}
             >
-              {t('AllUsers', { ns: 'reports' })}
+              <Translations text="AllUsers" ns="reports" />
             </Typography>
           </Box>
 

@@ -30,8 +30,10 @@ import UserFormDrawer from '../../components/UserFormDrawer';
 import CustomTextFieldTitle from '../../components/custom/CustomTextFieldTitle';
 import CustomDialogTitle from '../../components/custom/CustomDialogTitle';
 import { useTranslation } from 'react-i18next';
+import Translations from '../../components/custom/Translations';
 
 function UserDetail({ id }) {
+  const { t } = useTranslation('userDetail');
   const theme = useTheme();
 
   const DB_NAME = 'AvatarStorage';
@@ -80,7 +82,6 @@ function UserDetail({ id }) {
     });
   };
 
-  const { t } = useTranslation(['userDetail', 'common']);
   const router = useRouter();
   const { user: currentUser } = useAuth();
 
@@ -128,7 +129,7 @@ function UserDetail({ id }) {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert(t('InvalidImage', 'Lütfen bir resim seçin.'));
+      alert(t('userDetail:InvalidImage'));
       return;
     }
 
@@ -165,7 +166,7 @@ function UserDetail({ id }) {
   if (!profileData) {
     return (
       <Typography sx={{ mt: 4, textAlign: 'center', fontFamily: "'Montserrat', sans-serif" }}>
-        {t('UserNotFound')}
+        <Translations text="UserNotFound" ns="userDetail" />
       </Typography>
     );
   }
@@ -193,7 +194,7 @@ function UserDetail({ id }) {
           },
         }}
       >
-        {t('Back', { ns: 'common' })}
+        <Translations text="Back" ns="common" />
       </Button>
 
       <Card
@@ -319,7 +320,11 @@ function UserDetail({ id }) {
                 ) : (
                   <CancelIcon fontSize="small" />
                 )}
-                {profileData.isActive ? t('Member') : t('NoMember')}
+                {profileData.isActive ? (
+                  <Translations text="Member" ns="userDetail" />
+                ) : (
+                  <Translations text="NoMember" ns="userDetail" />
+                )}
               </Box>
             </Box>
           </Box>
@@ -331,7 +336,7 @@ function UserDetail({ id }) {
               <Box display="flex" alignItems="center" gap={1.5} mb={1}>
                 <EmailIcon sx={{ color: theme.palette.primary.main }} />
                 <CustomTextFieldTitle height={24} color={theme.palette.text.primary}>
-                  {t('Email')}
+                  <Translations text="Email" ns="common" />
                 </CustomTextFieldTitle>
               </Box>
               <Typography
@@ -350,7 +355,7 @@ function UserDetail({ id }) {
               <Box display="flex" alignItems="center" gap={1.5} mb={1}>
                 <PhoneIcon sx={{ color: theme.palette.primary.main }} />
                 <CustomTextFieldTitle height={24} color={theme.palette.text.primary}>
-                  {t('Phone')}
+                  <Translations text="Phone" ns="common" />
                 </CustomTextFieldTitle>
               </Box>
               <Typography
@@ -369,7 +374,7 @@ function UserDetail({ id }) {
               <Box display="flex" alignItems="center" gap={1.5} mb={1}>
                 <InfoIcon sx={{ color: theme.palette.primary.main }} />
                 <CustomTextFieldTitle height={24} color={theme.palette.text.primary}>
-                  {t('About')}
+                  <Translations text="About" ns="userDetail" />
                 </CustomTextFieldTitle>
               </Box>
               <Typography
@@ -380,7 +385,7 @@ function UserDetail({ id }) {
                   ml: 4.5,
                 }}
               >
-                {profileData.description || t('EmptyAbout')}
+                {profileData.description || <Translations text="EmptyAbout" ns="userDetail" />}
               </Typography>
             </Grid>
           </Grid>
@@ -407,7 +412,7 @@ function UserDetail({ id }) {
                   },
                 }}
               >
-                {t('Edit')}
+                <Translations text="Edit" ns="userDetail" />
               </Button>
             ) : (
               <Typography
@@ -418,7 +423,7 @@ function UserDetail({ id }) {
                   color: theme.palette.text.secondary,
                 }}
               >
-                {t('OwnerOnly')}
+                <Translations text="OwnerOnly" ns="userDetail" />
               </Typography>
             )}
           </Box>
@@ -447,8 +452,8 @@ function UserDetail({ id }) {
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         onConfirm={confirmDelete}
-        title={t('DeleteAvatarTitle')}
-        text={t('DeleteAvatarText')}
+        title=<Translations text="DeleteAvatarTitle" ns="userDetail" />
+        text=<Translations text="DeleteAvatarText" ns="userDetail" />
       />
     </Container>
   );

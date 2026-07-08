@@ -31,6 +31,7 @@ import { toast } from 'react-toastify';
 import CustomDialogTitle from '../components/custom/CustomDialogTitle';
 
 import { useTranslation } from 'react-i18next';
+import Translations from '../components/custom/Translations';
 
 import {
   AG_GRID_LOCALE_EN,
@@ -40,7 +41,7 @@ import {
 } from '@ag-grid-community/locale';
 
 function Dashboard() {
-  const { t, i18n } = useTranslation(['dashboard', 'common']);
+  const { t, i18n } = useTranslation('dashboard');
 
   const getAgGridLocale = (language) => {
     switch (language) {
@@ -112,11 +113,11 @@ function Dashboard() {
 
     try {
       await deleteUserById(idToDelete);
-      toast.success(t('DeleteConfirm.Success'));
+      toast.success(t('dashboard:DeleteConfirm.Success'));
       getUsers();
     } catch (error) {
       console.log('Silinemedi', error);
-      toast.error(t('DeleteConfirm.Fail'));
+      toast.error(t('dashboard:DeleteConfirm.Fail'));
     } finally {
       setOpenDeleteDialog(false);
       setIdToDelete(null);
@@ -146,7 +147,7 @@ function Dashboard() {
     () => [
       {
         field: 'id',
-        headerValueGetter: () => t('ID'),
+        headerValueGetter: () => t('common:ID'),
         minWidth: 50,
         maxWidth: 60,
         hide: isMobile,
@@ -154,35 +155,35 @@ function Dashboard() {
       },
       {
         field: 'name',
-        headerValueGetter: () => t('Name', { ns: 'common' }),
+        headerValueGetter: () => t('common:Name'),
         minWidth: 120,
         width: isMobile ? 120 : undefined,
         flex: isMobile ? undefined : 1,
       },
       {
         field: 'surname',
-        headerValueGetter: () => t('Surname', { ns: 'common' }),
+        headerValueGetter: () => t('common:Surname'),
         minWidth: 120,
         width: isMobile ? 120 : undefined,
         flex: isMobile ? undefined : 1,
       },
       {
         field: 'email',
-        headerValueGetter: () => t('Email', { ns: 'common' }),
+        headerValueGetter: () => t('common:Email'),
         minWidth: 220,
         hide: isMobile,
         flex: isMobile ? undefined : 1.5,
       },
       {
         field: 'phone',
-        headerValueGetter: () => t('Phone', { ns: 'common' }),
+        headerValueGetter: () => t('common:Phone'),
         minWidth: 150,
         hide: isMobile,
         flex: isMobile ? undefined : 1,
       },
       {
         field: 'description',
-        headerValueGetter: () => t('Desc', { ns: 'common' }),
+        headerValueGetter: () => t('common:Desc'),
         minWidth: 150,
         hide: isMobile,
         flex: isMobile ? undefined : 1.5,
@@ -193,11 +194,12 @@ function Dashboard() {
         minWidth: 120,
         width: isMobile ? 120 : undefined,
         flex: isMobile ? undefined : 1,
-        cellRenderer: (params) => (params.value ? t('Rows.Member') : t('Rows.NoMember')),
+        cellRenderer: (params) =>
+          params.value ? t('dashboard:Rows.Member') : t('dashboard:Rows.NoMember'),
       },
       {
         field: 'id',
-        headerValueGetter: () => t('Actions', { ns: 'common' }),
+        headerValueGetter: () => t('common:Actions'),
         minWidth: isMobile ? 140 : 220,
         width: isMobile ? 140 : undefined,
         flex: isMobile ? undefined : 1.5,
@@ -229,7 +231,11 @@ function Dashboard() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {isMobile ? <EditIcon fontSize="small" /> : t('Edit', { ns: 'common' })}
+                {isMobile ? (
+                  <EditIcon fontSize="small" />
+                ) : (
+                  <Translations text="Edit" ns="common" />
+                )}
               </Button>
               <Button
                 variant="outlined"
@@ -248,7 +254,11 @@ function Dashboard() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {isMobile ? <DeleteIcon fontSize="small" /> : t('Delete', { ns: 'common' })}
+                {isMobile ? (
+                  <DeleteIcon fontSize="small" />
+                ) : (
+                  <Translations text="Delete" ns="common" />
+                )}
               </Button>
             </Box>
           );
@@ -270,7 +280,7 @@ function Dashboard() {
             letterSpacing: '-1px',
           }}
         >
-          {t('StaffList')}
+          <Translations text="StaffList" ns="dashboard" />
         </Typography>
       </Box>
       <Box
@@ -300,10 +310,10 @@ function Dashboard() {
             },
           }}
         >
-          {t('AddUser')}
+          <Translations text="AddUser" ns="dashboard" />
         </Button>
         <TextField
-          label={t('SearchLabel')}
+          label=<Translations text="SearchLabel" ns="dashboard" />
           variant="outlined"
           size="small"
           value={searchTerm}
@@ -364,8 +374,8 @@ function Dashboard() {
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
         onConfirm={confirmDelete}
-        title={t('DeleteConfirm.Title')}
-        text={t('DeleteConfirm.Text')}
+        title=<Translations text="DeleteConfirm.Title" ns="dashboard" />
+        text=<Translations text="DeleteConfirm.Text" ns="dashboard" />
       />
     </Container>
   );

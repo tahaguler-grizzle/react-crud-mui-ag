@@ -1,13 +1,34 @@
 {
-  "Title": "Test del codice di errore",
-  "EnterCode": "Inserisci il codice di errore",
-  "SendingRequest": "Invio della richiesta",
+  "Title": "Test Codice Errore",
+  "EnterCode": "Inserisci il Codice Errore",
   "TestBtn": "Test",
-  "SuccessMessage": "Successo, nessun messaggio di errore",
+  "SuccessMessage": "Successo, Nessun Messaggio di Errore",
   "errors": {
-    "4002": "Codice di errore tipo 1 : {{errorCode}}",
-    "300": "Codice di errore tipo 2 : 300",
-    "400": "Codice di errore tipo 3 : Richiesta non valida",
-    "DEFAULT": "Codice di errore sconosciuto"
+    "4002": "Tipo di codice errore 1 : {{errorCode}}",
+    "4003": "Tipo di codice errore 1 : {{errorCode}}",
+    "3000": "Tipo di codice errore 2 : 3000",
+    "4000": "Tipo di codice errore 3 : prevenzione dell'amministratore",
+    "4010": "Validazione MFA fallita",
+    "4025": "Timeout di connessione della registrazione della sessione",
+    "5001": "Rotazione delle credenziali privilegiate richiesta",
+    "PAM_UNAUTHORIZED_ACCESS": "Accesso non autorizzato alla risorsa privilegiata",
+    "MFA_REQUIRED": "Autenticazione a più fattori richiesta",
+    "APPROVAL_REQUIRED": "Richiesta di accesso in attesa di doppia approvazione",
+    "TARGET_OFFLINE": "Il sistema di destinazione non è raggiungibile o è offline",
+    "DEFAULT": "Codice errore sconosciuto : {{errorCode}}"
+  },
+  "guide": {
+    "4002": "Tipo di codice errore 1 (Dinamico)",
+    "4003": "Tipo di codice errore 1 (Dinamico)",
+    "3000": "Tipo di codice errore 2 (Statico 3000)",
+    "4000": "Tipo di codice errore 3 : prevenzione dell'amministratore",
+    "4010": "Validazione MFA fallita",
+    "4025": "Timeout di connessione della registrazione della sessione",
+    "5001": "Rotazione delle credenziali privilegiate richiesta",
+    "PAM_UNAUTHORIZED_ACCESS": "Accesso non autorizzato alla risorsa privilegiata",
+    "MFA_REQUIRED": "Autenticazione a più fattori richiesta",
+    "APPROVAL_REQUIRED": "Richiesta di accesso in attesa di doppia approvazione",
+    "TARGET_OFFLINE": "Il sistema di destinazione non è raggiungibile o è offline",
+    "DEFAULT": "Codice errore di fallback sconosciuto"
   }
 }

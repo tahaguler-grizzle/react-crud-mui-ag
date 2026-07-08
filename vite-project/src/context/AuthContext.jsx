@@ -2,12 +2,10 @@
 import { createContext, useState, useContext } from 'react';
 import { fetchUsers } from '../api/userService';
 //import { loginUserApi } from "../api/userService";
-import { useTranslation } from 'react-i18next';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { t } = useTranslation(['login', 'common']);
   const [user, setUser] = useState(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -30,12 +28,12 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(foundUser));
         return { success: true };
       } else {
-        return { success: false, message: t('IncorrectCred') };
+        return { success: false, message: 'IncorrectCred' };
       }
     } catch (error) {
       console.log('Giriş hatası', error);
 
-      return { success: false, message: t('ServerError') };
+      return { success: false, message: 'ServerError' };
     }
   };
 
