@@ -110,6 +110,7 @@ function ForgotPwForm() {
         setErrors({ credential: false, newPw: false, reEnter: false });
       } catch (error) {
         toast.error(t('login:ChangePasswordFail'));
+        console.log(error);
       }
     } else {
       try {
@@ -147,6 +148,7 @@ function ForgotPwForm() {
         setErrors({ credential: false, newPw: false, reEnter: false });
       } catch (error) {
         toast.error(t('login:ChangePasswordFail'));
+        console.log(error);
       }
     }
 

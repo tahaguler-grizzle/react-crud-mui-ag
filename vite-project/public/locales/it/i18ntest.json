@@ -11,7 +11,7 @@
     "4010": "Validazione MFA fallita",
     "4025": "Timeout di connessione della registrazione della sessione",
     "5001": "Rotazione delle credenziali privilegiate richiesta",
-    "PAM_UNAUTHORIZED_ACCESS": "Accesso non autorizzato alla risorsa privilegiata",
+    "UNAUTHORIZED_ACCESS": "Accesso non autorizzato alla risorsa privilegiata",
     "MFA_REQUIRED": "Autenticazione a più fattori richiesta",
     "APPROVAL_REQUIRED": "Richiesta di accesso in attesa di doppia approvazione",
     "TARGET_OFFLINE": "Il sistema di destinazione non è raggiungibile o è offline",

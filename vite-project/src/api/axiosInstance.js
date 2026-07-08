@@ -10,7 +10,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // Backendden gelen spesifik hata kodunu al, yoksa HTTP status kodunu fallback kullan
     const errorCode = error.response?.data?.errorCode || error.response?.status;
-    
+
     // API'den gelen orijinal İngilizce hata mesajı (eğer lokalize karşılığı yoksa kullanılacak)
     const fallbackMessage = error.response?.data?.message || 'An error occurred';
 
@@ -18,13 +18,13 @@ axiosInstance.interceptors.response.use(
       // Düz i18n instance'ı üzerinden doğrudan i18n.t() fonksiyonu tetiklenir
       // Default value olarak `i18ntest:errors.DEFAULT` değerini alıp kodu içine gömüyoruz
       const defaultMsg = i18n.t('i18ntest:errors.DEFAULT', { errorCode });
-      
+
       EventEmitter.emit('showSnackbar', {
-        message: i18n.t(`i18ntest:errors.${errorCode}`, { 
+        message: i18n.t(`i18ntest:errors.${errorCode}`, {
           defaultValue: fallbackMessage !== 'An error occurred' ? fallbackMessage : defaultMsg,
-          errorCode: errorCode 
+          errorCode: errorCode,
         }),
-        severity: 'error'
+        severity: 'error',
       });
     }
 

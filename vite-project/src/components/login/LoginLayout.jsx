@@ -1,9 +1,7 @@
 import { Box, Paper } from '@mui/material';
-import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '@mui/material/styles';
 
 function LoginLayout({ children }) {
-  const { user } = useAuth();
   const theme = useTheme();
 
   return (

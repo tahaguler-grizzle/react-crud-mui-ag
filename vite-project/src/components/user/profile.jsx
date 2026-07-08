@@ -12,7 +12,6 @@ import {
   Grid,
   IconButton,
   useTheme,
-  alpha,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -26,11 +25,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LockIcon from '@mui/icons-material/Lock';
 import { useAuth } from '../../context/AuthContext';
 import { fetchUserById } from '../../api/userService';
-import UserFormDrawer from '../../components/UserFormDrawer';
-import CustomTextFieldTitle from '../../components/custom/CustomTextFieldTitle';
-import CustomDialogTitle from '../../components/custom/CustomDialogTitle';
+import UserFormDrawer from '../UserFormDrawer';
+import CustomTextFieldTitle from '../custom/CustomTextFieldTitle';
+import CustomDialogTitle from '../custom/CustomDialogTitle';
 import { useTranslation } from 'react-i18next';
-import Translations from '../../components/custom/Translations';
+import Translations from '../custom/Translations';
 
 function UserDetail({ id }) {
   const { t } = useTranslation('userDetail');

@@ -374,6 +374,8 @@ function Navbar() {
                 sx={{
                   backgroundColor: theme.palette.secondary.main,
                   boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
+                  color: theme.palette.primary.contrastText,
+                  fontWeight: 700,
                   fontFamily: "'Montserrat', sans-serif",
                 }}
               >
