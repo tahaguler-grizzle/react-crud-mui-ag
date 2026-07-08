@@ -1,8 +1,10 @@
 import { Box, Paper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useAuth } from '../../context/AuthContext';
 
 function ForgotPwLayout({ children }) {
   const theme = useTheme();
+  const { user } = useAuth();
 
   return (
     <Box
@@ -11,7 +13,7 @@ function ForgotPwLayout({ children }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: theme.palette.background.default,
+        background: user ? theme.palette.background.default : theme.palette.background.gradient,
       }}
     >
       <Paper

@@ -11,7 +11,7 @@ function LoginLayout({ children }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: theme.palette.background.default,
+        background: theme.palette.background.gradient,
       }}
     >
       <Paper

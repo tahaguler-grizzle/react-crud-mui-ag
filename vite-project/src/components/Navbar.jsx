@@ -96,7 +96,7 @@ function Navbar() {
       logout();
     }
     if (setting == 'Change_password') {
-      router.push('/user/forgot-pw');
+      router.push('/user/changepw');
     }
     if (setting == 'Profile') {
       router.push(`/user/${id}`);

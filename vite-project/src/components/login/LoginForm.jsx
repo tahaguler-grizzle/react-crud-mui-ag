@@ -85,7 +85,7 @@ function LoginForm() {
       <Button
         variant="text"
         onClick={() => {
-          router.push('/forgot-pw');
+          router.push('/forgotpw');
         }}
         sx={{
           color: theme.palette.primary.main,

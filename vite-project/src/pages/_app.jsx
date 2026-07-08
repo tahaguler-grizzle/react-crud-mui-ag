@@ -16,7 +16,7 @@ function AppContent({ Component, pageProps }) {
     setMounted(true);
   }, []);
 
-  const publicRoutes = ['/', '/forgot-pw'];
+  const publicRoutes = ['/', '/forgotpw'];
   const isPublic = publicRoutes.includes(router.pathname);
 
   useEffect(() => {

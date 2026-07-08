@@ -36,6 +36,7 @@ const lightPalette = {
     paper: '#FFFFFF',
     subtle: '#FBFBFC',
     muted: '#EEF0F2',
+    gradient: 'linear-gradient(135deg, #2b3234, #161d20, #283236)',
   },
   text: {
     primary: '#14181B',

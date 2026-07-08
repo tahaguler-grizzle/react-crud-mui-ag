@@ -35,6 +35,7 @@ const darkPalette = {
     paper: '#0B2942',
     subtle: '#0D2B44',
     muted: '#122F4A',
+    gradient: 'linear-gradient(135deg, #2b3234, #161d20, #283236)',
   },
   text: {
     primary: '#D6DEEB',
